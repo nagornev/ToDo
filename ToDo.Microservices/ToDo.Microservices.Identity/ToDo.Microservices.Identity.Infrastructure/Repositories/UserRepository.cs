@@ -56,19 +56,14 @@ namespace ToDo.Microservices.Identity.Infrastructure .Repositories
 
         private async Task<User?> GetUser(Expression<Func<UserEntity, bool>> predicate)
         {
-            try
-            {
-                UserEntity userEntity = await _context.Users.FirstAsync(predicate);
+            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(predicate);
 
-                return User.Constructor(userEntity.Id,
-                                 userEntity.Email,
-                                 userEntity.Password,
-                                 Access.Constructor((Role)userEntity.RoleId));
-            }
-            catch (InvalidOperationException)
-            {
-                return default;
-            }
+            return userEntity is not null ?
+                    User.Constructor(userEntity.Id,
+                             userEntity.Email,
+                             userEntity.Password,
+                             Access.Constructor((Role)userEntity.RoleId)) :
+                    default;
         }
     }
 }

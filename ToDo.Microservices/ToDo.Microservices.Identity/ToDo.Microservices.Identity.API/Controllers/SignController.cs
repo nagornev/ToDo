@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using ToDo.Domain.Results;
 using ToDo.Extensions;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
@@ -27,7 +28,7 @@ namespace ToDo.Microservices.Identity.API.Controllers
                 return Results.BadRequest(validationResult);
 
             Result resultUp = await _userService.SignUp(contract.Email,
-                                                       contract.Password);
+                                                        contract.Password);
 
             return resultUp.Success ?
                     Results.Ok() :
