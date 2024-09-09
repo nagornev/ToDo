@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ToDo.Microservices.Identity.Database\ToDo.Microservices.Identity.Database.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Identity.Domain\ToDo.Microservices.Identity.Domain.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Identity.UseCases\ToDo.Microservices.Identity.UseCases.csproj" />
+  </ItemGroup>
+
+</Project>
