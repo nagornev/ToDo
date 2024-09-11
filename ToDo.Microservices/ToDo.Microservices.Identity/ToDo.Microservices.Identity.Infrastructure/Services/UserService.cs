@@ -66,18 +66,18 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
                     Result<string>.Failure(Errors.IsMessage("Please check your password and email and try again."));
         }
 
-        public async Task<Result> IsAccessable(string token, IEnumerable<Permission> permissions)
+        public async Task<Result<Guid>> Validate(string token, IEnumerable<Permission> permissions)
         {
             if (!_tokenProvider.Validate(token, out string subject))
-                return Result.Failure(Errors.IsUnauthorizated("Unauthorizated."));
+                return Result<Guid>.Failure(Errors.IsUnauthorizated("Unauthorizated."));
 
             Result<User> resultUser = await GetUser(Guid.Parse(subject));
 
             return resultUser.Success ?
                     (resultUser.Content.Access.IsContained(permissions) ?
-                        Result.Successful() :
-                        Result.Failure(Errors.IsForbidden("Forbidden."))) :
-                    Result.Failure(resultUser.Error);
+                        Result<Guid>.Successful(resultUser.Content.Id) :
+                        Result<Guid>.Failure(Errors.IsForbidden("Forbidden."))) :
+                    Result<Guid>.Failure(resultUser.Error);
         }
     }
 }
