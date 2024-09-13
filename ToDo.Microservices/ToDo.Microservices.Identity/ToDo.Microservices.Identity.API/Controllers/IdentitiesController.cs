@@ -57,10 +57,13 @@ namespace ToDo.Microservices.Identity.API.Controllers
         public async Task<IResult> Validate([FromServices] IValidator<IdentityContractValidate> validator,
                                             [FromBody] IdentityContractValidate contract)
         {
-            if (!validator.Validate(contract, out Result validationResult))
-                return Results.BadRequest(validationResult);
+            if (!validator.Validate(contract, out Result validationResult) ||
+                !HttpContext.Request.Cookies.TryGetValue(JwtTokenProviderDefaults.Cookies, out string? token))
+                return !validationResult.Success ?
+                        Results.BadRequest(validationResult) :
+                        Results.BadRequest(Result.Failure(Errors.IsNull("No cookies.")));
 
-            Result<Guid> resultAccess = await _userService.Validate(contract.Cookies!.First(x => x.Key == JwtTokenProviderDefaults.Cookies).Value,
+            Result<Guid> resultAccess = await _userService.Validate(token,
                                                                     contract.Permissions);
 
             return resultAccess.Success ?

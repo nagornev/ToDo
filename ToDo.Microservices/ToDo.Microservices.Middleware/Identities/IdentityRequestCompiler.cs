@@ -1,5 +1,4 @@
 ﻿using Nagornev.Querer.Http;
-using System.Net;
 using System.Text;
 
 namespace ToDo.Microservices.Middleware.Identities
@@ -8,9 +7,9 @@ namespace ToDo.Microservices.Middleware.Identities
     {
         private IdentityContent _content;
 
-        public IdentityRequestCompiler(IEnumerable<KeyValuePair<string,string>> cookies, IdentityAttribute attribute)
+        public IdentityRequestCompiler(IdentityAttribute attribute)
         {
-            _content = new IdentityContent(cookies, attribute.Permissions);
+            _content = new IdentityContent(attribute.Permissions);
         }
 
         protected override void SetMethod(MethodCompiler compiler)
@@ -25,7 +24,12 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected override void SetContent(ContentCompiler compiler)
         {
-            compiler.Set(_content.GetContent(), Encoding.UTF8);
+            compiler.Set(_content.ToString(), Encoding.UTF8);
+        }
+
+        protected override IEnumerable<Scheme.Set> SetScheme(Scheme scheme)
+        {
+            return scheme.Configure(scheme.Method, scheme.Url, scheme.Content);
         }
     }
 }

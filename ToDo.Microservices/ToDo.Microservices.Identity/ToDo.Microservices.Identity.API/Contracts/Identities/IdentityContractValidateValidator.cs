@@ -8,18 +8,18 @@ namespace ToDo.Microservices.Identity.API.Contracts.Sign
     {
         public IdentityContractValidateValidator()
         {
-            #region Cookies
+            //#region Cookies
 
 
-            RuleFor(x => x.Cookies).NotNull()
-                                   .WithState(x => Errors.IsNull("The cookies can not be null."));
+            //RuleFor(x => x.Cookies).NotNull()
+            //                       .WithState(x => Errors.IsNull("The cookies can not be null."));
 
-            RuleFor(x => x.Cookies).NotEmpty()
-                                   .WithState(x => Errors.IsInvalidArgument("The cookies can not be empty."));
+            //RuleFor(x => x.Cookies).NotEmpty()
+            //                       .WithState(x => Errors.IsInvalidArgument("The cookies can not be empty."));
 
-            RuleFor(x => x.Cookies).Must(cookies => cookies!.Any(x=>x.Key == JwtTokenProviderDefaults.Cookies))
-                                   .WithState(x => Errors.IsInvalidArgument("The token was not found in the \"sign\" key."));
-            #endregion
+            //RuleFor(x => x.Cookies).Must(cookies => cookies!.Any(x=>x.Key == JwtTokenProviderDefaults.Cookies))
+            //                       .WithState(x => Errors.IsInvalidArgument("The token was not found in the \"sign\" key."));
+            //#endregion
 
             #region Permissions
 

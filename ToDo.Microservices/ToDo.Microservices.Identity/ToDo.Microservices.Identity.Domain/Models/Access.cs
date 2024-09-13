@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToDo.Domain.Results;
 
 namespace ToDo.Microservices.Identity.Domain.Models
 {
@@ -41,18 +40,13 @@ namespace ToDo.Microservices.Identity.Domain.Models
 
         public static Access Constructor(Role role)
         {
-            return new Access(role);
-        }
-
-        public static Result<Access> Create(Role role)
-        {
             if (!Enum.IsDefined(typeof(Role), role))
-                return Result<Access>.Failure(Errors.IsInvalidArgument($"The '{role}' role is not defined."));
+                throw new ArgumentException($"The '{role}' role is not defined.");
 
             if (!_accesses.ContainsKey(role))
-                return Result<Access>.Failure(Errors.IsInvalidArgument($"The access by '{role}' role is not contains parameters."));
+                throw new ArgumentException($"The access by '{role}' role is not contains parameters.");
 
-            return Result<Access>.Successful(Constructor(role));
+            return new Access(role);
         }
     }
 }

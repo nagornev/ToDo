@@ -27,8 +27,8 @@ namespace ToDo.Microservices.Middleware.Identities
         }
 
         public IdentityOutput(bool success, 
-                                Guid? user = null,
-                                OutputError error = null)
+                              Guid? user = null,
+                              OutputError error = null)
         {
            
             Success = success;

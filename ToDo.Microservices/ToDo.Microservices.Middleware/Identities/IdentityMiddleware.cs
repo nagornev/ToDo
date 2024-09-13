@@ -1,53 +1,52 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nagornev.Querer.Http;
 using System.Security.Claims;
-using System.Text;
+using ToDo.Microservices.Middleware.Querers;
 
 namespace ToDo.Microservices.Middleware.Identities
 {
-    public abstract class IdentityMiddleware : IMiddleware
+    public abstract class IdentityMiddleware
     {
         private const string _authenticationType = "Identity";
 
-        private QuererHttpClient _quererClient;
+        private readonly RequestDelegate _next;
 
-        public IdentityMiddleware()
+        public IdentityMiddleware(RequestDelegate next)
         {
-            _quererClient = new QuererHttpClient();
+            _next = next;
         }
 
         protected abstract bool TryGetIdentity(HttpContext context, out IdentityAttribute attribute);
 
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        public async Task InvokeAsync(HttpContext context, IQuererHttpClientFactory factory)
         {
             if (!TryGetIdentity(context, out IdentityAttribute attribute))
             {
-                await next.Invoke(context);
+                await _next.Invoke(context);
                 return;
             }
 
-            IdentityRequestCompiler compiler = new IdentityRequestCompiler(context.Request.Cookies, attribute);
+            QuererHttpClient quererClient = factory.Create();
+            IdentityRequestCompiler compiler = new IdentityRequestCompiler(attribute);
             IdentityResponseHandler handler = new IdentityResponseHandler();
 
-            await _quererClient.SendAsync(compiler, handler);
+            await quererClient.SendAsync(compiler, handler);
 
-            if (handler.Content.Success)
-            {
-                context.User = GetPricipial(handler.Content);
-                await next.Invoke(context);
-            }
-            else
+            if (!handler.Content.Success)
             {
                 BadRequest(context.Response, handler.Content);
                 return;
             }
+
+            context.User = GetPricipial(handler.Content);
+            await _next.Invoke(context);
         }
 
         private ClaimsPrincipal GetPricipial(IdentityOutput output)
         {
             Claim[] claims =
             {
-                  new Claim(IdentityDefaults.Subject, output.User.ToString()),
+                  new Claim(IdentityDefaults.Subject, output.User.ToString()!),
             };
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, _authenticationType);
@@ -57,8 +56,6 @@ namespace ToDo.Microservices.Middleware.Identities
 
         private async void BadRequest(HttpResponse response, IdentityOutput output)
         {
-            byte[] body = Encoding.UTF8.GetBytes(output.ToString()); 
-
             response.StatusCode = output.Error!.Code;
             await response.WriteAsync(output.ToString());
         }

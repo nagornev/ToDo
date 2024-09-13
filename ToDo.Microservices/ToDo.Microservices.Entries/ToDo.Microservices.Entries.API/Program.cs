@@ -5,11 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-services.AddIdentity<EntriesIdentityMiddleware>();
-
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+services.AddIdentity();
 
 var app = builder.Build();
 
@@ -20,9 +20,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseIdentity();
-
+app.UseIdentity<EntriesIdentityMiddleware>();
 app.MapControllers();
 
 app.Run();

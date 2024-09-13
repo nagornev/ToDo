@@ -46,13 +46,11 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             if (await _userRepository.Get(email) is not null)
                 return Result<User>.Failure(Errors.IsInvalidArgument($"The user with this email ({email}) has already been registrated."));
 
-            Result<User> resultUser = User.NewUser(email, _hashProvider.Hash(password));
+            User user = User.NewUser(email, _hashProvider.Hash(password));
 
-            return resultUser.Success ?
-                        (await _userRepository.Create(resultUser.Content) ?
+            return await _userRepository.Create(user) ?
                             Result.Successful() :
-                            Result.Failure()) :
-                        resultUser;
+                            Result.Failure();
         }
 
         public async Task<Result<string>> SignIn(string email, string password)

@@ -20,7 +20,7 @@ namespace ToDo.Microservices.Identity.Database.Configurations
 
             foreach (Role role in Enum.GetValues<Role>())
             {
-                foreach (Permission permission in Access.Create(role).Content.Permissions)
+                foreach (Permission permission in Access.Constructor(role).Permissions)
                 {
                     RolePermissionEntity rolePermissionEntity = new RolePermissionEntity()
                     {

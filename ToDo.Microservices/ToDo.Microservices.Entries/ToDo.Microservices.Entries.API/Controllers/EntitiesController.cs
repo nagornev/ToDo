@@ -8,10 +8,6 @@ namespace ToDo.Microservices.Entries.API.Controllers
     [Route("[controller]")]
     public class EntitiesController : Controller
     {
-        public EntitiesController()
-        {
-        }
-
         [HttpGet]
         [Route("[action]")]
         [Identity(IdentityPermissions.User)]

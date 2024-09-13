@@ -1,5 +1,4 @@
 ﻿using System;
-using ToDo.Domain.Results;
 
 namespace ToDo.Microservices.Identity.Domain.Models
 {
@@ -28,33 +27,28 @@ namespace ToDo.Microservices.Identity.Domain.Models
 
         public static User Constructor(Guid id, string email, string password, Access access)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"The user id({id}) can not bee null or empty.");
+
+            if (access == null)
+                throw new ArgumentNullException("The user access can not be null.");
+
             return new User(id, email, password, access);
         }
 
-        public static Result<User> Create(Guid id, string email, string password, Access access)
+        public static User New(string email, string password, Access access)
         {
-            if (id == Guid.Empty)
-                return Result<User>.Failure(Errors.IsInvalidArgument("The user id can not be empty.", nameof(id)));
-
-            if (access is null)
-                return Result<User>.Failure(Errors.IsInvalidArgument("The user access is null.", nameof(password)));
-
-            return Result<User>.Successful(Constructor(id, email, password, access));
+            return Constructor(Guid.NewGuid(), email, password, access);
         }
 
-        public static Result<User> New(string email, string password, Access access)
+        public static User NewUser(string email, string password)
         {
-            return Create(Guid.NewGuid(), email, password, access);
+            return Constructor(Guid.NewGuid(), email, password, Access.Constructor(Role.User));
         }
 
-        public static Result<User> NewUser(string email, string password)
+        public static User NewSuper(string email, string password)
         {
-            return Create(Guid.NewGuid(), email, password, Access.Constructor(Role.User));
-        }
-
-        public static Result<User> NewSuper(string email, string password)
-        {
-            return Create(Guid.NewGuid(), email, password, Access.Constructor(Role.Super));
+            return Constructor(Guid.NewGuid(), email, password, Access.Constructor(Role.Super));
         }
     }
 }

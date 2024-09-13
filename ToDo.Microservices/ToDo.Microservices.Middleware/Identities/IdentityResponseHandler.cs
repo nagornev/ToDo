@@ -1,6 +1,5 @@
 ﻿using Nagornev.Querer.Http;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
 
 namespace ToDo.Microservices.Middleware.Identities
 {
