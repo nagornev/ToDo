@@ -2,10 +2,11 @@
 {
     public class ErrorField : Error
     {
-        public ErrorField(string key,
+        public ErrorField(int code,
+                          string key,
                           string message,
                           string field) 
-            : base(key, message)
+            : base(code, key, message)
         {
             Field = field;
         }

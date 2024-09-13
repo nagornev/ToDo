@@ -1,8 +1,8 @@
 ﻿namespace ToDo.Microservices.Identity.API.Contracts.Sign
 {
-    public class IdentityContractUp
+    public class IdentityContractSignUp
     {
-        public IdentityContractUp(string email,
+        public IdentityContractSignUp(string email,
                               string password)
         {
             Email = email;

@@ -3,7 +3,7 @@ using ToDo.Microservices.Identity.Database.Contexts;
 
 namespace ToDo.Microservices.Identity.API.Extensions.Stratup
 {
-    public static class ContextsServicesExtensions
+    public static class ContextsStartupExtensions
     {
         public static void AddContexts(this IServiceCollection services, IConfiguration configuration)
         {

@@ -1,20 +1,24 @@
 ﻿using FluentValidation;
 using ToDo.Domain.Results;
+using ToDo.Microservices.Identity.Infrastructure.Providers;
 
 namespace ToDo.Microservices.Identity.API.Contracts.Sign
 {
     public class IdentityContractValidateValidator : AbstractValidator<IdentityContractValidate>
     {
-        //JWT token pattern
-        private const string _tokenPattern = "(^[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*\\.[A-Za-z0-9-_]*$)";
-
         public IdentityContractValidateValidator()
         {
-            #region Token
+            #region Cookies
 
-            RuleFor(x => x.Token).Matches(_tokenPattern)
-                                 .WithState(x => Errors.IsInvalidArgument("No JWT token. The token has an invalid format."));
 
+            RuleFor(x => x.Cookies).NotNull()
+                                   .WithState(x => Errors.IsNull("The cookies can not be null."));
+
+            RuleFor(x => x.Cookies).NotEmpty()
+                                   .WithState(x => Errors.IsInvalidArgument("The cookies can not be empty."));
+
+            RuleFor(x => x.Cookies).Must(cookies => cookies!.Any(x=>x.Key == JwtTokenProviderDefaults.Cookies))
+                                   .WithState(x => Errors.IsInvalidArgument("The token was not found in the \"sign\" key."));
             #endregion
 
             #region Permissions

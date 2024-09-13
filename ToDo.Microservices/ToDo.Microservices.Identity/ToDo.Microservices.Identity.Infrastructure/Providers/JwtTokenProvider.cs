@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using ToDo.Microservices.Identity.Domain.Models;
 using ToDo.Microservices.Identity.UseCases.Providers;
@@ -23,7 +21,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Providers
         {
             Claim[] claims =
             {
-                new(_options.Subject, $"{user.Id}"),
+                new(JwtTokenProviderDefaults.Subject, $"{user.Id}"),
             };
 
             SigningCredentials credentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key)),
@@ -42,7 +40,8 @@ namespace ToDo.Microservices.Identity.Infrastructure.Providers
         {
             bool response = Validate(token, out IEnumerable<Claim>? claims);
 
-            subject = claims?.First(x => x.Type == _options.Subject).Value ?? string.Empty;
+            subject = claims?.FirstOrDefault(x => x.Type == JwtTokenProviderDefaults.Subject)?
+                             .Value ?? string.Empty;
 
             return response;
         }

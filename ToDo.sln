@@ -3,9 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Domain", "ToDo.Domain\ToDo.Domain.csproj", "{A72E7C30-64B1-4820-81E5-9F2C10B61500}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Domain", "ToDo.Domain\ToDo.Domain.csproj", "{A72E7C30-64B1-4820-81E5-9F2C10B61500}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Extensions", "ToDo.Extensions\ToDo.Extensions.csproj", "{8AC0E439-A76A-4F37-BA4D-04C16C5B92A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Extensions", "ToDo.Extensions\ToDo.Extensions.csproj", "{8AC0E439-A76A-4F37-BA4D-04C16C5B92A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.Microservices", "ToDo.Microservices", "{FC1EECDF-07F8-4048-8593-4EE460EF9D4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.Microservices.Identity", "ToDo.Microservices.Identity", "{8F3AE2CF-C626-41C8-9D33-B78F01F522B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Identity.API", "ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.API\ToDo.Microservices.Identity.API.csproj", "{116DAD23-818C-4559-88E6-635333E27540}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Identity.Database", "ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.Database\ToDo.Microservices.Identity.Database.csproj", "{EFFD52F3-666F-4D35-A96C-93E4D5AFD2BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Identity.Domain", "ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.Domain\ToDo.Microservices.Identity.Domain.csproj", "{F8166A1C-5E2D-4BA3-B97D-BDE23A56642F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Identity.Infrastructure", "ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.Infrastructure\ToDo.Microservices.Identity.Infrastructure.csproj", "{43B8609D-5F6F-4817-AE4C-25F23CD32D6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Identity.UseCases", "ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.UseCases\ToDo.Microservices.Identity.UseCases.csproj", "{772631E1-2C13-4F66-A2A3-A6374107595B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.Microservices.Entries", "ToDo.Microservices.Entries", "{47E8ED24-5D3C-42DA-9706-E29DE7551695}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Entries.API", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.API\ToDo.Microservices.Entries.API.csproj", "{A4A7EBA9-CBFF-42E1-8492-F26F20C89BD3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Middleware", "ToDo.Microservices\ToDo.Microservices.Middleware\ToDo.Microservices.Middleware.csproj", "{EBBDB70C-F092-4F14-843E-0C7EE2BD7683}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +41,48 @@ Global
 		{8AC0E439-A76A-4F37-BA4D-04C16C5B92A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AC0E439-A76A-4F37-BA4D-04C16C5B92A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AC0E439-A76A-4F37-BA4D-04C16C5B92A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{116DAD23-818C-4559-88E6-635333E27540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{116DAD23-818C-4559-88E6-635333E27540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{116DAD23-818C-4559-88E6-635333E27540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{116DAD23-818C-4559-88E6-635333E27540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFFD52F3-666F-4D35-A96C-93E4D5AFD2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFFD52F3-666F-4D35-A96C-93E4D5AFD2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFFD52F3-666F-4D35-A96C-93E4D5AFD2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFFD52F3-666F-4D35-A96C-93E4D5AFD2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8166A1C-5E2D-4BA3-B97D-BDE23A56642F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8166A1C-5E2D-4BA3-B97D-BDE23A56642F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8166A1C-5E2D-4BA3-B97D-BDE23A56642F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8166A1C-5E2D-4BA3-B97D-BDE23A56642F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43B8609D-5F6F-4817-AE4C-25F23CD32D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43B8609D-5F6F-4817-AE4C-25F23CD32D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43B8609D-5F6F-4817-AE4C-25F23CD32D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43B8609D-5F6F-4817-AE4C-25F23CD32D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772631E1-2C13-4F66-A2A3-A6374107595B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772631E1-2C13-4F66-A2A3-A6374107595B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772631E1-2C13-4F66-A2A3-A6374107595B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772631E1-2C13-4F66-A2A3-A6374107595B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4A7EBA9-CBFF-42E1-8492-F26F20C89BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4A7EBA9-CBFF-42E1-8492-F26F20C89BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4A7EBA9-CBFF-42E1-8492-F26F20C89BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4A7EBA9-CBFF-42E1-8492-F26F20C89BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBBDB70C-F092-4F14-843E-0C7EE2BD7683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBBDB70C-F092-4F14-843E-0C7EE2BD7683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBBDB70C-F092-4F14-843E-0C7EE2BD7683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBBDB70C-F092-4F14-843E-0C7EE2BD7683}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8F3AE2CF-C626-41C8-9D33-B78F01F522B2} = {FC1EECDF-07F8-4048-8593-4EE460EF9D4D}
+		{116DAD23-818C-4559-88E6-635333E27540} = {8F3AE2CF-C626-41C8-9D33-B78F01F522B2}
+		{EFFD52F3-666F-4D35-A96C-93E4D5AFD2BB} = {8F3AE2CF-C626-41C8-9D33-B78F01F522B2}
+		{F8166A1C-5E2D-4BA3-B97D-BDE23A56642F} = {8F3AE2CF-C626-41C8-9D33-B78F01F522B2}
+		{43B8609D-5F6F-4817-AE4C-25F23CD32D6A} = {8F3AE2CF-C626-41C8-9D33-B78F01F522B2}
+		{772631E1-2C13-4F66-A2A3-A6374107595B} = {8F3AE2CF-C626-41C8-9D33-B78F01F522B2}
+		{47E8ED24-5D3C-42DA-9706-E29DE7551695} = {FC1EECDF-07F8-4048-8593-4EE460EF9D4D}
+		{A4A7EBA9-CBFF-42E1-8492-F26F20C89BD3} = {47E8ED24-5D3C-42DA-9706-E29DE7551695}
+		{EBBDB70C-F092-4F14-843E-0C7EE2BD7683} = {FC1EECDF-07F8-4048-8593-4EE460EF9D4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B023FCCE-7B07-45E5-B23B-725D55C2AD80}

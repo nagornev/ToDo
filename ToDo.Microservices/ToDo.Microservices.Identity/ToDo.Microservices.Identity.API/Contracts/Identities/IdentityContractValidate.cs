@@ -4,14 +4,14 @@ namespace ToDo.Microservices.Identity.API.Contracts.Sign
 {
     public class IdentityContractValidate
     {
-        public IdentityContractValidate(string token,
-                                  IEnumerable<Permission> permissions)
+        public IdentityContractValidate(IEnumerable<KeyValuePair<string, string>> cookies, 
+                                        IEnumerable<Permission> permissions)
         {
-            Token = token;
+            Cookies = cookies;
             Permissions = permissions;
         }
-
-        public string? Token { get; private set; }
+        
+        public IEnumerable<KeyValuePair<string, string>>? Cookies { get; private set; }
 
         public IEnumerable<Permission>? Permissions { get; private set; }
     }

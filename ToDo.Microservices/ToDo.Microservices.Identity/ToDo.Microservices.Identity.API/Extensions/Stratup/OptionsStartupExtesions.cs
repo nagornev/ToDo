@@ -3,7 +3,7 @@ using ToDo.Microservices.Identity.Infrastructure.Providers;
 
 namespace ToDo.Microservices.Identity.API.Extensions.Stratup
 {
-    public static class OptionsServicesExtesions
+    public static class OptionsStartupExtesions
     {
         public static void AddOptions(this IServiceCollection services, IConfiguration configuration)
         {

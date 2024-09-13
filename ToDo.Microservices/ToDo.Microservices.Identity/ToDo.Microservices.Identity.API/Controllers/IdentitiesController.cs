@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
-using ToDo.Extensions;
+using ToDo.Extensions.Validator;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
+using ToDo.Microservices.Identity.Infrastructure.Providers;
 using ToDo.Microservices.Identity.UseCases.Services;
 
 namespace ToDo.Microservices.Identity.API.Controllers
@@ -43,7 +44,8 @@ namespace ToDo.Microservices.Identity.API.Controllers
                 return Results.BadRequest(validationResult);
 
             Result<string> resultIn = await _userService.SignIn(contract.Email,
-                                                                contract.Password);
+                                                                contract.Password,
+                                                                (token) => HttpContext.Response.Cookies.Append(JwtTokenProviderDefaults.Cookies, token));
 
             return resultIn.Success ?
                     Results.Ok(resultIn) :
@@ -58,7 +60,7 @@ namespace ToDo.Microservices.Identity.API.Controllers
             if (!validator.Validate(contract, out Result validationResult))
                 return Results.BadRequest(validationResult);
 
-            Result<Guid> resultAccess = await _userService.Validate(contract.Token,
+            Result<Guid> resultAccess = await _userService.Validate(contract.Cookies!.First(x => x.Key == JwtTokenProviderDefaults.Cookies).Value,
                                                                     contract.Permissions);
 
             return resultAccess.Success ?

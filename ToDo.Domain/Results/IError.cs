@@ -6,6 +6,8 @@ namespace ToDo.Domain.Results
     [JsonDerivedType(typeof(ErrorField))]
     public interface IError
     {
+        int Code { get; }
+
         string Key { get; }
 
         string Message { get; }

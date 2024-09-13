@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using ToDo.Domain.Results;
 
-namespace ToDo.Extensions
+namespace ToDo.Extensions.Validator
 {
     public static class FluentValidatorExtensions
     {

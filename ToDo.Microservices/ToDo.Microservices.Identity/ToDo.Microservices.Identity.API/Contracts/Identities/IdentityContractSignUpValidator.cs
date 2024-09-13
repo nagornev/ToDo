@@ -4,9 +4,9 @@ using ToDo.Microservices.Identity.Domain.Models;
 
 namespace ToDo.Microservices.Identity.API.Contracts.Sign
 {
-    public class SignContractUpValidator : AbstractValidator<IdentityContractUp>
+    public class IdentityContractSignUpValidator : AbstractValidator<IdentityContractSignUp>
     {
-        public SignContractUpValidator()
+        public IdentityContractSignUpValidator()
         {
             #region Email
 

@@ -31,7 +31,8 @@ namespace ToDo.Domain.Results
 
         public static IError IsUnauthorizated(string message)
         {
-            return new Error(_isUnautorizatedKey,
+            return new Error(401,
+                             _isUnautorizatedKey,
                              message);
         }
 
@@ -41,7 +42,8 @@ namespace ToDo.Domain.Results
 
         public static IError IsForbidden(string message)
         {
-            return new Error(_isForbiddenKey,
+            return new Error(403,
+                             _isForbiddenKey,
                              message);
         }
 
@@ -51,7 +53,8 @@ namespace ToDo.Domain.Results
 
         public static IError IsMessage(string message)
         {
-            return new Error(_isMessageKey,
+            return new Error(400,
+                             _isMessageKey,
                              message);
         }
 
@@ -61,13 +64,15 @@ namespace ToDo.Domain.Results
 
         public static IError IsInvalidArgument(string message)
         {
-            return new Error(_isInvalidArgumentKey,
+            return new Error(400,
+                             _isInvalidArgumentKey,
                              message);
         }
 
         public static IError IsInvalidArgument(string message, string field)
         {
-            return new ErrorField(_isInvalidArgumentKey,
+            return new ErrorField(400,
+                                  _isInvalidArgumentKey,
                                   message,
                                   field);
         }
@@ -78,13 +83,15 @@ namespace ToDo.Domain.Results
 
         public static IError IsNull(string message)
         {
-            return new Error(_isNullKey,
+            return new Error(400, 
+                             _isNullKey,
                              message);
         }
 
         public static IError IsNull(string message, string field)
         {
-            return new ErrorField(_isNullKey,
+            return new ErrorField(400,              
+                                  _isNullKey,
                                   message,
                                   field);
         }
