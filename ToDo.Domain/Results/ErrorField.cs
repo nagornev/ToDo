@@ -1,4 +1,6 @@
-﻿namespace ToDo.Domain.Results
+﻿using System.Text.Json.Serialization;
+
+namespace ToDo.Domain.Results
 {
     public class ErrorField : Error
     {
@@ -11,6 +13,7 @@
             Field = field;
         }
 
+        [JsonPropertyName("field")]
         public string Field { get; private set; }
     }
 }

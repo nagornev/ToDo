@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
 namespace ToDo.Domain.Results
@@ -8,12 +6,16 @@ namespace ToDo.Domain.Results
     [Serializable]
     public class Result<T> : Result
     {
-        protected Result(bool success, T content, IError error)
+        public Result(bool success, T content, IError error)
             : base(success, error)
         {
+            if (!success && content != null)
+                throw new ArgumentException("The success result can not be false, if content has the value.");
+
             Content = content;
         }
 
+        [JsonPropertyName("content")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public T Content { get; private set; }
 

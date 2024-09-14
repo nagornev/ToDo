@@ -1,6 +1,6 @@
 ﻿using Nagornev.Querer.Http;
 
-namespace ToDo.Microservices.Middleware.Querers
+namespace ToDo.Extensions
 {
     public interface IQuererHttpClientFactory
     {

@@ -1,6 +1,4 @@
 ﻿using System;
-using ToDo.Domain.Results;
-
 
 namespace ToDo.Microservices.Entries.Domain.Models
 {
@@ -35,29 +33,18 @@ namespace ToDo.Microservices.Entries.Domain.Models
                                         DateTime? deadline,
                                         bool completed)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException("The entry id can not be empty.");
 
+            if (categoryId == Guid.Empty)
+                throw new ArgumentNullException("The category id can not be empty.");
 
             return new Entry(id, categoryId, text, deadline, completed);
         }
-
-        //    public static Entry Create(Guid id,
-        //                               Guid categoryId,
-        //                               string text,
-        //                               DateTime? deadline,
-        //                               bool completed)
-        //    {
-        //        if (id == Guid.Empty)
-        //            return Result<Entry>.Failure(Errors.IsNull("The entry id can not be empty"));
-
-        //        if (categoryId == Guid.Empty)
-        //            return Result<Entry>.Failure(Errors.IsNull("The category id can not be empty"));
-
-        //        if (string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text))
-        //            return Result<Entry>.Failure(Errors.IsNull("The entry text can not be null or empty."));
-
-        //        if(deadline != null && deadline < DateTime.Now)
-        //            return Result<Entry>.Failure(Errors.IsInvalidArgument("The deadline can not bee"))
-        //    }
+        
+        public static Entry New(Guid categoryId, string text, DateTime? deadline, bool completed)
+        {
+            return Constructor(Guid.NewGuid(), categoryId, text, deadline, completed);
+        }
     }
-    
 }

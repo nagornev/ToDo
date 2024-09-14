@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nagornev.Querer.Http;
 
-namespace ToDo.Microservices.Middleware.Querers
+namespace ToDo.Extensions
 {
     public class QuererHttpClientFactory : IQuererHttpClientFactory
     {
@@ -9,7 +9,8 @@ namespace ToDo.Microservices.Middleware.Querers
 
         private QuererHttpClientFactoryOptions _options;
 
-        public QuererHttpClientFactory(IHttpContextAccessor accessor, QuererHttpClientFactoryOptions options)
+        public QuererHttpClientFactory(IHttpContextAccessor accessor,
+                                       QuererHttpClientFactoryOptions options)
         {
             _context = accessor.HttpContext;
             _options = options;

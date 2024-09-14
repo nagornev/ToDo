@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace ToDo.Microservices.Middleware.Querers
+namespace ToDo.Extensions
 {
     public class QuererHttpClientFactoryOptions
     {

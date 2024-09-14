@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ToDo.Domain.Results
@@ -8,16 +7,27 @@ namespace ToDo.Domain.Results
     [Serializable]
     public class Result
     {
-        protected Result(bool success, IError error)
+        public Result(bool success,
+                      IError error = null)
         {
+            if (success && error != null)
+                throw new ArgumentException($"The success result can not be true, if error has the value.");
+
             Success = success;
             Error = error;
         }
 
+        [JsonPropertyName("success")]
         public bool Success { get; private set; }
 
+        [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public IError Error { get; private set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
 
         private static Result Create(bool success, IError error = default)
         {

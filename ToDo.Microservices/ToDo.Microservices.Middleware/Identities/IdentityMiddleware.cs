@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nagornev.Querer.Http;
 using System.Security.Claims;
-using ToDo.Microservices.Middleware.Querers;
+using ToDo.Domain.Results;
+using ToDo.Extensions;
 
 namespace ToDo.Microservices.Middleware.Identities
 {
@@ -42,11 +43,11 @@ namespace ToDo.Microservices.Middleware.Identities
             await _next.Invoke(context);
         }
 
-        private ClaimsPrincipal GetPricipial(IdentityOutput output)
+        private ClaimsPrincipal GetPricipial(Result<Guid?> output)
         {
             Claim[] claims =
             {
-                  new Claim(IdentityDefaults.Subject, output.User.ToString()!),
+                  new Claim(IdentityDefaults.Subject, output.Content.ToString()!),
             };
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, _authenticationType);
@@ -54,7 +55,7 @@ namespace ToDo.Microservices.Middleware.Identities
             return new ClaimsPrincipal(identity);
         }
 
-        private async void BadRequest(HttpResponse response, IdentityOutput output)
+        private async void BadRequest(HttpResponse response, Result<Guid?> output)
         {
             response.StatusCode = output.Error!.Code;
             await response.WriteAsync(output.ToString());
