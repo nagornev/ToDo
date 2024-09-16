@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
 
-namespace ToDo.Microservices.Identity.API.Extensions.Stratup
+namespace ToDo.Microservices.Identity.API.Extensions.Startup
 {
     public static class ValidatorsStartupExtensions
     {

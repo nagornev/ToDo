@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ToDo.Extensions\ToDo.Extensions.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Entries.Domain\ToDo.Microservices.Entries.Domain.csproj" />
   </ItemGroup>
 

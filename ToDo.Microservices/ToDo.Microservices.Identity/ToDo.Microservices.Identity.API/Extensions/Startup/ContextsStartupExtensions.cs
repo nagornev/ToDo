@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Microservices.Identity.Database.Contexts;
 
-namespace ToDo.Microservices.Identity.API.Extensions.Stratup
+namespace ToDo.Microservices.Identity.API.Extensions.Startup
 {
     public static class ContextsStartupExtensions
     {

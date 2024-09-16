@@ -4,10 +4,13 @@ using ToDo.Microservices.Entries.Domain.Models;
 
 namespace ToDo.Microservices.Entries.UseCases.Providers
 {
+    /// <summary>
+    /// Collects entries and categories in one class.
+    /// </summary>
     public interface IEntryСomposer
     {
-        IEnumerable<EntryCompose> Сompose(IEnumerable<Entry> entries, IEnumerable<Category> categories);
+        IEnumerable<EntryCompose> Compose(IEnumerable<Entry> entries, IEnumerable<Category> categories);
 
-        EntryCompose Сompose(Entry entry, Category category);
+        EntryCompose Compose(Entry entry, Category category);
     }
 }

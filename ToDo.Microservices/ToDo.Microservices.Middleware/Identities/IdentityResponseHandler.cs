@@ -2,29 +2,12 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDo.Domain.Results;
+using ToDo.Extensions.Converters;
 
 namespace ToDo.Microservices.Middleware.Identities
 {
     public class IdentityResponseHandler : QuererHttpResponseMessageHandler<Result<Guid?>>
     {
-        private class Interface2ClassConverter<TInterface, TClass> : JsonConverter
-        {
-            public override bool CanConvert(Type typeToConvert)
-            {
-                return typeToConvert == typeof(TInterface);
-            }
-
-            public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
-            {
-                return serializer.Deserialize<TClass>(reader);
-            }
-
-            public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
-            {
-                serializer.Serialize(writer, value);
-            }
-        }
-
         private JsonSerializer _serializer;
 
         public IdentityResponseHandler()

@@ -1,4 +1,4 @@
-using ToDo.Microservices.Identity.API.Extensions.Stratup;
+using ToDo.Microservices.Identity.API.Extensions.Startup;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

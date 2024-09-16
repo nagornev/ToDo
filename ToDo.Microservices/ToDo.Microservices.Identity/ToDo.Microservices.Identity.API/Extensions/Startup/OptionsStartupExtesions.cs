@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using ToDo.Microservices.Identity.Infrastructure.Providers;
 
-namespace ToDo.Microservices.Identity.API.Extensions.Stratup
+namespace ToDo.Microservices.Identity.API.Extensions.Startup
 {
     public static class OptionsStartupExtesions
     {

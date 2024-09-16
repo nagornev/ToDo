@@ -1,4 +1,5 @@
-﻿using ToDo.Microservices.Entries.Domain.Models;
+﻿using System;
+using ToDo.Microservices.Entries.Domain.Models;
 
 namespace ToDo.Microservices.Entries.Domain.Collectings
 {
@@ -6,12 +7,21 @@ namespace ToDo.Microservices.Entries.Domain.Collectings
     {
         public EntryCompose(Entry entry, Category category)
         {
-            Entry = entry;
+            Id = entry.Id;
             Category = category;
+            Text = entry.Text;
+            Deadline = entry.Deadline;
+            Completed = entry.Completed;
         }
 
-        public Entry Entry { get; private set; }
+        public Guid Id { get; private set; }
 
         public Category Category { get; private set; }
+
+        public string Text { get; private set; }
+
+        public DateTime? Deadline { get; private set; }
+
+        public bool Completed { get; private set; }
     }
 }

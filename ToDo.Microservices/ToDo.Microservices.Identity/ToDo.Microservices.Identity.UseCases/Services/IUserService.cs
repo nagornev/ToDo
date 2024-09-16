@@ -18,6 +18,6 @@ namespace ToDo.Microservices.Identity.UseCases.Services
 
         Task<Result<string>> SignIn(string email, string password, Action<string> callback);
 
-        Task<Result<Guid>> Validate(string token, IEnumerable<Permission> permissions);
+        Task<Result<Guid?>> Validate(string token, IEnumerable<Permission> permissions);
     }
 }

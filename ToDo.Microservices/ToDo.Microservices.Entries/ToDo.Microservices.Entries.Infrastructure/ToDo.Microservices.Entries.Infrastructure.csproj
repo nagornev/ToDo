@@ -14,9 +14,4 @@
     <ProjectReference Include="..\ToDo.Microservices.Entries.UseCases\ToDo.Microservices.Entries.UseCases.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Providers\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

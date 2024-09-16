@@ -1,7 +1,7 @@
 ﻿using ToDo.Microservices.Identity.Infrastructure.Services;
 using ToDo.Microservices.Identity.UseCases.Services;
 
-namespace ToDo.Microservices.Identity.API.Extensions.Stratup
+namespace ToDo.Microservices.Identity.API.Extensions.Startup
 {
     public static class ServicesStartupExtensions
     {

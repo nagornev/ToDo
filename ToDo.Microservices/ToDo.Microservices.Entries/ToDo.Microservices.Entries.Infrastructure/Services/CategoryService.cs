@@ -1,26 +1,28 @@
 ﻿using Microsoft.Extensions.Options;
 using Nagornev.Querer.Http;
+using ToDo.Domain.Results;
 using ToDo.Extensions;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.Infrastructure.Options;
 using ToDo.Microservices.Entries.Querers.Queries.Categories;
-using ToDo.Microservices.Entries.UseCases.Repositories;
+using ToDo.Microservices.Entries.UseCases.Services;
 
-namespace ToDo.Microservices.Entries.Infrastructure.Repositories
+namespace ToDo.Microservices.Entries.Infrastructure.Services
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryService: ICategoryService
     {
         private QuererHttpClient _client;
 
-        private CategoryRepositoryOptions _options;
+        private CategoryServiceOptions _options;
 
-        public CategoryRepository(IQuererHttpClientFactory clientFactory, IOptions<CategoryRepositoryOptions> options)
+        public CategoryService(IQuererHttpClientFactory clientFactory,
+                               IOptions<CategoryServiceOptions> options)
         {
             _client = clientFactory.Create();
             _options = options.Value;
         }
 
-        public async Task<IEnumerable<Category>> Get()
+        public async Task<Result<IEnumerable<Category>>> Get()
         {
             GetCategoriesCompiler compiler = new GetCategoriesCompiler($"http://{_options.Host}/Categories");
             GetCategoriesHandler handler = new GetCategoriesHandler();
@@ -30,7 +32,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             return handler.Content;
         }
 
-        public async Task<Category> Get(Guid categoryId)
+        public async Task<Result<Category>> Get(Guid categoryId)
         {
             GetCategoryCompiler compiler = new GetCategoryCompiler($"http://{_options.Host}/Categories", categoryId);
             GetCategoryHandler handler = new GetCategoryHandler();

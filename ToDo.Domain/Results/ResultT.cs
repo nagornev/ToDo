@@ -9,9 +9,6 @@ namespace ToDo.Domain.Results
         public Result(bool success, T content, IError error)
             : base(success, error)
         {
-            if (!success && content != null)
-                throw new ArgumentException("The success result can not be false, if content has the value.");
-
             Content = content;
         }
 
@@ -19,7 +16,7 @@ namespace ToDo.Domain.Results
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public T Content { get; private set; }
 
-        private static Result<T> Create(bool success, T content, IError error = default)
+        private static Result<T> Create(bool success, T content, IError error)
         {
             return new Result<T>(success, content, error);
         }
@@ -31,7 +28,7 @@ namespace ToDo.Domain.Results
 
         public static Result<T> Successful(T content)
         {
-            return Create(true, content);
+            return Create(true, content, default);
         }
     }
 }

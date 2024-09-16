@@ -63,8 +63,8 @@ namespace ToDo.Microservices.Identity.API.Controllers
                         Results.BadRequest(validationResult) :
                         Results.BadRequest(Result.Failure(Errors.IsNull("No cookies.")));
 
-            Result<Guid> resultAccess = await _userService.Validate(token,
-                                                                    contract.Permissions);
+            Result<Guid?> resultAccess = await _userService.Validate(token,
+                                                                     contract.Permissions);
 
             return resultAccess.Success ?
                     Results.Ok(resultAccess) :

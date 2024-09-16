@@ -10,7 +10,7 @@ namespace ToDo.Domain.Results
         public Result(bool success,
                       IError error = null)
         {
-            if (success && error != null)
+            if (!success && error == null)
                 throw new ArgumentException($"The success result can not be true, if error has the value.");
 
             Success = success;

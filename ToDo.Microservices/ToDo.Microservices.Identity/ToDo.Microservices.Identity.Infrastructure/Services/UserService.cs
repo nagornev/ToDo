@@ -29,7 +29,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
 
             return user is not null ?
                     Result<User>.Successful(user) :
-                    Result<User>.Failure(Errors.IsNull($"No users with this id ({userId}) were found."));
+                    Result<User>.Failure(Errors.IsNull($"The user ({userId}) was not found."));
         }
 
         public async Task<Result<User>> GetUser(string email)
@@ -38,13 +38,13 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
 
             return user is not null ?
                     Result<User>.Successful(user) :
-                    Result<User>.Failure(Errors.IsNull($"No users with this email ({email}) were found."));
+                    Result<User>.Failure(Errors.IsNull($"The user ({email}) was not found."));
         }
 
         public async Task<Result> SignUp(string email, string password)
         {
             if (await _userRepository.Get(email) is not null)
-                return Result<User>.Failure(Errors.IsInvalidArgument($"The user with this email ({email}) has already been registrated."));
+                return Result<User>.Failure(Errors.IsInvalidArgument($"The user ({email}) has already been registrated."));
 
             User user = User.NewUser(email, _hashProvider.Hash(password));
 
@@ -75,18 +75,18 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             return signInResult;
         }
 
-        public async Task<Result<Guid>> Validate(string token, IEnumerable<Permission> permissions)
+        public async Task<Result<Guid?>> Validate(string token, IEnumerable<Permission> permissions)
         {
             if (!_tokenProvider.Validate(token, out string subject))
-                return Result<Guid>.Failure(Errors.IsUnauthorizated("Unauthorizated."));
+                return Result<Guid?>.Failure(Errors.IsUnauthorizated("Unauthorizated."));
 
             Result<User> resultUser = await GetUser(Guid.Parse(subject));
 
             return resultUser.Success ?
                     (resultUser.Content.Access.IsContained(permissions) ?
-                        Result<Guid>.Successful(resultUser.Content.Id) :
-                        Result<Guid>.Failure(Errors.IsForbidden("Forbidden."))) :
-                    Result<Guid>.Failure(resultUser.Error);
+                        Result<Guid?>.Successful(resultUser.Content.Id) :
+                        Result<Guid?>.Failure(Errors.IsForbidden("Forbidden."))) :
+                    Result<Guid?>.Failure(resultUser.Error);
         }
 
     }

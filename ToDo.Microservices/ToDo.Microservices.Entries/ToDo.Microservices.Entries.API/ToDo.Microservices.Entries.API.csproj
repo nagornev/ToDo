@@ -1,13 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Nagornev.Querer.Http" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
@@ -16,6 +23,11 @@
     <ProjectReference Include="..\..\..\ToDo.Domain\ToDo.Domain.csproj" />
     <ProjectReference Include="..\..\..\ToDo.Extensions\ToDo.Extensions.csproj" />
     <ProjectReference Include="..\..\ToDo.Microservices.Middleware\ToDo.Microservices.Middleware.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Entries.Database\ToDo.Microservices.Entries.Database.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Entries.Domain\ToDo.Microservices.Entries.Domain.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Entries.Infrastructure\ToDo.Microservices.Entries.Infrastructure.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Entries.Querers\ToDo.Microservices.Entries.Querers.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Entries.UseCases\ToDo.Microservices.Entries.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

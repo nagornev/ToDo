@@ -42,9 +42,9 @@ namespace ToDo.Microservices.Entries.Domain.Models
             return new Entry(id, categoryId, text, deadline, completed);
         }
         
-        public static Entry New(Guid categoryId, string text, DateTime? deadline, bool completed)
+        public static Entry New(Guid categoryId, string text, DateTime? deadline)
         {
-            return Constructor(Guid.NewGuid(), categoryId, text, deadline, completed);
+            return Constructor(Guid.NewGuid(), categoryId, text, deadline, false);
         }
     }
 }
