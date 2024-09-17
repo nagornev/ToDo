@@ -41,7 +41,7 @@ namespace ToDo.Extensions
 
             foreach (var header in context.Request.Headers)
             {
-                client.DefaultRequestHeaders.Add(header.Key, header.Value.AsEnumerable());
+                client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value.AsEnumerable());
             }
 
             return client;

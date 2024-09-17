@@ -14,9 +14,12 @@ namespace ToDo.Microservices.Entries.Database.Entities
 
         public string Text { get; set; }
 
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
 
         public bool Completed { get; set; }
+
+
+        public Guid UserId { get; set; }
 
         public UserEntity User { get; set; }
     }

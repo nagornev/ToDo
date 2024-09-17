@@ -7,14 +7,14 @@ namespace ToDo.Microservices.Entries.UseCases.Repositories
 {
     public interface IEntryRepository
     {
-        Task<IEnumerable<Entry>> Get();
+        Task<IEnumerable<Entry>> Get(Guid userId);
 
-        Task<Entry> Get(Guid entryId);
+        Task<Entry> Get(Guid userId, Guid entryId);
 
-        Task<bool> Create(Entry entry);
+        Task<bool> Create(Guid userId, Entry entry);
 
-        Task<bool> Update(Entry entry);
+        Task<bool> Update(Guid userId, Entry entry);
 
-        Task<bool> Delete(Guid entryId);
+        Task<bool> Delete(Guid userId, Guid entryId);
     }
 }

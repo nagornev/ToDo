@@ -12,7 +12,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Providers
 
             foreach (Entry entry in entries)
             {
-                Category? category = categories.FirstOrDefault();
+                Category? category = categories.FirstOrDefault(x=>x.Id == entry.CategoryId);
 
                 //Пропуск записи нужен для того, чтобы не отображать записи с удаленными категориями, которые ещё не были обработаны
                 //месседж брокером: каскадно удалить все записи связанные с удаленной категорией.

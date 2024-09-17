@@ -3,7 +3,7 @@ using ToDo.Microservices.Entries.Database.Contexts;
 
 namespace ToDo.Microservices.Entries.API.Extensions.Startup
 {
-    public static class ContextStartupExtensions
+    public static class ContextsStartupExtensions
     {
         public static void AddContexts(this IServiceCollection services, IConfiguration configuration)
         {

@@ -4,6 +4,8 @@ namespace ToDo.Microservices.Entries.Domain.Models
 {
     public class Entry
     {
+        public const int TextMaximumLength = 100;
+
         private Entry(Guid id,
                       Guid categoryId,
                       string text,
