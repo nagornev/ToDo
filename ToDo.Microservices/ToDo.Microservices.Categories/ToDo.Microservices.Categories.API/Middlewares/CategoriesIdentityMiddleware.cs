@@ -4,14 +4,11 @@ using ToDo.Microservices.Middleware.Identities;
 
 namespace ToDo.Microservices.Categories.API.Middlewares
 {
-    public class CategoryIdentityMiddleware : IdentityMiddleware
+    public class CategoriesIdentityMiddleware : IdentityMiddleware
     {
-        private IUserService _userServie;
-
-        public CategoryIdentityMiddleware(RequestDelegate next, IUserService userServie) 
+        public CategoriesIdentityMiddleware(RequestDelegate next)
             : base(next)
         {
-            _userServie = userServie;
         }
 
         protected override bool TryGetIdentity(HttpContext context, out IdentityAttribute? attribute)
@@ -21,11 +18,6 @@ namespace ToDo.Microservices.Categories.API.Middlewares
                                .GetMetadata<IdentityAttribute>();
 
             return attribute is not null;
-        }
-
-        protected async override Task<Result> Check(Guid userId)
-        {
-            return await _userServie.GetUser(userId);
         }
     }
 }

@@ -9,7 +9,9 @@ var configuration = builder.Configuration;
 services.AddContexts(configuration);
 services.AddRepositories();
 services.AddServices();
+services.AddValidators();
 services.AddIdentity();
+services.AddIdentityChecker<CategoriesIdentityChecker>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
@@ -24,7 +26,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseIdentity<CategoryIdentityMiddleware>();
+app.UseIdentity<CategoriesIdentityMiddleware>();
 app.MapControllers();
 
 app.Run();

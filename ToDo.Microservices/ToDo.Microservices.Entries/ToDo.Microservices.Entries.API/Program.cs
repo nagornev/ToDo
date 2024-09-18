@@ -13,6 +13,7 @@ services.AddServices();
 services.AddProviders();
 services.AddValidators();
 services.AddIdentity();
+services.AddIdentityChecker<EntriesIdentityChecker>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();

@@ -11,6 +11,12 @@ namespace ToDo.Microservices.Middleware.Identities
             services.AddRedirectableQuererHttpClientFactory();
         }
 
+        public static void AddIdentityChecker<TCheckerType>(this IServiceCollection services)
+            where TCheckerType : class, IIdentityChecker
+        {
+            services.AddScoped<IIdentityChecker, TCheckerType>();
+        }
+
         public static void UseIdentity<TIdentityMiddleware>(this IApplicationBuilder app)
             where TIdentityMiddleware : IdentityMiddleware
         {

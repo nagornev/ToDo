@@ -9,7 +9,7 @@ namespace ToDo.Microservices.Entries.Querers.Queries.Categories
     {
         protected override void SetContent(ContentHandler handler)
         {
-            handler.SetContent(response => response.GetContent((JToken json) => json.ToObject<Result<Category>>()!));
+            handler.SetContent(response => response.GetContent((JToken json) => json.ToObject<Result<Category>>(Serializer)!));
         }
     }
 }

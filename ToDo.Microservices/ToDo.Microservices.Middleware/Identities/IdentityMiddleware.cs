@@ -19,12 +19,9 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected abstract bool TryGetIdentity(HttpContext context, out IdentityAttribute attribute);
 
-        protected virtual async Task<Result> Check(Guid userId)
-        {
-            return await Task.FromResult(Result.Successful());
-        }
-
-        public async Task InvokeAsync(HttpContext context, IQuererHttpClientFactory factory)
+        public async Task InvokeAsync(HttpContext context,
+                                      IQuererHttpClientFactory factory,
+                                      IIdentityChecker? checker)
         {
             if (!TryGetIdentity(context, out IdentityAttribute attribute))
             {
@@ -46,12 +43,15 @@ namespace ToDo.Microservices.Middleware.Identities
                 return;
             }
 
-            Result checkResult = await Check((Guid)identityResult.Content);
-
-            if (!checkResult.Success)
+            if (checker is not null)
             {
-                BadRequest(context.Response, checkResult);
-                return;
+                Result checkResult = await checker.Check((Guid)identityResult.Content);
+
+                if (!checkResult.Success)
+                {
+                    BadRequest(context.Response, checkResult);
+                    return;
+                }
             }
 
             context.User = GetPricipial(handler.Content);

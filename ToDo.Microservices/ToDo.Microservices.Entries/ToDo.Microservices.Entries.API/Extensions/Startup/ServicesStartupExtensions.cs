@@ -9,9 +9,7 @@ namespace ToDo.Microservices.Entries.API.Extensions.Startup
         {
             services.AddScoped<IEntryService, EntryService>();
             services.AddScoped<IUserService, UserService>();
-            //services.AddScoped<ICategoryService, CategoryService>();
-
-            services.AddScoped<ICategoryService, TestCategoryService>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
     }
 }
