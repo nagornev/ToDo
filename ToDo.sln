@@ -35,7 +35,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Entries.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Entries.Infrastructure", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.Infrastructure\ToDo.Microservices.Entries.Infrastructure.csproj", "{C633B676-12C7-4FC9-99DC-68DC90D21AD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Entries.Querers", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.Querers\ToDo.Microservices.Entries.Querers.csproj", "{530C4949-C53D-4538-9E7C-6467CC565173}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Entries.Querers", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.Querers\ToDo.Microservices.Entries.Querers.csproj", "{530C4949-C53D-4538-9E7C-6467CC565173}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.Microservices.Categories", "ToDo.Microservices.Categories", "{3B127112-E8A2-48A4-A7A6-EAFA478D9284}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Domain", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Domain\ToDo.Microservices.Categories.Domain.csproj", "{6B5F46BD-9EC8-428E-9F7F-11292E39596B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.UseCases", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.UseCases\ToDo.Microservices.Categories.UseCases.csproj", "{5F6C873B-B66C-4B61-B167-0C4391655AC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Infrastructure", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Infrastructure\ToDo.Microservices.Categories.Infrastructure.csproj", "{07B26109-61AC-4D3F-BEEF-272B78DE4B65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Database", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Database\ToDo.Microservices.Categories.Database.csproj", "{25993286-FD99-4261-802B-C5BBED602449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.API", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.API\ToDo.Microservices.Categories.API.csproj", "{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +111,26 @@ Global
 		{530C4949-C53D-4538-9E7C-6467CC565173}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{530C4949-C53D-4538-9E7C-6467CC565173}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{530C4949-C53D-4538-9E7C-6467CC565173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B5F46BD-9EC8-428E-9F7F-11292E39596B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B5F46BD-9EC8-428E-9F7F-11292E39596B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B5F46BD-9EC8-428E-9F7F-11292E39596B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B5F46BD-9EC8-428E-9F7F-11292E39596B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F6C873B-B66C-4B61-B167-0C4391655AC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F6C873B-B66C-4B61-B167-0C4391655AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F6C873B-B66C-4B61-B167-0C4391655AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F6C873B-B66C-4B61-B167-0C4391655AC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07B26109-61AC-4D3F-BEEF-272B78DE4B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07B26109-61AC-4D3F-BEEF-272B78DE4B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07B26109-61AC-4D3F-BEEF-272B78DE4B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07B26109-61AC-4D3F-BEEF-272B78DE4B65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25993286-FD99-4261-802B-C5BBED602449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25993286-FD99-4261-802B-C5BBED602449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25993286-FD99-4261-802B-C5BBED602449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25993286-FD99-4261-802B-C5BBED602449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +150,12 @@ Global
 		{C1E50BD4-FA93-4BAA-B642-357D72E0F6BA} = {47E8ED24-5D3C-42DA-9706-E29DE7551695}
 		{C633B676-12C7-4FC9-99DC-68DC90D21AD6} = {47E8ED24-5D3C-42DA-9706-E29DE7551695}
 		{530C4949-C53D-4538-9E7C-6467CC565173} = {47E8ED24-5D3C-42DA-9706-E29DE7551695}
+		{3B127112-E8A2-48A4-A7A6-EAFA478D9284} = {FC1EECDF-07F8-4048-8593-4EE460EF9D4D}
+		{6B5F46BD-9EC8-428E-9F7F-11292E39596B} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
+		{5F6C873B-B66C-4B61-B167-0C4391655AC4} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
+		{07B26109-61AC-4D3F-BEEF-272B78DE4B65} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
+		{25993286-FD99-4261-802B-C5BBED602449} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
+		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B023FCCE-7B07-45E5-B23B-725D55C2AD80}
