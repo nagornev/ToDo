@@ -13,7 +13,7 @@ namespace ToDo.Microservices.Categories.UseCases.Repositories
 
         Task<bool> Create(Guid userId, Category category);
 
-        Task<bool> Updated(Guid userId, Category category);
+        Task<bool> Update(Guid userId, Category category);
 
         Task<bool> Delete(Guid userId, Guid categoryId);
     } 

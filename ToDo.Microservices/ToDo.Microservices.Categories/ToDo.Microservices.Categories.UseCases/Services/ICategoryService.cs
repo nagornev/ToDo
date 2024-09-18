@@ -7,7 +7,7 @@ using ToDo.Microservices.Categories.Domain.Models;
 
 namespace ToDo.Microservices.Categories.UseCases.Services
 {
-    public interface ICategoryRepository
+    public interface ICategoryService
     {
         Task<Result<IEnumerable<Category>>> GetCategories(Guid userId);
 

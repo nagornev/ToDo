@@ -19,6 +19,11 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected abstract bool TryGetIdentity(HttpContext context, out IdentityAttribute attribute);
 
+        protected virtual async Task<Result> Check(Guid userId)
+        {
+            return await Task.FromResult(Result.Successful());
+        }
+
         public async Task InvokeAsync(HttpContext context, IQuererHttpClientFactory factory)
         {
             if (!TryGetIdentity(context, out IdentityAttribute attribute))
@@ -33,9 +38,19 @@ namespace ToDo.Microservices.Middleware.Identities
 
             await quererClient.SendAsync(compiler, handler);
 
-            if (!handler.Content.Success)
+            Result<Guid?> identityResult = handler.Content;
+
+            if (!identityResult.Success)
             {
                 BadRequest(context.Response, handler.Content);
+                return;
+            }
+
+            Result checkResult = await Check((Guid)identityResult.Content);
+
+            if (!checkResult.Success)
+            {
+                BadRequest(context.Response, checkResult);
                 return;
             }
 
@@ -55,7 +70,7 @@ namespace ToDo.Microservices.Middleware.Identities
             return new ClaimsPrincipal(identity);
         }
 
-        private async void BadRequest(HttpResponse response, Result<Guid?> output)
+        private async void BadRequest(HttpResponse response, Result output)
         {
             response.StatusCode = output.Error!.Code;
             await response.WriteAsync(output.ToString());

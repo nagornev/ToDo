@@ -33,11 +33,13 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                                                                   .FirstOrDefaultAsync(x => x.UserId == userId &&
                                                                                             x.Id == entryId);
 
-            Entry? entry = entryEntity is not null ?
-                             Entry.Constructor(entryEntity.Id, entryEntity.CategoryId, entryEntity.Text, entryEntity.Deadline, entryEntity.Completed) :
-                             default;
-
-            return entry;
+            return entryEntity is not null ?
+                        Entry.Constructor(entryEntity.Id,
+                                          entryEntity.CategoryId,
+                                          entryEntity.Text,
+                                          entryEntity.Deadline,
+                                          entryEntity.Completed) :
+                        default; ;
         }
 
         public async Task<bool> Create(Guid userId, Entry entry)
@@ -70,10 +72,10 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
         {
             int rows = await _entryContext.Entries.Where(x => x.UserId == userId &&
                                                               x.Id == entry.Id)
-                                        .ExecuteUpdateAsync(x => x.SetProperty(p => p.CategoryId, entry.CategoryId)
-                                                                  .SetProperty(p => p.Text, entry.Text)
-                                                                  .SetProperty(p => p.Deadline, entry.Deadline)
-                                                                  .SetProperty(p => p.Completed, entry.Completed));
+                                                  .ExecuteUpdateAsync(x => x.SetProperty(p => p.CategoryId, entry.CategoryId)
+                                                                            .SetProperty(p => p.Text, entry.Text)
+                                                                            .SetProperty(p => p.Deadline, entry.Deadline)
+                                                                            .SetProperty(p => p.Completed, entry.Completed));
 
             return rows > 0;
         }

@@ -1,15 +1,22 @@
+using ToDo.Microservices.Categories.API.Extensions.Startup;
+using ToDo.Microservices.Categories.API.Middlewares;
+using ToDo.Microservices.Middleware.Identities;
+
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
 
-// Add services to the container.
+services.AddContexts(configuration);
+services.AddRepositories();
+services.AddServices();
+services.AddIdentity();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseIdentity<CategoryIdentityMiddleware>();
 app.MapControllers();
 
 app.Run();

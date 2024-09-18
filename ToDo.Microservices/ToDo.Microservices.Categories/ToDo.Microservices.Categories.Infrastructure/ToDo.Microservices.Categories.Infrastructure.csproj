@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ToDo.Domain\ToDo.Domain.csproj" />
+    <ProjectReference Include="..\..\..\ToDo.Extensions\ToDo.Extensions.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Categories.Database\ToDo.Microservices.Categories.Database.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Categories.Domain\ToDo.Microservices.Categories.Domain.csproj" />
+    <ProjectReference Include="..\ToDo.Microservices.Categories.UseCases\ToDo.Microservices.Categories.UseCases.csproj" />
+  </ItemGroup>
+
 </Project>

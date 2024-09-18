@@ -11,30 +11,21 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
     {
         private IEntryRepository _entryRepository;
 
-        private IUserService _userService;
-
         private ICategoryService _categoryService;
 
         private IEntryСomposer _composer;
 
         public EntryService(IEntryRepository entryRepository,
-                            IUserService userService,
                             ICategoryService categoryService,
                             IEntryСomposer сomposer)
         {
             _entryRepository = entryRepository;
-            _userService = userService;
             _categoryService = categoryService;
             _composer = сomposer;
         }
 
         public async Task<Result<IEnumerable<EntryCompose>>> GetEntries(Guid userId)
         {
-            Result<User> resultUser = await _userService.GetUser(userId);
-
-            if (!resultUser.Success)
-                return Result<IEnumerable<EntryCompose>>.Failure(resultUser.Error);
-
             IEnumerable<Entry> entries = await _entryRepository.Get(userId);
 
             Result<IEnumerable<Category>> resultCategories = await _categoryService.Get();
@@ -47,11 +38,6 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result<EntryCompose>> GetEntry(Guid userId, Guid entryId)
         {
-            Result<User> resultUser = await _userService.GetUser(userId);
-
-            if (!resultUser.Success)
-                return Result<EntryCompose>.Failure(resultUser.Error);
-
             Entry entry = await _entryRepository.Get(userId, entryId);
 
             if (entry is null)
@@ -67,11 +53,6 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> CreateEntry(Guid userId, Guid categoryId, string text, DateTime? deadline)
         {
-            Result<User> resultUser = await _userService.GetUser(userId);
-
-            if (!resultUser.Success)
-                return Result.Failure(resultUser.Error);
-
             Result<Category> resultCategory = await _categoryService.Get(categoryId);
 
             if (!resultCategory.Success)
@@ -85,11 +66,6 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> UpdateEntry(Guid userId, Guid entryId, Guid categoryId, string text, DateTime? deadline, bool completed)
         {
-            Result<User> resultUser = await _userService.GetUser(userId);
-
-            if (!resultUser.Success)
-                return Result.Failure(resultUser.Error);
-
             Result<Category> resultCategory = await _categoryService.Get(categoryId);
 
             if (!resultCategory.Success)
@@ -102,11 +78,6 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> DeleteEntry(Guid userId, Guid entryId)
         {
-            Result<User> resultUser = await _userService.GetUser(userId);
-
-            if (!resultUser.Success)
-                return Result.Failure(resultUser.Error);
-
             return await _entryRepository.Delete(userId, entryId) ?
                     Result.Successful() :
                     Result.Failure(Errors.IsMessage($"The entry ({entryId}) was not found."));

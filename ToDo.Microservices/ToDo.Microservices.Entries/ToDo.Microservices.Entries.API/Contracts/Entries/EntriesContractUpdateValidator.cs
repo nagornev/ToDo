@@ -19,7 +19,6 @@ namespace ToDo.Microservices.Entries.API.Contracts.Entries
 
             #endregion
 
-
             #region CategoryId
 
             RuleFor(x => x.CategoryId).NotNull()
@@ -43,7 +42,6 @@ namespace ToDo.Microservices.Entries.API.Contracts.Entries
                                 .WithState(x => Errors.IsNull("The entry text can not be longer than 100 symbols."));
 
             #endregion
-
 
             #region Datetime
 

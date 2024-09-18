@@ -1,8 +1,6 @@
 using ToDo.Microservices.Entries.API.Middlewares;
 using ToDo.Microservices.Middleware.Identities;
-using ToDo.Extensions;
 using ToDo.Microservices.Entries.API.Extensions.Startup;
-using ToDo.Microservices.Entries.API;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -14,7 +12,7 @@ services.AddRepositories();
 services.AddServices();
 services.AddProviders();
 services.AddValidators();
-services.AddRedirectableQuererHttpClientFactory();
+services.AddIdentity();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();

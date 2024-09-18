@@ -1,16 +1,17 @@
 ﻿using ToDo.Domain.Results;
-using ToDo.Microservices.Entries.UseCases.Services;
+using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.Middleware.Identities;
-namespace ToDo.Microservices.Entries.API.Middlewares
-{
-    public class EntriesIdentityMiddleware : IdentityMiddleware
-    {
-        private IUserService _userService;
 
-        public EntriesIdentityMiddleware(RequestDelegate next, IUserService userService) 
+namespace ToDo.Microservices.Categories.API.Middlewares
+{
+    public class CategoryIdentityMiddleware : IdentityMiddleware
+    {
+        private IUserService _userServie;
+
+        public CategoryIdentityMiddleware(RequestDelegate next, IUserService userServie) 
             : base(next)
         {
-            _userService = userService;
+            _userServie = userServie;
         }
 
         protected override bool TryGetIdentity(HttpContext context, out IdentityAttribute? attribute)
@@ -22,9 +23,9 @@ namespace ToDo.Microservices.Entries.API.Middlewares
             return attribute is not null;
         }
 
-        protected override async Task<Result> Check(Guid userId)
+        protected async override Task<Result> Check(Guid userId)
         {
-            return await _userService.GetUser(userId);
+            return await _userServie.GetUser(userId);
         }
     }
 }
