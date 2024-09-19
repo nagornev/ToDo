@@ -39,15 +39,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Entries.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.Microservices.Categories", "ToDo.Microservices.Categories", "{3B127112-E8A2-48A4-A7A6-EAFA478D9284}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Domain", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Domain\ToDo.Microservices.Categories.Domain.csproj", "{6B5F46BD-9EC8-428E-9F7F-11292E39596B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.Domain", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Domain\ToDo.Microservices.Categories.Domain.csproj", "{6B5F46BD-9EC8-428E-9F7F-11292E39596B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.UseCases", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.UseCases\ToDo.Microservices.Categories.UseCases.csproj", "{5F6C873B-B66C-4B61-B167-0C4391655AC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.UseCases", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.UseCases\ToDo.Microservices.Categories.UseCases.csproj", "{5F6C873B-B66C-4B61-B167-0C4391655AC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Infrastructure", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Infrastructure\ToDo.Microservices.Categories.Infrastructure.csproj", "{07B26109-61AC-4D3F-BEEF-272B78DE4B65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.Infrastructure", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Infrastructure\ToDo.Microservices.Categories.Infrastructure.csproj", "{07B26109-61AC-4D3F-BEEF-272B78DE4B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Database", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Database\ToDo.Microservices.Categories.Database.csproj", "{25993286-FD99-4261-802B-C5BBED602449}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.Database", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Database\ToDo.Microservices.Categories.Database.csproj", "{25993286-FD99-4261-802B-C5BBED602449}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.API", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.API\ToDo.Microservices.Categories.API.csproj", "{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.API", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.API\ToDo.Microservices.Categories.API.csproj", "{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

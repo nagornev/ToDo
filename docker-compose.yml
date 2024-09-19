@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  identity_db:
+    container_name: identity_db
+    image: mcr.microsoft.com/mssql/server:latest
+    restart: always
+    volumes:
+        - ./Data/Identity:/var/opt/mssql/data
+    ports:
+      - 8000:1433
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "HHHHhhhh1111"
+
+  entry_db:
+    container_name: entry_db
+    image: mcr.microsoft.com/mssql/server:latest
+    restart: always
+    volumes:
+        - ./Data/Entry:/var/opt/mssql/data
+    ports:
+      - 8001:1433
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "HHHHhhhh1111"
+
+  category_db:
+    container_name: category_db
+    image: mcr.microsoft.com/mssql/server:latest
+    restart: always
+    volumes:
+        - ./Data/Category:/var/opt/mssql/data
+    ports:
+      - 8002:1433
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "HHHHhhhh1111"
