@@ -36,3 +36,16 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "HHHHhhhh1111"
+  
+  rabbitmq_broker:
+    container_name: rabbitmq_broker
+    image: rabbitmq:4-management
+    hostname: rabbitmq
+    restart: always
+    volumes:
+      - ./Data/RabbitMQ:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=HHHHhhhh1111
