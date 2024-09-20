@@ -17,6 +17,8 @@ namespace ToDo.Domain.Results
 
         private const string _isForbiddenKey = "is.forbidden";
 
+        private const string _isInternalServerKey = "is.internal.server";
+
         public static TError Create<TError>(Action<TError> callback)
             where TError : IError
         {
@@ -26,6 +28,17 @@ namespace ToDo.Domain.Results
 
             return error;
         }
+
+        #region IsInternalServer
+
+        public static IError IsInternalServer(string message)
+        {
+            return new Error(500,
+                             _isInternalServerKey,
+                             message);
+        }
+
+        #endregion
 
         #region IsUnauthorizated
 

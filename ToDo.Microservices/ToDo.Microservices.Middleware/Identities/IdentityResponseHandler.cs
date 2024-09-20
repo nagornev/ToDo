@@ -16,6 +16,11 @@ namespace ToDo.Microservices.Middleware.Identities
             _serializer.Converters.Add(new Interface2ClassConverter<IError, Error>());
         }
 
+        protected override void Configure(InvokerOptionsBuilder options)
+        {
+            options.SetFailure((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"Internal server.")));
+        }
+
         protected override void SetContent(ContentHandler handler)
         {
             handler.SetContent(response => response.GetContent((JToken json) => json.ToObject<Result<Guid?>>(_serializer)!));
