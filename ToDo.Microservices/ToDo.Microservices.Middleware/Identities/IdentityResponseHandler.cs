@@ -1,4 +1,6 @@
-﻿using Nagornev.Querer.Http;
+﻿using Microsoft.Extensions.Logging;
+using Nagornev.Querer.Http;
+using Nagornev.Querer.Http.Loggers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDo.Domain.Results;
@@ -18,7 +20,8 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected override void Configure(InvokerOptionsBuilder options)
         {
-            options.SetFailure((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"Internal server.")));
+            options.SetFailure((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"Internal server.")))
+                   .AddLogger();
         }
 
         protected override void SetContent(ContentHandler handler)

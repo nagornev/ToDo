@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Nagornev.Querer.Http;
+using System.Security.Claims;
 
 namespace ToDo.Microservices.Middleware.Identities
 {
@@ -9,6 +10,11 @@ namespace ToDo.Microservices.Middleware.Identities
             string id = principal.Claims.First(x => x.Type == IdentityDefaults.Subject).Value;
 
             return Guid.Parse(id);
+        }
+
+        public static QuererHttpResponseMessageHandler<T>.InvokerOptionsBuilder AddLogger<T>(this QuererHttpResponseMessageHandler<T>.InvokerOptionsBuilder builder)
+        {
+            return builder.SetLogger(new LoggerBridge<QuererHttpResponseMessageHandler<T>>());
         }
     }
 }
