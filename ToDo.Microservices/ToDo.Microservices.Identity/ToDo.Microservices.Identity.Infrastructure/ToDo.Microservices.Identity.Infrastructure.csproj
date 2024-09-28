@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ToDo.Microservices.MQ\ToDo.Microservices.MQ.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Identity.Database\ToDo.Microservices.Identity.Database.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Identity.Domain\ToDo.Microservices.Identity.Domain.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Identity.UseCases\ToDo.Microservices.Identity.UseCases.csproj" />

@@ -12,7 +12,7 @@ namespace ToDo.Microservices.Identity.UseCases.Services
 
         Task<Result<User>> GetUser(string email);
 
-        Task<Result> SignUp(string email, string password);
+        Task<Result<User>> SignUp(string email, string password);
 
         Task<Result<string>> SignIn(string email, string password);
 

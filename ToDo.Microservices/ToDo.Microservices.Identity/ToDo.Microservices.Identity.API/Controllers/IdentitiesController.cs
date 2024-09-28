@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
 using ToDo.Extensions.Validator;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
+using ToDo.Microservices.Identity.Domain.Models;
 using ToDo.Microservices.Identity.Infrastructure.Providers;
 using ToDo.Microservices.Identity.UseCases.Services;
 
@@ -27,11 +28,13 @@ namespace ToDo.Microservices.Identity.API.Controllers
             if (!validator.Validate(contract, out Result validationResult))
                 return Results.BadRequest(validationResult);
 
-            Result resultUp = await _userService.SignUp(contract.Email,
-                                                        contract.Password);
+            Result<User> resultUp = await _userService.SignUp(contract.Email,
+                                                              contract.Password);
+
+
 
             return resultUp.Success ?
-                    Results.Ok() :
+                    Results.Ok(resultUp) :
                     Results.BadRequest(resultUp);
         }
 

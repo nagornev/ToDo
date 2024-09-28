@@ -49,6 +49,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categori
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.API", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.API\ToDo.Microservices.Categories.API.csproj", "{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.MQ", "ToDo.MQ", "{2701A3B5-1696-409D-A0E1-DD4497BBD2D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.MQ.Abstractions", "ToDo.MQ\ToDo.MQ.Abstractions\ToDo.MQ.Abstractions.csproj", "{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.MQ.RabbitMQ", "ToDo.MQ\ToDo.MQ.RabbitMQ\ToDo.MQ.RabbitMQ.csproj", "{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +137,14 @@ Global
 		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,6 +170,8 @@ Global
 		{07B26109-61AC-4D3F-BEEF-272B78DE4B65} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
 		{25993286-FD99-4261-802B-C5BBED602449} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
 		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
+		{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF} = {2701A3B5-1696-409D-A0E1-DD4497BBD2D1}
+		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4} = {2701A3B5-1696-409D-A0E1-DD4497BBD2D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B023FCCE-7B07-45E5-B23B-725D55C2AD80}

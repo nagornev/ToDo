@@ -1,5 +1,6 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Identity.Domain.Models;
+using ToDo.Microservices.Identity.UseCases.Producers;
 using ToDo.Microservices.Identity.UseCases.Providers;
 using ToDo.Microservices.Identity.UseCases.Repositories;
 using ToDo.Microservices.Identity.UseCases.Services;
@@ -10,15 +11,19 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
     {
         private IUserRepository _userRepository;
 
+        private IUserProducer _userProducer;
+
         private IHashProvider _hashProvider;
 
         private ITokenProvider _tokenProvider;
 
         public UserService(IUserRepository userRepository,
+                           IUserProducer userProducer,
                            IHashProvider hashProvider,
                            ITokenProvider tokenProvider)
         {
             _userRepository = userRepository;
+            _userProducer = userProducer;
             _hashProvider = hashProvider;
             _tokenProvider = tokenProvider;
         }
@@ -41,7 +46,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
                     Result<User>.Failure(Errors.IsNull($"The user ({email}) was not found."));
         }
 
-        public async Task<Result> SignUp(string email, string password)
+        public async Task<Result<User>> SignUp(string email, string password)
         {
             if (await _userRepository.Get(email) is not null)
                 return Result<User>.Failure(Errors.IsInvalidArgument($"The user ({email}) has already been registrated."));
@@ -49,8 +54,10 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             User user = User.NewUser(email, _hashProvider.Hash(password));
 
             return await _userRepository.Create(user) ?
-                            Result.Successful() :
-                            Result.Failure();
+                     ((await _userProducer.New(user)).Success?
+                        Result<User>.Successful(user):
+                        Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."))):
+                     Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."));
         }
 
         public async Task<Result<string>> SignIn(string email, string password)
