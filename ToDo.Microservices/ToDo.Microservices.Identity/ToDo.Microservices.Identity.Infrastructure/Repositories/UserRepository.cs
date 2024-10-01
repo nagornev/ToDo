@@ -5,7 +5,7 @@ using ToDo.Microservices.Identity.Database.Entities;
 using ToDo.Microservices.Identity.Domain.Models;
 using ToDo.Microservices.Identity.UseCases.Repositories;
 
-namespace ToDo.Microservices.Identity.Infrastructure .Repositories
+namespace ToDo.Microservices.Identity.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToDo.Microservices.Entries.Database.Entities
+﻿namespace ToDo.Microservices.Entries.Database.Entities
 {
     public class EntryEntity
     {

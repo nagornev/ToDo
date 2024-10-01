@@ -1,4 +1,4 @@
-﻿using MQ.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using ToDo.MQ.Abstractions;
 
@@ -6,31 +6,26 @@ namespace ToDo.MQ.RabbitMQ
 {
     public class RabbitQueueClientBuilder
     {
+        private IServiceCollection _services;
+
         private ConnectionFactory _connectionFactory;
 
         private RabbitEndpointsBuilder _endpointsBuilder;
 
         private RabbitWorkersBuildler _workersBuilder;
 
-        private RabbitQueueClientBuilder()
+        private RabbitQueueClientBuilder(IServiceCollection services)
         {
+            _services = services;
+
             _connectionFactory = new ConnectionFactory();
             _endpointsBuilder = new RabbitEndpointsBuilder();
             _workersBuilder = new RabbitWorkersBuildler(() => _endpointsBuilder.Build());
         }
 
-        internal static RabbitQueueClientBuilder Create()
+        internal static RabbitQueueClientBuilder Create(IServiceCollection services)
         {
-            return new RabbitQueueClientBuilder();
-        }
-
-        internal static RabbitQueueClientBuilder Create(Action<RabbitQueueClientBuilder> options)
-        {
-            RabbitQueueClientBuilder builder = new RabbitQueueClientBuilder();
-
-            options.Invoke(builder);
-
-            return builder;
+            return new RabbitQueueClientBuilder(services);
         }
 
         public RabbitQueueClientBuilder UseConnection(Action<ConnectionFactory> options)
@@ -54,14 +49,16 @@ namespace ToDo.MQ.RabbitMQ
             return this;
         }
 
-        internal IMessageQueueClient Build()
+        internal void Build()
         {
             if (_connectionFactory is null)
                 throw new ArgumentNullException(string.Empty, $"The connection factory can not be null. Configure the connection using the '{nameof(UseConnection)}' method.");
 
-            return new RabbitQueueClient(_connectionFactory,
-                                         _endpointsBuilder.Build(),
-                                         _workersBuilder.Build());
+            var endpoints = _endpointsBuilder.Build();
+
+            _services.AddSingleton(provider => new RabbitScheme(_connectionFactory, endpoints.Exchanges, endpoints.Queues));
+            _services.AddSingleton(provider => _workersBuilder.Build());
+            _services.AddSingleton<IMessageQueueClient, RabbitQueueClient>();
         }
     }
 }

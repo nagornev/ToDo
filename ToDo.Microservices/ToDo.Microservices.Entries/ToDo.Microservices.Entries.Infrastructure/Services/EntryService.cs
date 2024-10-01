@@ -28,7 +28,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         {
             IEnumerable<Entry> entries = await _entryRepository.Get(userId);
 
-            Result<IEnumerable<Category>> resultCategories = await _categoryService.Get();
+            Result<IEnumerable<Category>> resultCategories = await _categoryService.Get(userId);
 
             return resultCategories.Success ?
                     Result<IEnumerable<EntryCompose>>.Successful(_composer.Compose(entries, resultCategories.Content)) :
@@ -43,7 +43,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             if (entry is null)
                 return Result<EntryCompose>.Failure(Errors.IsNull($"The entry ({entryId}) was not found."));
 
-            Result<Category> resultCategory = await _categoryService.Get(entry.CategoryId);
+            Result<Category> resultCategory = await _categoryService.Get(userId, entry.CategoryId);
 
             return resultCategory.Success ?
                      Result<EntryCompose>.Successful(_composer.Compose(entry, resultCategory.Content)) :
@@ -53,7 +53,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> CreateEntry(Guid userId, Guid categoryId, string text, DateTime? deadline)
         {
-            Result<Category> resultCategory = await _categoryService.Get(categoryId);
+            Result<Category> resultCategory = await _categoryService.Get(userId, categoryId);
 
             if (!resultCategory.Success)
                 return resultCategory;
@@ -66,7 +66,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> UpdateEntry(Guid userId, Guid entryId, Guid categoryId, string text, DateTime? deadline, bool completed)
         {
-            Result<Category> resultCategory = await _categoryService.Get(categoryId);
+            Result<Category> resultCategory = await _categoryService.Get(userId, categoryId);
 
             if (!resultCategory.Success)
                 return resultCategory;

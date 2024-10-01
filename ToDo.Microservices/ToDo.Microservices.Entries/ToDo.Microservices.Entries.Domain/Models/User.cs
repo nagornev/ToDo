@@ -13,7 +13,7 @@ namespace ToDo.Microservices.Entries.Domain.Models
 
         public static User Constructor(Guid id)
         {
-            if(id == Guid.Empty)
+            if (id == Guid.Empty)
                 throw new ArgumentNullException("The user id can not be empty.");
 
             return new User(id);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToDo.MQ.RabbitMQ.Extensions
+﻿namespace ToDo.MQ.RabbitMQ.Extensions
 {
     public static class CollectionsExtension
     {
@@ -25,7 +19,7 @@ namespace ToDo.MQ.RabbitMQ.Extensions
             return !(result is null) ?
                       true :
                       false;
-                    
+
         }
 
         public static bool TryGetOne<T>(this IEnumerable<T> collection, Func<T, bool> predicate, out T? result)
@@ -33,8 +27,8 @@ namespace ToDo.MQ.RabbitMQ.Extensions
         {
             var select = collection.Where(predicate.Invoke);
 
-            result = select.Count() == 1?
-                        select.First():
+            result = select.Count() == 1 ?
+                        select.First() :
                         null;
 
             return result != null;

@@ -5,7 +5,7 @@
         private Guid _id;
 
         public GetCategoryCompiler(string url, Guid id)
-            :base(url)
+            : base(url)
         {
             _id = id;
         }

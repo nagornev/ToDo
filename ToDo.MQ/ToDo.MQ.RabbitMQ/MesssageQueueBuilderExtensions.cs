@@ -1,5 +1,4 @@
-﻿using MQ.Abstractions;
-using ToDo.MQ.Abstractions;
+﻿using ToDo.MQ.Abstractions;
 
 namespace ToDo.MQ.RabbitMQ
 {
@@ -7,9 +6,11 @@ namespace ToDo.MQ.RabbitMQ
     {
         public static MessageQueueBuilder UseRabbit(this MessageQueueBuilder builder, Action<RabbitQueueClientBuilder> options)
         {
-            RabbitQueueClientBuilder rabbit = RabbitQueueClientBuilder.Create(options);
+            RabbitQueueClientBuilder rabbit = RabbitQueueClientBuilder.Create(builder.GetServices());
 
-            builder.UseMessageQueue(rabbit.Build());
+            options.Invoke(rabbit);
+
+            rabbit.Build();
 
             return builder;
         }

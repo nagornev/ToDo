@@ -6,7 +6,7 @@ namespace ToDo.Microservices.Middleware.Identities
     public class LoggerBridge<T> : Logger<T>, IQuererLogger
     {
         public LoggerBridge()
-            : this(LoggerFactory.Create(builder=>
+            : this(LoggerFactory.Create(builder =>
                                        {
                                            builder.AddConsole();
                                        }))
@@ -28,7 +28,7 @@ namespace ToDo.Microservices.Middleware.Identities
             this.LogWarning(message);
         }
 
-        public void Error<TExceptionType>(TExceptionType exception, Func<TExceptionType, string> message) 
+        public void Error<TExceptionType>(TExceptionType exception, Func<TExceptionType, string> message)
             where TExceptionType : Exception
         {
             this.LogError(exception, message.Invoke(exception));

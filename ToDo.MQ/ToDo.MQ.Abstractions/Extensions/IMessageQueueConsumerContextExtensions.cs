@@ -1,8 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
-using ToDo.MQ.Abstractions;
 
-namespace MQ.Abstractions.Extensions
+namespace ToDo.MQ.Abstractions.Extensions
 {
     public static class IMessageQueueConsumerContextExtensions
     {

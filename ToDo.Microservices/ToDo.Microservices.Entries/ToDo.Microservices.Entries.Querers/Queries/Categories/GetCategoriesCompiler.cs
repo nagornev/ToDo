@@ -3,13 +3,13 @@
     public class GetCategoriesCompiler : QueryCompiler
     {
         public GetCategoriesCompiler(string url)
-            :base(url)
+            : base(url)
         {
         }
 
         protected override void SetMethod(MethodCompiler compiler)
         {
-            compiler.Set(HttpMethod.Get);   
+            compiler.Set(HttpMethod.Get);
         }
 
         protected override void SetUrl(UrlCompiler compiler)

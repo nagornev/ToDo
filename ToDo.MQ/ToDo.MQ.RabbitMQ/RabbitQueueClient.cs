@@ -1,66 +1,45 @@
-﻿using MQ.Abstractions;
-using ToDo.MQ.RabbitMQ.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using ToDo.MQ.Abstractions;
+using ToDo.MQ.RabbitMQ.Extensions;
 
 namespace ToDo.MQ.RabbitMQ
 {
-    internal class RabbitQueueClient : IMessageQueueClient, IDisposable
+    internal class RabbitQueueClient : IMessageQueueClient
     {
         private bool _disposed;
 
-        private ConnectionFactory _factory;
+        private IServiceProvider _provider;
 
-        private IConnection _connection;
+        private readonly RabbitScheme _scheme;
 
-        private RabbitEndpointsScheme _endpoints;
-
-        private readonly RabbitWorkerScheme _workers;
+        private readonly RabbitWorkers _workers;
 
         private ConcurrentDictionary<string, RabbitRpc> _rpcs;
 
-        public RabbitQueueClient(ConnectionFactory factory,
-                                 RabbitEndpointsScheme endpoints,
-                                 RabbitWorkerScheme workers)
+        public RabbitQueueClient(IServiceProvider provider,
+                                 RabbitScheme scheme,
+                                 RabbitWorkers workers)
         {
-            _factory = factory;
-            _endpoints = endpoints;
+            _provider = provider;
+            _scheme = scheme;
             _workers = workers;
             _rpcs = new ConcurrentDictionary<string, RabbitRpc>();
-        }
 
-        #region Connect
-
-        public void Connect()
-        {
-            if (_connection != null)
-                return;
-
-            _connection = _factory.CreateConnection();
-
-            Configure();
             Consume();
         }
 
-        private void Configure()
-        {
-            using (var channel = _connection.CreateModel())
-            {
-                _endpoints.Configure(channel);
-            }
-        }
+        #region Consume
 
         private void Consume()
         {
             foreach (var consumer in _workers.Consumers)
             {
-                IModel channel = _connection.CreateModel();
+                IModel channel = _scheme.Connection.CreateModel();
 
                 IBasicConsumer basic = CreateConsumer(channel, consumer);
 
@@ -76,12 +55,17 @@ namespace ToDo.MQ.RabbitMQ
         {
             EventingBasicConsumer basic = new EventingBasicConsumer(channel);
 
-            basic.Received += (sender, args) =>
+            basic.Received += async (sender, args) =>
             {
                 RabbitQueueConsumerContext context = new RabbitQueueConsumerContext(args.Body.ToArray(),
                                                                                     () => channel.BasicAck(args.DeliveryTag, false));
 
-                consumer.Worker.Consume(context);
+                using (var scope = _provider.CreateScope())
+                {
+                    IMessageQueueConsumer handler = (IMessageQueueConsumer)scope.ServiceProvider.GetRequiredService(consumer.Handler);
+
+                    await handler.Consume(context);
+                }
 
                 if (consumer.Reply)
                 {
@@ -98,7 +82,6 @@ namespace ToDo.MQ.RabbitMQ
             return basic;
         }
 
-
         #endregion
 
         #region Pusblish
@@ -108,7 +91,7 @@ namespace ToDo.MQ.RabbitMQ
             if (message is null)
                 throw new ArgumentNullException(nameof(message));
 
-            using (var channel = _connection.CreateModel())
+            using (var channel = _scheme.Connection.CreateModel())
             {
                 byte[] body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
 
@@ -139,12 +122,12 @@ namespace ToDo.MQ.RabbitMQ
 
         public Task<IEnumerable<byte>> Send<TRequestType>(TRequestType message, CancellationToken cancellationToken = default)
         {
-            IModel channel = _connection.CreateModel();
+            IModel channel = _scheme.Connection.CreateModel();
 
             IBasicProperties properties = channel.CreateBasicProperties();
 
-            RabbitWorkerProducer? worker = _workers.RPCs.TryGetOne(x => x.MessageType == typeof(TRequestType), out RabbitWorkerProducer? result) ?
-                                                 result : throw new ArgumentException("No RPC worker or more than one.");
+            RabbitWorkerProducer worker = _workers.RPCs.TryGetOne(x => x.MessageType == typeof(TRequestType), out RabbitWorkerProducer? result) ?
+                                                 result! : throw new ArgumentException("No RPC worker or more than one.");
 
             worker.Properties.Invoke(properties);
 
@@ -157,7 +140,6 @@ namespace ToDo.MQ.RabbitMQ
                     return;
 
                 value.Source.TrySetResult(args.Body.ToArray());
-
                 value.Channel.Close();
                 value.Channel.Dispose();
             };
@@ -191,12 +173,9 @@ namespace ToDo.MQ.RabbitMQ
             if (_disposed)
                 return;
 
-            _workers.Consumers.ForEach(x => x.Channel.Dispose());
-            _connection.Dispose();
+            _scheme.Connection.Dispose();
 
             _disposed = true;
         }
-
-     
     }
 }

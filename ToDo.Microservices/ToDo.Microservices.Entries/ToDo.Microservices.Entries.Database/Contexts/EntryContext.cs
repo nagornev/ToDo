@@ -6,7 +6,7 @@ namespace ToDo.Microservices.Entries.Database.Contexts
 {
     public class EntryContext : DbContext
     {
-        public EntryContext(DbContextOptions<EntryContext> options) 
+        public EntryContext(DbContextOptions<EntryContext> options)
             : base(options)
         {
         }

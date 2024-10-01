@@ -1,4 +1,5 @@
 using ToDo.Microservices.Identity.API.Extensions.Startup;
+using ToDo.Microservices.MQ;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -8,6 +9,7 @@ services.AddOptions(configuration);
 services.AddContexts(configuration);
 services.AddRepositories(configuration);
 services.AddServices(configuration);
+services.AddToDoMessageQueue();
 services.AddProviders();
 services.AddValidators();
 

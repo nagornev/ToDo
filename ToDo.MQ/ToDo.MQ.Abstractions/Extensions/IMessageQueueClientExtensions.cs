@@ -3,9 +3,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using ToDo.MQ.Abstractions;
 
-namespace MQ.Abstractions.Extensions
+namespace ToDo.MQ.Abstractions.Extensions
 {
     public static class IMessageQueueClientExtensions
     {

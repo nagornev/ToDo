@@ -7,7 +7,7 @@ namespace ToDo.Extensions
     public static class QuererStartupExtensions
     {
         public static void AddRedirectableQuererHttpClientFactory(this IServiceCollection services)
-        { 
+        {
             services.AddHttpContextAccessor();
             services.AddQuererHttpClientFactory(context =>
             {

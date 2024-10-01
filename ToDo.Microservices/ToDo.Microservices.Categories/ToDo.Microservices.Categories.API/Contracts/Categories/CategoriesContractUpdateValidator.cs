@@ -4,7 +4,7 @@ using ToDo.Microservices.Categories.Domain.Models;
 
 namespace ToDo.Microservices.Categories.API.Contracts.Categories
 {
-    public class CategoriesContractUpdateValidator:AbstractValidator<CategoriesContractUpdate>
+    public class CategoriesContractUpdateValidator : AbstractValidator<CategoriesContractUpdate>
     {
         public CategoriesContractUpdateValidator()
         {

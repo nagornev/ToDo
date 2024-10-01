@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.MQ.Abstractions", "ToD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.MQ.RabbitMQ", "ToDo.MQ\ToDo.MQ.RabbitMQ\ToDo.MQ.RabbitMQ.csproj", "{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.MQ", "ToDo.Microservices\ToDo.Microservices.MQ\ToDo.Microservices.MQ.csproj", "{43681049-895C-41A6-BF7A-561C72D2BCBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43681049-895C-41A6-BF7A-561C72D2BCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43681049-895C-41A6-BF7A-561C72D2BCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43681049-895C-41A6-BF7A-561C72D2BCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43681049-895C-41A6-BF7A-561C72D2BCBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +178,7 @@ Global
 		{60CE0D11-18F8-46A1-9185-7BAFEE9A405D} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
 		{8EEB371C-BF6A-4D1A-AEEC-3842A3046ACF} = {2701A3B5-1696-409D-A0E1-DD4497BBD2D1}
 		{9287D03E-032C-4E72-B8CF-4104FF9D5EA4} = {2701A3B5-1696-409D-A0E1-DD4497BBD2D1}
+		{43681049-895C-41A6-BF7A-561C72D2BCBC} = {FC1EECDF-07F8-4048-8593-4EE460EF9D4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B023FCCE-7B07-45E5-B23B-725D55C2AD80}

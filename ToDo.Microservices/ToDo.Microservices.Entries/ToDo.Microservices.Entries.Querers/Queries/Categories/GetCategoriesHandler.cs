@@ -1,5 +1,4 @@
 ﻿using Nagornev.Querer.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDo.Domain.Results;
 using ToDo.Extensions.Converters;

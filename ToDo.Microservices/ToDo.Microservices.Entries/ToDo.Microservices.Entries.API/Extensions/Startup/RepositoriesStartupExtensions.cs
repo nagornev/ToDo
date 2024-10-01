@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using ToDo.Microservices.Entries.Infrastructure.Repositories;
+﻿using ToDo.Microservices.Entries.Infrastructure.Repositories;
 using ToDo.Microservices.Entries.UseCases.Repositories;
 
 namespace ToDo.Microservices.Entries.API.Extensions.Startup

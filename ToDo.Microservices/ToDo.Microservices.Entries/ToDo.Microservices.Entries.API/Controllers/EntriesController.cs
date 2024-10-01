@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
+using ToDo.Extensions.Validator;
 using ToDo.Microservices.Entries.API.Contracts.Entries;
 using ToDo.Microservices.Entries.Domain.Collectings;
 using ToDo.Microservices.Entries.UseCases.Services;
 using ToDo.Microservices.Middleware.Identities;
-using ToDo.Extensions.Validator;
 
 namespace ToDo.Microservices.Entries.API.Controllers
 {
@@ -40,7 +40,7 @@ namespace ToDo.Microservices.Entries.API.Controllers
                                                                             id);
 
             return resultEntry.Success ?
-                    Results.Ok(resultEntry):
+                    Results.Ok(resultEntry) :
                     Results.BadRequest(resultEntry);
         }
 
@@ -57,8 +57,8 @@ namespace ToDo.Microservices.Entries.API.Controllers
                                                                     contract.Text,
                                                                     contract.Deadline);
 
-            return creationResult.Success?
-                    Results.Ok(creationResult):
+            return creationResult.Success ?
+                    Results.Ok(creationResult) :
                     Results.BadRequest(creationResult);
         }
 
@@ -67,7 +67,7 @@ namespace ToDo.Microservices.Entries.API.Controllers
         public async Task<IResult> Update([FromServices] IValidator<EntriesContractUpdate> validator,
                                           [FromBody] EntriesContractUpdate contract)
         {
-            if(!validator.Validate(contract, out Result validationResult))
+            if (!validator.Validate(contract, out Result validationResult))
                 return Results.BadRequest(validationResult);
 
             Result updateResult = await _entryService.UpdateEntry(User.GetId(),
@@ -94,7 +94,7 @@ namespace ToDo.Microservices.Entries.API.Controllers
                                                                   contract.EntryId);
 
             return deleteResult.Success ?
-                    Results.Ok(deleteResult):
+                    Results.Ok(deleteResult) :
                     Results.BadRequest(deleteResult);
         }
     }

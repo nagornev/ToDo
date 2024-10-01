@@ -10,6 +10,7 @@ services.AddContexts(configuration);
 services.AddRepositories();
 services.AddServices();
 services.AddValidators();
+services.AddToDoMessageQueue();
 services.AddIdentity();
 services.AddIdentityChecker<CategoriesIdentityChecker>();
 

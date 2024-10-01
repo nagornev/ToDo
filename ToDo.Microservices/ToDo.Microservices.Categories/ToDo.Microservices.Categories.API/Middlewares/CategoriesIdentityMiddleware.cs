@@ -1,6 +1,4 @@
-﻿using ToDo.Domain.Results;
-using ToDo.Microservices.Categories.UseCases.Services;
-using ToDo.Microservices.Middleware.Identities;
+﻿using ToDo.Microservices.Middleware.Identities;
 
 namespace ToDo.Microservices.Categories.API.Middlewares
 {

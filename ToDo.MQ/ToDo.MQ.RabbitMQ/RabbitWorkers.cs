@@ -1,8 +1,8 @@
 ﻿namespace ToDo.MQ.RabbitMQ
 {
-    internal class RabbitWorkerScheme
+    internal class RabbitWorkers
     {
-        public RabbitWorkerScheme(IReadOnlyCollection<RabbitWorkerProducer> publishers,
+        public RabbitWorkers(IReadOnlyCollection<RabbitWorkerProducer> publishers,
                                   IReadOnlyCollection<RabbitWorkerProducer> rpcs,
                                   IReadOnlyCollection<RabbitWorkerConsumer> consumers)
         {

@@ -20,7 +20,7 @@ namespace ToDo.Microservices.Entries.API.Contracts.Entries
 
             #region Text
 
-            RuleFor(x=>x.Text).NotNull()
+            RuleFor(x => x.Text).NotNull()
                               .WithState(x => Errors.IsNull("The entry text can not be null."));
 
             RuleFor(x => x.Text).NotEmpty()

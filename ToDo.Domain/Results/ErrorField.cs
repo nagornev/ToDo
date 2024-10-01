@@ -7,7 +7,7 @@ namespace ToDo.Domain.Results
         public ErrorField(int code,
                           string key,
                           string message,
-                          string field) 
+                          string field)
             : base(code, key, message)
         {
             Field = field;

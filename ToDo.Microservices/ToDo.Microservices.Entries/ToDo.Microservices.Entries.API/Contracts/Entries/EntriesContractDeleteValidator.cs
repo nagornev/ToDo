@@ -3,7 +3,7 @@ using ToDo.Domain.Results;
 
 namespace ToDo.Microservices.Entries.API.Contracts.Entries
 {
-    public class EntriesContractDeleteValidator:AbstractValidator<EntriesContractDelete>
+    public class EntriesContractDeleteValidator : AbstractValidator<EntriesContractDelete>
     {
         public EntriesContractDeleteValidator()
         {

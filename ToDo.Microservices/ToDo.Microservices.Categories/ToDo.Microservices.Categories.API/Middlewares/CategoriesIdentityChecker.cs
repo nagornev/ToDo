@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ToDo.Domain.Results;
+﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.Middleware.Identities;
 

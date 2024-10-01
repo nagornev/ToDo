@@ -1,5 +1,4 @@
-﻿using MQ.Abstractions;
-using ToDo.MQ.Abstractions;
+﻿using ToDo.MQ.Abstractions;
 
 namespace ToDo.MQ.RabbitMQ
 {

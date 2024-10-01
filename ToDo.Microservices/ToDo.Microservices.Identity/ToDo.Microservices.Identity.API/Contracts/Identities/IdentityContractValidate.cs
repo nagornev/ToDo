@@ -8,7 +8,7 @@ namespace ToDo.Microservices.Identity.API.Contracts.Sign
         {
             Permissions = permissions;
         }
-        
+
         public IEnumerable<Permission>? Permissions { get; private set; }
     }
 }

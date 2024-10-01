@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDo.Microservices.Categories.Database.Contexts;
 using ToDo.Microservices.Categories.Database.Entities;
 using ToDo.Microservices.Categories.Domain.Models;
@@ -36,7 +31,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
             CategoryEntity? categoryEntity = await _context.Categories.AsNoTracking()
                                                                       .FirstOrDefaultAsync(x => x.UserId == userId &&
                                                                                                 x.Id == categoryId);
-                                                                      
+
             return categoryEntity is not null ?
                     Category.Constructor(categoryEntity.Id, categoryEntity.Name) :
                     default;

@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
-using Microsoft.Identity.Client;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
 
 namespace ToDo.Microservices.Entries.API.Contracts.Entries
 {
-    public class EntriesContractUpdateValidator:AbstractValidator<EntriesContractUpdate>
+    public class EntriesContractUpdateValidator : AbstractValidator<EntriesContractUpdate>
     {
         public EntriesContractUpdateValidator()
         {

@@ -55,9 +55,9 @@ namespace ToDo.MQ.RabbitMQ
             return new RabbitEndpointQueueBuilder(this, queue, _exchanges);
         }
 
-        internal RabbitEndpointsScheme Build()
+        internal RabbitEndpoints Build()
         {
-            return new RabbitEndpointsScheme(_exchanges, _queues);
+            return new RabbitEndpoints(_exchanges, _queues);
         }
     }
 }

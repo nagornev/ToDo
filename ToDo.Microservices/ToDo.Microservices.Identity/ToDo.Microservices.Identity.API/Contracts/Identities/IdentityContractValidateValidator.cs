@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using ToDo.Domain.Results;
-using ToDo.Microservices.Identity.Infrastructure.Providers;
 
 namespace ToDo.Microservices.Identity.API.Contracts.Sign
 {

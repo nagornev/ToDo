@@ -1,28 +1,32 @@
-﻿namespace ToDo.MQ.Abstractions
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace ToDo.MQ.Abstractions
 {
     public class MessageQueueBuilder
     {
-        private IMessageQueueClient _messageQueue;
+        private IServiceCollection _services;
 
-        private MessageQueueBuilder() 
+        private MessageQueueBuilder(IServiceCollection services)
         {
+            _services = services;
         }
 
-        public static MessageQueueBuilder Create()
+        public static MessageQueueBuilder Create(IServiceCollection services)
         {
-            return new MessageQueueBuilder();
+            return new MessageQueueBuilder(services);
         }
 
-        public MessageQueueBuilder UseMessageQueue(IMessageQueueClient messageQueue)
+        public MessageQueueBuilder UseMessageQueue<TMessageQueueClient>()
+            where TMessageQueueClient : class, IMessageQueueClient
         {
-            _messageQueue = messageQueue;
+            _services.AddSingleton<IMessageQueueClient, TMessageQueueClient>();
 
             return this;
         }
 
-        public IMessageQueueClient Build()
+        public IServiceCollection GetServices()
         {
-            return _messageQueue;
+            return _services;
         }
     }
 }

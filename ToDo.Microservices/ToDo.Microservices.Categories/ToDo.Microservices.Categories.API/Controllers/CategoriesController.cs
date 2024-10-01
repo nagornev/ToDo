@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
+using ToDo.Extensions.Validator;
 using ToDo.Microservices.Categories.API.Contracts.Categories;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.Middleware.Identities;
-using ToDo.Extensions.Validator;
 
 namespace ToDo.Microservices.Categories.API.Controllers
 {
@@ -47,7 +47,7 @@ namespace ToDo.Microservices.Categories.API.Controllers
 
         [HttpPost]
         [Identity(IdentityPermissions.User)]
-        public async Task<IResult> Create([FromServices]IValidator<CategoriesContractCreate> validator,
+        public async Task<IResult> Create([FromServices] IValidator<CategoriesContractCreate> validator,
                                           [FromBody] CategoriesContractCreate contract)
         {
             if (!validator.Validate(contract, out Result validatonResult))
@@ -55,7 +55,7 @@ namespace ToDo.Microservices.Categories.API.Controllers
 
             Result creationResult = await _categoryService.CreateCategory(User.GetId(),
                                                                           contract.Name);
-           
+
             return creationResult.Success ?
                     Results.Ok(creationResult) :
                     Results.BadRequest(creationResult);

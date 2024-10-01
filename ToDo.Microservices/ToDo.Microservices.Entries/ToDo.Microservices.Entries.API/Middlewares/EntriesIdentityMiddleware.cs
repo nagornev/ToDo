@@ -4,7 +4,7 @@ namespace ToDo.Microservices.Entries.API.Middlewares
 {
     public class EntriesIdentityMiddleware : IdentityMiddleware
     {
-        public EntriesIdentityMiddleware(RequestDelegate next) 
+        public EntriesIdentityMiddleware(RequestDelegate next)
             : base(next)
         {
         }

@@ -1,6 +1,6 @@
 ﻿namespace ToDo.MQ.RabbitMQ
 {
-    public class RabbitExchange: IRabbitExchange
+    public class RabbitExchange : IRabbitExchange
     {
         private List<RabbitExchangeBind> _binds;
 

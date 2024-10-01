@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Nagornev.Querer.Http;
-using Nagornev.Querer.Http.Loggers;
+﻿using Nagornev.Querer.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDo.Domain.Results;

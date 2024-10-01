@@ -96,14 +96,14 @@ namespace ToDo.Domain.Results
 
         public static IError IsNull(string message)
         {
-            return new Error(400, 
+            return new Error(400,
                              _isNullKey,
                              message);
         }
 
         public static IError IsNull(string message, string field)
         {
-            return new ErrorField(400,              
+            return new ErrorField(400,
                                   _isNullKey,
                                   message,
                                   field);

@@ -54,9 +54,9 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             User user = User.NewUser(email, _hashProvider.Hash(password));
 
             return await _userRepository.Create(user) ?
-                     ((await _userProducer.New(user)).Success?
-                        Result<User>.Successful(user):
-                        Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."))):
+                     ((await _userProducer.New(user)).Success ?
+                        Result<User>.Successful(user) :
+                        Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."))) :
                      Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."));
         }
 
@@ -65,9 +65,9 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             Result<User> userResult = await GetUser(email);
 
             return userResult.Success ?
-                    (_hashProvider.Verify(password, userResult.Content.Password)?
-                        Result<string>.Successful(_tokenProvider.Create(userResult.Content)):
-                        Result<string>.Failure(Errors.IsMessage("Please check your password and email and try again."))):
+                    (_hashProvider.Verify(password, userResult.Content.Password) ?
+                        Result<string>.Successful(_tokenProvider.Create(userResult.Content)) :
+                        Result<string>.Failure(Errors.IsMessage("Please check your password and email and try again."))) :
                     Result<string>.Failure(Errors.IsMessage("Please check your password and email and try again."));
         }
 

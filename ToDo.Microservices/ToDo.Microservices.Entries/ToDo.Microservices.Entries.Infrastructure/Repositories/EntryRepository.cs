@@ -19,7 +19,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
         public async Task<IEnumerable<Entry>> Get(Guid userId)
         {
             IEnumerable<EntryEntity> entryEntities = await _entryContext.Entries.AsNoTracking()
-                                                                                .Where(x=>x.UserId == userId)
+                                                                                .Where(x => x.UserId == userId)
                                                                                 .ToListAsync();
 
             IEnumerable<Entry> entries = entryEntities.Select(x => Entry.Constructor(x.Id, x.CategoryId, x.Text, x.Deadline, x.Completed));

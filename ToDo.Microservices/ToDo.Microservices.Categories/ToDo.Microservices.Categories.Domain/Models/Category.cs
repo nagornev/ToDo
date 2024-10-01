@@ -13,7 +13,7 @@ namespace ToDo.Microservices.Categories.Domain.Models
         }
 
         public Guid Id { get; private set; }
-        
+
         public string Name { get; private set; }
 
         public static Category Constructor(Guid id, string name)
