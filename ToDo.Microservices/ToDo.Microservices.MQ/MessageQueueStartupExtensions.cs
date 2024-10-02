@@ -39,6 +39,14 @@ namespace ToDo.Microservices.MQ
                                                false)
                                    .Build();
 
+
+                        //delete category
+                        builder.CreateExchange(DeleteCategoryPublish.Exchange,
+                                               ExchangeType.Fanout,
+                                               true,
+                                               false)
+                                    .Build();
+
                         //get categories rpc
                         builder.CreaetQueue(GetCategoriesRpcRequest.Queue,
                                             false,
@@ -68,6 +76,8 @@ namespace ToDo.Microservices.MQ
                     options.AddWorkers(builder =>
                     {
                         builder.AddPublisher<NewUserPublish>(exchange => exchange.Name == NewUserPublish.Exchange);
+
+                        builder.AddPublisher<DeleteCategoryPublish>(exchange => exchange.Name == DeleteCategoryPublish.Exchange);
 
                         builder.AddRPC<GetCategoriesRpcRequest>((IRabbitQueue queue) => queue.Name == GetCategoriesRpcRequest.Queue,
                                                                 (IRabbitQueue queue) => queue.Name == GetCategoriesRpcResponse.Queue);

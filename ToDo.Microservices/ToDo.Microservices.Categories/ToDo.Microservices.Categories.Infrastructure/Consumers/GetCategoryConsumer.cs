@@ -21,11 +21,11 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
         {
             GetCategoryRpcRequest request = context.GetMessage<GetCategoryRpcRequest>();
 
-            Result<Category> resultCategory = await _categoryService.GetCategory(request.UserId, request.CategoryId);
+            Result<Category> categoryResult = await _categoryService.GetCategory(request.UserId, request.CategoryId);
 
-            GetCategoryRpcResponse response = new GetCategoryRpcResponse(resultCategory.Success ?
-                                                                            new CategoryMQ(resultCategory.Content.Id, resultCategory.Content.Name) :
-                                                                            default);
+            GetCategoryRpcResponse response = new GetCategoryRpcResponse(categoryResult.Success ?
+                                                                            Result<CategoryMQ>.Successful(new CategoryMQ(categoryResult.Content.Id, categoryResult.Content.Name)) :
+                                                                            Result<CategoryMQ>.Failure(categoryResult.Error));
 
             context.Respond(response);
 

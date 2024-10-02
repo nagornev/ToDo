@@ -1,5 +1,6 @@
 using ToDo.Microservices.Categories.API.Extensions.Startup;
 using ToDo.Microservices.Categories.API.Middlewares;
+using ToDo.Microservices.Middleware.Exceptions;
 using ToDo.Microservices.Middleware.Identities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
 app.UseIdentity<CategoriesIdentityMiddleware>();
 app.MapControllers();

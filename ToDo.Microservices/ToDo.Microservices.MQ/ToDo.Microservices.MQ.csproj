@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ToDo.Domain\ToDo.Domain.csproj" />
+    <ProjectReference Include="..\..\ToDo.Extensions\ToDo.Extensions.csproj" />
     <ProjectReference Include="..\..\ToDo.MQ\ToDo.MQ.Abstractions\ToDo.MQ.Abstractions.csproj" />
     <ProjectReference Include="..\..\ToDo.MQ\ToDo.MQ.RabbitMQ\ToDo.MQ.RabbitMQ.csproj" />
   </ItemGroup>

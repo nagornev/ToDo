@@ -4,7 +4,7 @@ namespace ToDo.MQ.RabbitMQ
 {
     internal class RabbitRpc
     {
-        private const int _timeout = 15000;
+        private const int _timeout = 30000;
 
         public RabbitRpc(IModel channel)
         {

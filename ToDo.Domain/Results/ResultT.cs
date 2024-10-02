@@ -13,7 +13,7 @@ namespace ToDo.Domain.Results
         }
 
         [JsonPropertyName("content")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault | JsonIgnoreCondition.WhenWritingNull)]
         public T Content { get; private set; }
 
         private static Result<T> Create(bool success, T content, IError error)

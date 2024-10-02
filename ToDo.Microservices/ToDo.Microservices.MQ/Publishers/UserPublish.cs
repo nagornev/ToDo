@@ -1,16 +1,15 @@
-﻿using System.Text.Json.Serialization;
+﻿using ToDo.Microservices.MQ.Models;
 
 namespace ToDo.Microservices.MQ.Publishers
 {
     [Serializable]
     public abstract class UserPublish
     {
-        public UserPublish(Guid userId)
+        public UserPublish(UserMQ user)
         {
-            UserId = userId;
+            User = user;
         }
 
-        [JsonPropertyName("userId")]
-        public Guid UserId { get; private set; }
+        public UserMQ User { get; private set; }
     }
 }

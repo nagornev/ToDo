@@ -1,6 +1,6 @@
 ﻿using ToDo.Microservices.Identity.API.Backgrounds;
-using ToDo.Microservices.Identity.Infrastructure.Producers;
-using ToDo.Microservices.Identity.UseCases.Producers;
+using ToDo.Microservices.Identity.Infrastructure.Publishers;
+using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.MQ;
 
 namespace ToDo.Microservices.Identity.API.Extensions.Startup
@@ -16,7 +16,7 @@ namespace ToDo.Microservices.Identity.API.Extensions.Startup
 
         private static void AddPublishers(this IServiceCollection services)
         {
-            services.AddScoped<IUserProducer, UserProducer>();
+            services.AddScoped<IUserPublisher, UserPublisher>();
         }
 
         private static void AddHostMessageQueue(this IServiceCollection services)

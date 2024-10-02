@@ -1,5 +1,7 @@
 ﻿using ToDo.Microservices.Categories.API.Backgrounds;
 using ToDo.Microservices.Categories.Infrastructure.Consumers;
+using ToDo.Microservices.Categories.Infrastructure.Publishers;
+using ToDo.Microservices.Categories.UseCases.Publishers;
 using ToDo.Microservices.MQ;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.Microservices.MQ.RPCs.GetCategories;
@@ -11,8 +13,14 @@ namespace ToDo.Microservices.Categories.API.Extensions.Startup
     {
         public static void AddToDoMessageQueue(this IServiceCollection services)
         {
+            services.AddPublishers();
             services.AddConsumers();
             services.AddHostMessageQueue();
+        }
+
+        private static void AddPublishers(this IServiceCollection services)
+        {
+            services.AddScoped<ICategoryPubliser, CategoryPublisher>();
         }
 
         private static void AddConsumers(this IServiceCollection services)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Database.Entities;
 using ToDo.Microservices.Entries.Domain.Models;
@@ -16,7 +17,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
         }
 
 
-        public async Task<IEnumerable<Entry>> Get(Guid userId)
+        public async Task<Result<IEnumerable<Entry>>> Get(Guid userId)
         {
             IEnumerable<EntryEntity> entryEntities = await _entryContext.Entries.AsNoTracking()
                                                                                 .Where(x => x.UserId == userId)
@@ -24,27 +25,59 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 
             IEnumerable<Entry> entries = entryEntities.Select(x => Entry.Constructor(x.Id, x.CategoryId, x.Text, x.Deadline, x.Completed));
 
-            return entries;
+            return Result<IEnumerable<Entry>>.Successful(entries);
         }
 
-        public async Task<Entry?> Get(Guid userId, Guid entryId)
+        public async Task<Result<Entry>> Get(Guid userId, Guid entryId)
         {
             EntryEntity? entryEntity = await _entryContext.Entries.AsNoTracking()
                                                                   .FirstOrDefaultAsync(x => x.UserId == userId &&
                                                                                             x.Id == entryId);
 
             return entryEntity is not null ?
-                        Entry.Constructor(entryEntity.Id,
-                                          entryEntity.CategoryId,
-                                          entryEntity.Text,
-                                          entryEntity.Deadline,
-                                          entryEntity.Completed) :
-                        default; ;
+                        Result<Entry>.Successful(Entry.Constructor(entryEntity.Id,
+                                                                   entryEntity.CategoryId,
+                                                                   entryEntity.Text,
+                                                                   entryEntity.Deadline,
+                                                                   entryEntity.Completed)) :
+                        Result<Entry>.Failure(Errors.IsNull($"The entry {entryId} was not found"));
         }
 
-        public async Task<bool> Create(Guid userId, Entry entry)
+        public async Task<Result> Create(Guid userId, Entry entry)
         {
-            EntryEntity entryEntity = new EntryEntity()
+            EntryEntity entryEntity = CreateEntryEntity(userId, entry);
+
+            await _entryContext.Entries.AddAsync(entryEntity);
+
+            return await _entryContext.SaveChangesAsync() > 0 ?
+                      Result.Successful() :
+                      Result.Failure(Errors.IsMessage("The entry was not created. Please check entry parameters and try again later."));
+        }
+
+        public async Task<Result> Update(Guid userId, Entry entry)
+        {
+            return await _entryContext.Entries.Where(x => x.UserId == userId &&
+                                                              x.Id == entry.Id)
+                                                  .ExecuteUpdateAsync(x => x.SetProperty(p => p.CategoryId, entry.CategoryId)
+                                                                            .SetProperty(p => p.Text, entry.Text)
+                                                                            .SetProperty(p => p.Deadline, entry.Deadline)
+                                                                            .SetProperty(p => p.Completed, entry.Completed)) > 0 ?
+                        Result.Successful() :
+                        Result.Failure(Errors.IsNull($"The entry {entry.Id} was not found."));
+        }
+
+        public async Task<Result> Delete(Guid userId, Guid entryId)
+        {
+            return await _entryContext.Entries.Where(x => x.UserId == userId &&
+                                                            x.Id == entryId)
+                                                  .ExecuteDeleteAsync() > 0 ?
+                        Result.Successful() :
+                        Result.Failure(Errors.IsNull($"The entry {entryId} was not found."));
+        }
+
+        private EntryEntity CreateEntryEntity(Guid userId, Entry entry)
+        {
+            return new EntryEntity()
             {
                 Id = entry.Id,
                 CategoryId = entry.CategoryId,
@@ -54,40 +87,6 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 
                 UserId = userId,
             };
-
-            await _entryContext.Entries.AddAsync(entryEntity);
-
-            try
-            {
-                int rows = await _entryContext.SaveChangesAsync();
-                return rows > 0;
-            }
-            catch
-            {
-                return false;
-            }
         }
-
-        public async Task<bool> Update(Guid userId, Entry entry)
-        {
-            int rows = await _entryContext.Entries.Where(x => x.UserId == userId &&
-                                                              x.Id == entry.Id)
-                                                  .ExecuteUpdateAsync(x => x.SetProperty(p => p.CategoryId, entry.CategoryId)
-                                                                            .SetProperty(p => p.Text, entry.Text)
-                                                                            .SetProperty(p => p.Deadline, entry.Deadline)
-                                                                            .SetProperty(p => p.Completed, entry.Completed));
-
-            return rows > 0;
-        }
-
-        public async Task<bool> Delete(Guid userId, Guid entryId)
-        {
-            int rows = await _entryContext.Entries.Where(x => x.UserId == userId &&
-                                                            x.Id == entryId)
-                                                  .ExecuteDeleteAsync();
-
-            return rows > 0;
-        }
-
     }
 }

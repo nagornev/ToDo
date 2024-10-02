@@ -1,4 +1,5 @@
-﻿using ToDo.Domain.Results;
+﻿using System.Net.Http.Headers;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Services;
 using ToDo.Microservices.MQ.RPCs.GetCategories;
@@ -23,9 +24,9 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             {
                 GetCategoriesRpcResponse response = await _messageQueue.Send<GetCategoriesRpcResponse, GetCategoriesRpcRequest>(new GetCategoriesRpcRequest(userId));
 
-                IEnumerable<Category> categories = response.Categories.Select(x => new Category(x.Id, x.Name));
-
-                return Result<IEnumerable<Category>>.Successful(categories);
+                return response.Result.Success ?
+                          Result<IEnumerable<Category>>.Successful(response.Result.Content.Select(x => new Category(x.Id, x.Name))) :
+                          Result<IEnumerable<Category>>.Failure(response.Result.Error);
             }
             catch (TimeoutException)
             {
@@ -39,13 +40,9 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             {
                 GetCategoryRpcResponse response = await _messageQueue.Send<GetCategoryRpcResponse, GetCategoryRpcRequest>(new GetCategoryRpcRequest(userId, categoryId));
 
-                Category? category = !(response.Category is null) ?
-                                         new Category(response.Category.Id, response.Category.Name) :
-                                         default;
-
-                return !(category is null) ?
-                           Result<Category>.Successful(category) :
-                           Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found."));
+                return response.Result.Success ?
+                          Result<Category>.Successful(new Category(response.Result.Content.Id, response.Result.Content.Name)) :
+                          Result<Category>.Failure(response.Result.Error);
 
             }
             catch (TimeoutException)

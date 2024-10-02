@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using ToDo.Domain.Results;
 using ToDo.Microservices.MQ.Models;
 
 namespace ToDo.Microservices.MQ.RPCs.GetCategories
@@ -7,12 +8,15 @@ namespace ToDo.Microservices.MQ.RPCs.GetCategories
     {
         public const string Queue = "get_categories_rpc_responses";
 
-        public GetCategoriesRpcResponse(List<CategoryMQ> categories)
+        public GetCategoriesRpcResponse(Result<IEnumerable<CategoryMQ>> result)
         {
-            Categories = categories;
+            Result = result;
         }
 
-        [JsonPropertyName("categories")]
-        public List<CategoryMQ> Categories { get; private set; }
+        [JsonPropertyName("result")]
+        public Result<IEnumerable<CategoryMQ>> Result { get; private set; }
+
+        //[JsonPropertyName("categories")]
+        //public IEnumerable<CategoryMQ> Categories { get; private set; }
     }
 }

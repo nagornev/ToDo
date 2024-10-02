@@ -16,27 +16,19 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
 
         public async Task<Result<IEnumerable<Category>>> GetCategories(Guid userId)
         {
-            IEnumerable<Category> categories = await _categoryRepository.Get(userId);
-
-            return Result<IEnumerable<Category>>.Successful(categories);
+            return await _categoryRepository.Get(userId);
         }
 
         public async Task<Result<Category>> GetCategory(Guid userId, Guid categoryId)
         {
-            Category category = await _categoryRepository.Get(userId, categoryId);
-
-            return category is not null ?
-                    Result<Category>.Successful(category) :
-                    Result<Category>.Failure(Errors.IsNull($"The category ({categoryId}) was not found."));
+            return await _categoryRepository.Get(userId, categoryId);
         }
 
         public async Task<Result> CreateCategory(Guid userId, string name)
         {
             Category category = Category.New(name);
 
-            return await _categoryRepository.Create(userId, category) ?
-                    Result.Successful() :
-                    Result.Failure(Errors.IsMessage("The category was not created. Please check the entry parameters and try again later."));
+            return await _categoryRepository.Create(userId, category);
         }
 
 
@@ -44,19 +36,12 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
         {
             Category category = Category.Constructor(categoryId, name);
 
-            return await _categoryRepository.Update(userId, category) ?
-                    Result.Successful() :
-                    Result.Failure(Errors.IsNull($"The category ({categoryId}) was not found."));
+            return await _categoryRepository.Update(userId, category);
         }
 
         public async Task<Result> DeleteCategory(Guid userId, Guid categoryId)
         {
-            return await _categoryRepository.Delete(userId, categoryId) ?
-                    Result.Successful() :
-                    Result.Failure(Errors.IsNull($"The category ({categoryId}) was not found."));
+            return await _categoryRepository.Delete(userId, categoryId);
         }
-
-
-
     }
 }

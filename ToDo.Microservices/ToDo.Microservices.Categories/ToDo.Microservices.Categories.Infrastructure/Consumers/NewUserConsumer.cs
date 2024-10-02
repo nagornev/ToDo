@@ -21,15 +21,16 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
         {
             NewUserPublish message = context.GetMessage<NewUserPublish>();
 
-            Result result;
-
-            do
+            try
             {
-                result = await _userService.CreateUser(message.UserId);
-            }
-            while (!result.Success);
+                Result result = await _userService.CreateUser(message.User.Id);
 
-            context.Ack();
+                context.Ack();
+            }
+            catch
+            {
+                return;
+            }
         }
     }
 }

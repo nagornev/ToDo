@@ -21,15 +21,24 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
         {
             GetCategoriesRpcRequest request = context.GetMessage<GetCategoriesRpcRequest>();
 
-            Result<IEnumerable<Category>> categoriesResult = await _categoryService.GetCategories(request.UserId);
+            try
+            {
+                Result<IEnumerable<Category>> categoriesResult = await _categoryService.GetCategories(request.UserId);
 
-            IEnumerable<CategoryMQ> mqCategories = categoriesResult.Success ?
-                                                        categoriesResult.Content.Select(x => new CategoryMQ(x.Id, x.Name)) :
-                                                        Enumerable.Empty<CategoryMQ>();
+                IEnumerable<CategoryMQ> mqCategories = categoriesResult.Success ?
+                                                            categoriesResult.Content.Select(x => new CategoryMQ(x.Id, x.Name)) :
+                                                            Enumerable.Empty<CategoryMQ>();
 
-            GetCategoriesRpcResponse response = new GetCategoriesRpcResponse(mqCategories.ToList());
+                GetCategoriesRpcResponse response = new GetCategoriesRpcResponse(categoriesResult.Success ?
+                                                                                    Result<IEnumerable<CategoryMQ>>.Successful(mqCategories) :
+                                                                                    Result<IEnumerable<CategoryMQ>>.Failure(categoriesResult.Error));
 
-            context.Respond(response);
+                context.Respond(response);
+            }
+            catch (Exception exception)
+            {
+                context.Respond(new GetCategoriesRpcResponse(Result<IEnumerable<CategoryMQ>>.Failure(Errors.IsInternalServer(exception.StackTrace))));
+            }
 
             context.Ack();
         }

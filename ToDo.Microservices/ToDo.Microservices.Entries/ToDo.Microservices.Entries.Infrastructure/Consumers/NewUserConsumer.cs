@@ -25,7 +25,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Consumers
 
             do
             {
-                result = await _userService.CreateUser(message.UserId);
+                result = await _userService.CreateUser(message.User.Id);
             }
             while (!result.Success);
 

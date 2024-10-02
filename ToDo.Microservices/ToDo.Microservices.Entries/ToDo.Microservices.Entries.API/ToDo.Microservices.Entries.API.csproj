@@ -25,7 +25,6 @@
     <ProjectReference Include="..\ToDo.Microservices.Entries.Database\ToDo.Microservices.Entries.Database.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Entries.Domain\ToDo.Microservices.Entries.Domain.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Entries.Infrastructure\ToDo.Microservices.Entries.Infrastructure.csproj" />
-    <ProjectReference Include="..\ToDo.Microservices.Entries.Querers\ToDo.Microservices.Entries.Querers.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Entries.UseCases\ToDo.Microservices.Entries.UseCases.csproj" />
   </ItemGroup>
 

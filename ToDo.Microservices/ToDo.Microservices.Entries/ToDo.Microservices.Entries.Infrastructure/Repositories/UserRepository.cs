@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Database.Entities;
 using ToDo.Microservices.Entries.Domain.Models;
@@ -8,43 +9,39 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private EntryContext _entryContext;
+        private EntryContext _context;
 
         public UserRepository(EntryContext entryContext)
         {
-            _entryContext = entryContext;
+            _context = entryContext;
         }
 
-        public async Task<User?> Get(Guid userId)
+        public async Task<Result<User>> Get(Guid userId)
         {
-            UserEntity? userEntity = await _entryContext.Users.AsNoTracking()
-                                                              .FirstOrDefaultAsync(x => x.Id == userId);
+            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
-            User? user = userEntity is not null ?
-                            User.Constructor(userEntity.Id) :
-                            default;
-
-            return user;
+            return userEntity is not null ?
+                    Result<User>.Successful(User.Constructor(userEntity.Id)) :
+                    Result<User>.Failure(Errors.IsNull($"The user {userId} was not found."));
         }
 
-        public async Task<bool> Create(User user)
+        public async Task<Result> Create(User user)
         {
-            UserEntity userEntity = new UserEntity()
+            UserEntity userEntity = CreateUserEntity(user);
+
+            await _context.Users.AddAsync(userEntity);
+
+            return await _context.SaveChangesAsync() > 0 ?
+                      Result.Successful() :
+                      Result.Failure(Errors.IsMessage("The user was not created. Please try again later"));
+        }
+
+        private UserEntity CreateUserEntity(User user)
+        {
+            return new UserEntity()
             {
                 Id = user.Id,
             };
-
-            await _entryContext.Users.AddAsync(userEntity);
-
-            try
-            {
-                int rows = await _entryContext.SaveChangesAsync();
-                return rows > 0;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

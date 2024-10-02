@@ -16,13 +16,15 @@ namespace ToDo.Domain.Results
         }
 
         [JsonPropertyName("code")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int Code { get; private set; }
 
         [JsonPropertyName("key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Key { get; private set; }
 
         [JsonPropertyName("message")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string Message { get; private set; }
-
     }
 }

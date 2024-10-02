@@ -5,7 +5,7 @@ using ToDo.Microservices.MQ.Publishers;
 
 namespace ToDo.Microservices.Entries.API.Extensions.Startup
 {
-    public static class ConsumersStartupExtensions
+    public static class MessageQueueStartupExtensions
     {
         public static void AddToDoMessageQueue(this IServiceCollection services)
         {
@@ -25,6 +25,13 @@ namespace ToDo.Microservices.Entries.API.Extensions.Startup
                                         false)
                               .AddBind(exchange => exchange.Name == NewUserPublish.Exchange)
                               .Build();
+
+                    builder.CreaetQueue(DeleteCategoryConsumer.Queue,
+                                        true,
+                                        false,
+                                        false)
+                              .AddBind(exchange => exchange.Name == DeleteCategoryPublish.Exchange)
+                              .Build();
                 });
 
                 configure.AddWorkers(builder =>
@@ -32,10 +39,15 @@ namespace ToDo.Microservices.Entries.API.Extensions.Startup
                     builder.AddConsumer<NewUserConsumer>(queue => queue.Name == NewUserConsumer.Queue,
                                                          false,
                                                          false);
+
+                    builder.AddConsumer<DeleteCategoryConsumer>(queue => queue.Name == DeleteCategoryConsumer.Queue,
+                                                                false,
+                                                                false);
                 });
             });
 
             services.AddScoped<NewUserConsumer>();
+            services.AddScoped<DeleteCategoryConsumer>();
         }
 
         private static void AddHostMessageQueue(this IServiceCollection services)

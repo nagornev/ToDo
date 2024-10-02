@@ -1,6 +1,6 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Identity.Domain.Models;
-using ToDo.Microservices.Identity.UseCases.Producers;
+using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.Identity.UseCases.Providers;
 using ToDo.Microservices.Identity.UseCases.Repositories;
 using ToDo.Microservices.Identity.UseCases.Services;
@@ -11,19 +11,19 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
     {
         private IUserRepository _userRepository;
 
-        private IUserProducer _userProducer;
+        private IUserPublisher _userPublisher;
 
         private IHashProvider _hashProvider;
 
         private ITokenProvider _tokenProvider;
 
         public UserService(IUserRepository userRepository,
-                           IUserProducer userProducer,
+                           IUserPublisher userPublisher,
                            IHashProvider hashProvider,
                            ITokenProvider tokenProvider)
         {
             _userRepository = userRepository;
-            _userProducer = userProducer;
+            _userPublisher = userPublisher;
             _hashProvider = hashProvider;
             _tokenProvider = tokenProvider;
         }
@@ -54,7 +54,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             User user = User.NewUser(email, _hashProvider.Hash(password));
 
             return await _userRepository.Create(user) ?
-                     ((await _userProducer.New(user)).Success ?
+                     ((await _userPublisher.New(user)).Success ?
                         Result<User>.Successful(user) :
                         Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."))) :
                      Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."));

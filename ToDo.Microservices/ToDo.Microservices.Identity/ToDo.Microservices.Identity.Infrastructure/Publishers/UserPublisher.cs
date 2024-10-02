@@ -1,16 +1,17 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Identity.Domain.Models;
-using ToDo.Microservices.Identity.UseCases.Producers;
+using ToDo.Microservices.Identity.UseCases.Publishers;
+using ToDo.Microservices.MQ.Models;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.MQ.Abstractions;
 
-namespace ToDo.Microservices.Identity.Infrastructure.Producers
+namespace ToDo.Microservices.Identity.Infrastructure.Publishers
 {
-    public class UserProducer : IUserProducer
+    public class UserPublisher : IUserPublisher
     {
         private IMessageQueueClient _messageQueue;
 
-        public UserProducer(IMessageQueueClient messageQueue)
+        public UserPublisher(IMessageQueueClient messageQueue)
         {
             _messageQueue = messageQueue;
         }
@@ -19,7 +20,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Producers
         {
             try
             {
-                await _messageQueue.Publish(new NewUserPublish(user.Id));
+                await _messageQueue.Publish(new NewUserPublish(new UserMQ(user.Id, user.Email)));
 
                 return Result.Successful();
             }

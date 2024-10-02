@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\ToDo.Domain\ToDo.Domain.csproj" />
     <ProjectReference Include="..\..\..\ToDo.Extensions\ToDo.Extensions.csproj" />
+    <ProjectReference Include="..\..\ToDo.Microservices.Middleware\ToDo.Microservices.Middleware.csproj" />
     <ProjectReference Include="..\..\ToDo.Microservices.MQ\ToDo.Microservices.MQ.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Identity.Database\ToDo.Microservices.Identity.Database.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Identity.Domain\ToDo.Microservices.Identity.Domain.csproj" />
