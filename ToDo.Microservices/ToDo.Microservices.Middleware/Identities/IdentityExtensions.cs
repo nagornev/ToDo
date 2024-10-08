@@ -1,5 +1,4 @@
-﻿using Nagornev.Querer.Http;
-using Nagornev.Querer.Http.Loggers;
+﻿using Nagornev.Querer.Http.Loggers;
 using System.Security.Claims;
 
 namespace ToDo.Microservices.Middleware.Identities

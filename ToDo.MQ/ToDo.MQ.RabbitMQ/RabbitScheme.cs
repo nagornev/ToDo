@@ -10,8 +10,8 @@ namespace ToDo.MQ.RabbitMQ
 
         public RabbitScheme(ConnectionFactory factory,
                             IRabbitEndpoints endpoints)
-            :this(factory, endpoints.Exchanges, endpoints.Queues)
-        { 
+            : this(factory, endpoints.Exchanges, endpoints.Queues)
+        {
         }
 
         public RabbitScheme(ConnectionFactory factory,
@@ -79,7 +79,7 @@ namespace ToDo.MQ.RabbitMQ
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(RabbitScheme));
-                
+
             Connection.Close();
 
             _disposed = true;

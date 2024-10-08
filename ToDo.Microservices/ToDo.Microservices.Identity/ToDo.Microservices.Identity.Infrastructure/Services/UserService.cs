@@ -1,7 +1,7 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Identity.Domain.Models;
-using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.Identity.UseCases.Providers;
+using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.Identity.UseCases.Repositories;
 using ToDo.Microservices.Identity.UseCases.Services;
 

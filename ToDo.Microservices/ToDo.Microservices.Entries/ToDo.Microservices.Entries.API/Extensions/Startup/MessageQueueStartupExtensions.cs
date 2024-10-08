@@ -2,9 +2,9 @@
 using ToDo.Microservices.Entries.Infrastructure.Consumers;
 using ToDo.Microservices.MQ;
 using ToDo.Microservices.MQ.Publishers;
-using ToDo.MQ.RabbitMQ.Endpoints;
 using ToDo.Microservices.MQ.Queries.GetCategories;
 using ToDo.Microservices.MQ.Queries.GetCategory;
+using ToDo.MQ.RabbitMQ.Endpoints;
 
 namespace ToDo.Microservices.Entries.API.Extensions.Startup
 {

@@ -31,7 +31,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
                 Result<IEnumerable<Category>> categoriesResult = await _categoryService.GetCategories(request.UserId);
 
                 GetCategoriesProcedureResponse response = new GetCategoriesProcedureResponse(categoriesResult.Success,
-                                                                                             categoriesResult.Content?.Select(x=>new CategoryMQ(x.Id, x.Name)) ?? default,
+                                                                                             categoriesResult.Content?.Select(x => new CategoryMQ(x.Id, x.Name)) ?? default,
                                                                                              categoriesResult.Error);
 
                 context.Respond(response);

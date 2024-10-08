@@ -1,5 +1,4 @@
-﻿using RabbitMQ.Client;
-using ToDo.MQ.RabbitMQ.Endpoints;
+﻿using ToDo.MQ.RabbitMQ.Endpoints;
 
 namespace ToDo.MQ.RabbitMQ.Handlers
 {

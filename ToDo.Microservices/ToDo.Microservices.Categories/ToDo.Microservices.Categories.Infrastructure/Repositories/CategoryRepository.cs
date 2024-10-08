@@ -69,7 +69,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
         {
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                try 
+                try
                 {
                     CategoryEntity? categoryEntity = await _context.Categories.FirstOrDefaultAsync(x => x.UserId == userId &&
                                                                                                         x.Id == categoryId);

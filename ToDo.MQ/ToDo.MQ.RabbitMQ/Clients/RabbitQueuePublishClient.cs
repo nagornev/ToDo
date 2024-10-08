@@ -1,6 +1,6 @@
 ﻿using RabbitMQ.Client;
-using System.Text.Json;
 using System.Text;
+using System.Text.Json;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.RabbitMQ.Handlers;
 

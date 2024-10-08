@@ -1,6 +1,6 @@
 ﻿namespace ToDo.MQ.RabbitMQ.Endpoints
 {
-    public class RabbitQueueBind : IRabbitQueueBind   
+    public class RabbitQueueBind : IRabbitQueueBind
     {
         public RabbitQueueBind(RabbitQueue queue,
                                RabbitExchange from,

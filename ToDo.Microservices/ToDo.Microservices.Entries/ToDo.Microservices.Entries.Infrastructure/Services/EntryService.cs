@@ -39,7 +39,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         {
             Result<Entry> entryResult = await _entryRepository.Get(userId, entryId);
 
-            if(!entryResult.Success)
+            if (!entryResult.Success)
                 return Result<EntryCompose>.Failure(entryResult.Error);
 
             Result<Category> categoryResult = await _categoryService.Get(userId, entryResult.Content.CategoryId);

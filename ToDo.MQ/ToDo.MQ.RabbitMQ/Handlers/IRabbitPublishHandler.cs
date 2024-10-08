@@ -1,9 +1,4 @@
 ﻿using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDo.MQ.RabbitMQ.Endpoints;
 
 namespace ToDo.MQ.RabbitMQ.Handlers

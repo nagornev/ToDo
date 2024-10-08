@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using ToDo.Domain.Results;
+﻿using ToDo.Domain.Results;
 using ToDo.Microservices.MQ.Models;
 
 namespace ToDo.Microservices.MQ.Queries.GetCategories
@@ -10,7 +9,7 @@ namespace ToDo.Microservices.MQ.Queries.GetCategories
 
         public GetCategoriesProcedureResponse(bool success,
                                               IEnumerable<CategoryMQ>? content,
-                                              IError error) 
+                                              IError error)
             : base(success, content, error)
         {
         }

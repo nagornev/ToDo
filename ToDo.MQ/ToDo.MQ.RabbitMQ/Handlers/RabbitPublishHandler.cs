@@ -3,7 +3,7 @@ using ToDo.MQ.RabbitMQ.Endpoints;
 
 namespace ToDo.MQ.RabbitMQ.Handlers
 {
-    internal class RabbitPublishHandler: IRabbitPublishHandler
+    internal class RabbitPublishHandler : IRabbitPublishHandler
     {
         public RabbitPublishHandler(Type messageType,
                                     IRabbitExchange? exchange,

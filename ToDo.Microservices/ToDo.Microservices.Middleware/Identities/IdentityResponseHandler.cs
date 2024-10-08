@@ -18,9 +18,9 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected override void Configure(InvokerOptionsBuilder options)
         {
-            options.SetFailure(options=>
+            options.SetFailure(options =>
                                 options.AddFailure<Exception>((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"The 'Identity' service is unavailable."))))
-                   .SetLogger(options => 
+                   .SetLogger(options =>
                                 options.AddAspLogger());
         }
 

@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using ToDo.Microservices.MQ.Publishers;
-using ToDo.MQ.Abstractions;
-using ToDo.MQ.RabbitMQ;
-using ToDo.MQ.RabbitMQ.Endpoints;
 using ToDo.Microservices.MQ.Queries.GetCategories;
 using ToDo.Microservices.MQ.Queries.GetCategory;
+using ToDo.MQ.Abstractions;
+using ToDo.MQ.RabbitMQ;
 
 namespace ToDo.Microservices.MQ
 {

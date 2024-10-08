@@ -15,7 +15,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
 
         private ILogger<GetCategoryConsumer> _logger;
 
-        public GetCategoryConsumer(ICategoryService categoryService, 
+        public GetCategoryConsumer(ICategoryService categoryService,
                                    ILogger<GetCategoryConsumer> logger)
         {
             _categoryService = categoryService;
@@ -32,8 +32,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
                 Result<Category> categoryResult = await _categoryService.GetCategory(request.UserId, request.CategoryId);
 
                 GetCategoryProcedureResponse response = new GetCategoryProcedureResponse(categoryResult.Success,
-                                                                                         categoryResult.Success?
-                                                                                                new CategoryMQ(categoryResult.Content.Id, categoryResult.Content.Name):
+                                                                                         categoryResult.Success ?
+                                                                                                new CategoryMQ(categoryResult.Content.Id, categoryResult.Content.Name) :
                                                                                                 null,
                                                                                          categoryResult.Error);
 

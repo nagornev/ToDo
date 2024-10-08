@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToDo.MQ.RabbitMQ.Endpoints
+﻿namespace ToDo.MQ.RabbitMQ.Endpoints
 {
     public interface IRabbitQueueBind
     {
