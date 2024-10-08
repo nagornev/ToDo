@@ -17,5 +17,7 @@ namespace ToDo.Microservices.Entries.UseCases.Repositories
         Task<Result> Update(Guid userId, Entry entry);
 
         Task<Result> Delete(Guid userId, Guid entryId);
+
+        Task<Result> DeleteByCategory(Guid userId, Guid categoryId);
     }
 }

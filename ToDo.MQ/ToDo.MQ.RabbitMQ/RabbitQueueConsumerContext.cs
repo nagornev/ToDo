@@ -25,5 +25,10 @@ namespace ToDo.MQ.RabbitMQ
         {
             Response = response;
         }
+
+        public void Repeat(int delay = 1000)
+        {
+            throw new RabbitRepeatException(delay);
+        }
     }
 }

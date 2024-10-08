@@ -2,8 +2,8 @@
 using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Services;
-using ToDo.Microservices.MQ.RPCs.GetCategories;
-using ToDo.Microservices.MQ.RPCs.GetCategory;
+using ToDo.Microservices.MQ.Queries.GetCategories;
+using ToDo.Microservices.MQ.Queries.GetCategory;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.Abstractions.Extensions;
 
@@ -11,18 +11,18 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 {
     public class CategoryService : ICategoryService
     {
-        private IMessageQueueClient _messageQueue;
+        private IMessageQueueProcedureClient _procedureClient;
 
-        public CategoryService(IMessageQueueClient messageQueue)
+        public CategoryService(IMessageQueueProcedureClient procedureClient)
         {
-            _messageQueue = messageQueue;
+            _procedureClient = procedureClient;
         }
 
         public async Task<Result<IEnumerable<Category>>> Get(Guid userId)
         {
             try
             {
-                GetCategoriesRpcResponse response = await _messageQueue.Send<GetCategoriesRpcResponse, GetCategoriesRpcRequest>(new GetCategoriesRpcRequest(userId));
+                GetCategoriesProcedureResponse response = await _procedureClient.Send<GetCategoriesProcedureResponse, GetCategoriesProcedureRequest>(new GetCategoriesProcedureRequest(userId));
 
                 return response.Result.Success ?
                           Result<IEnumerable<Category>>.Successful(response.Result.Content.Select(x => new Category(x.Id, x.Name))) :
@@ -38,7 +38,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         {
             try
             {
-                GetCategoryRpcResponse response = await _messageQueue.Send<GetCategoryRpcResponse, GetCategoryRpcRequest>(new GetCategoryRpcRequest(userId, categoryId));
+                GetCategoryProcedureResponse response = await _procedureClient.Send<GetCategoryProcedureResponse, GetCategoryProcedureRequest>(new GetCategoryProcedureRequest(userId, categoryId));
 
                 return response.Result.Success ?
                           Result<Category>.Successful(new Category(response.Result.Content.Id, response.Result.Content.Name)) :

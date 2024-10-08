@@ -75,6 +75,15 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                         Result.Failure(Errors.IsNull($"The entry {entryId} was not found."));
         }
 
+        public async Task<Result> DeleteByCategory(Guid userId, Guid categoryId)
+        {
+            return await _entryContext.Entries.Where(x => x.UserId == userId &&
+                                                          x.CategoryId == categoryId)
+                                              .ExecuteDeleteAsync() > 0 ?
+                         Result.Successful() :
+                         Result.Failure(Errors.IsNull($"The entry with category {categoryId} was not found."));
+        }
+
         private EntryEntity CreateEntryEntity(Guid userId, Entry entry)
         {
             return new EntryEntity()

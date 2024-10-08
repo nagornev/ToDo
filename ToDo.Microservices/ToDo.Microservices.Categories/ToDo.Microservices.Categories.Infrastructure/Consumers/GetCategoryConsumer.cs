@@ -1,8 +1,9 @@
-﻿using ToDo.Domain.Results;
+﻿using Microsoft.Extensions.Logging;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.MQ.Models;
-using ToDo.Microservices.MQ.RPCs.GetCategory;
+using ToDo.Microservices.MQ.Queries.GetCategory;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.Abstractions.Extensions;
 
@@ -12,22 +13,35 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
     {
         private ICategoryService _categoryService;
 
-        public GetCategoryConsumer(ICategoryService categoryService)
+        private ILogger<GetCategoryConsumer> _logger;
+
+        public GetCategoryConsumer(ICategoryService categoryService, 
+                                   ILogger<GetCategoryConsumer> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         public async Task Consume(IMessageQueueConsumerContext context)
         {
-            GetCategoryRpcRequest request = context.GetMessage<GetCategoryRpcRequest>();
+            GetCategoryProcedureRequest request = context.GetMessage<GetCategoryProcedureRequest>();
 
-            Result<Category> categoryResult = await _categoryService.GetCategory(request.UserId, request.CategoryId);
+            try
+            {
 
-            GetCategoryRpcResponse response = new GetCategoryRpcResponse(categoryResult.Success ?
-                                                                            Result<CategoryMQ>.Successful(new CategoryMQ(categoryResult.Content.Id, categoryResult.Content.Name)) :
-                                                                            Result<CategoryMQ>.Failure(categoryResult.Error));
+                Result<Category> categoryResult = await _categoryService.GetCategory(request.UserId, request.CategoryId);
 
-            context.Respond(response);
+                GetCategoryProcedureResponse response = new GetCategoryProcedureResponse(categoryResult.Success ?
+                                                                                Result<CategoryMQ>.Successful(new CategoryMQ(categoryResult.Content.Id, categoryResult.Content.Name)) :
+                                                                                Result<CategoryMQ>.Failure(categoryResult.Error));
+
+                context.Respond(response);
+            }
+            catch (Exception exception)
+            {
+                context.Respond(new GetCategoryProcedureResponse(Result<CategoryMQ>.Failure(Errors.IsInternalServer("The category service is not available."))));
+                _logger.LogError(exception, "Invalid RPC (GetCategory) call.");
+            }
 
             context.Ack();
         }

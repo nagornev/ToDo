@@ -42,11 +42,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             if(!entryResult.Success)
                 return Result<EntryCompose>.Failure(entryResult.Error);
 
-            Result<Category> resultCategory = await _categoryService.Get(userId, entryResult.Content.CategoryId);
+            Result<Category> categoryResult = await _categoryService.Get(userId, entryResult.Content.CategoryId);
 
-            return resultCategory.Success ?
-                     Result<EntryCompose>.Successful(_composer.Compose(entryResult.Content, resultCategory.Content)) :
-                     Result<EntryCompose>.Failure(resultCategory.Error);
+            return categoryResult.Success ?
+                     Result<EntryCompose>.Successful(_composer.Compose(entryResult.Content, categoryResult.Content)) :
+                     Result<EntryCompose>.Failure(categoryResult.Error);
         }
 
 
@@ -72,6 +72,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         public async Task<Result> DeleteEntry(Guid userId, Guid entryId)
         {
             return await _entryRepository.Delete(userId, entryId);
+        }
+
+        public async Task<Result> DeleteEntriesByCategory(Guid userId, Guid categoryId)
+        {
+            return await _entryRepository.DeleteByCategory(userId, categoryId);
         }
     }
 }

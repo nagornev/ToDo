@@ -9,18 +9,18 @@ namespace ToDo.Microservices.Identity.Infrastructure.Publishers
 {
     public class UserPublisher : IUserPublisher
     {
-        private IMessageQueueClient _messageQueue;
+        private IMessageQueuePublishClient _publishClient;
 
-        public UserPublisher(IMessageQueueClient messageQueue)
+        public UserPublisher(IMessageQueuePublishClient publishClient)
         {
-            _messageQueue = messageQueue;
+            _publishClient = publishClient;
         }
 
         public async Task<Result> New(User user)
         {
             try
             {
-                await _messageQueue.Publish(new NewUserPublish(new UserMQ(user.Id, user.Email)));
+                await _publishClient.Publish(new NewUserPublishMessage(new UserMQ(user.Id)));
 
                 return Result.Successful();
             }

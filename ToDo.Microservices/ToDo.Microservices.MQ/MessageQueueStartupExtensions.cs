@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using ToDo.Microservices.MQ.Publishers;
-using ToDo.Microservices.MQ.RPCs.GetCategories;
-using ToDo.Microservices.MQ.RPCs.GetCategory;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.RabbitMQ;
+using ToDo.MQ.RabbitMQ.Endpoints;
+using ToDo.Microservices.MQ.Queries.GetCategories;
+using ToDo.Microservices.MQ.Queries.GetCategory;
 
 namespace ToDo.Microservices.MQ
 {
@@ -23,7 +24,7 @@ namespace ToDo.Microservices.MQ
             {
                 options.UseRabbit(options =>
                 {
-                    options.UseConnection(connection =>
+                    options.SetConnection(connection =>
                     {
                         connection.HostName = "localhost";
                         connection.UserName = "user";
@@ -33,7 +34,7 @@ namespace ToDo.Microservices.MQ
                     options.AddEndpoints(builder =>
                     {
                         //publish new user
-                        builder.CreateExchange(NewUserPublish.Exchange,
+                        builder.CreateExchange(NewUserPublishMessage.Exchange,
                                                ExchangeType.Fanout,
                                                true,
                                                false)
@@ -41,19 +42,19 @@ namespace ToDo.Microservices.MQ
 
 
                         //delete category
-                        builder.CreateExchange(DeleteCategoryPublish.Exchange,
+                        builder.CreateExchange(DeleteCategoryPublishMessage.Exchange,
                                                ExchangeType.Fanout,
                                                true,
                                                false)
                                     .Build();
 
                         //get categories rpc
-                        builder.CreaetQueue(GetCategoriesRpcRequest.Queue,
+                        builder.CreaetQueue(GetCategoriesProcedureRequest.Queue,
                                             false,
                                             false,
                                             false)
                                    .Build()
-                               .CreaetQueue(GetCategoriesRpcResponse.Queue,
+                               .CreaetQueue(GetCategoriesProcedureResponse.Queue,
                                             false,
                                             false,
                                             false)
@@ -61,29 +62,16 @@ namespace ToDo.Microservices.MQ
 
 
                         //get category rpc
-                        builder.CreaetQueue(GetCategoryRpcRequest.Queue,
+                        builder.CreaetQueue(GetCategoryProcedureRequest.Queue,
                                             false,
                                             false,
                                             false)
                                    .Build()
-                               .CreaetQueue(GetCategoryRpcResponse.Queue,
+                               .CreaetQueue(GetCategoryProcedureResponse.Queue,
                                             false,
                                             false,
                                             false)
                                    .Build();
-                    });
-
-                    options.AddWorkers(builder =>
-                    {
-                        builder.AddPublisher<NewUserPublish>(exchange => exchange.Name == NewUserPublish.Exchange);
-
-                        builder.AddPublisher<DeleteCategoryPublish>(exchange => exchange.Name == DeleteCategoryPublish.Exchange);
-
-                        builder.AddRPC<GetCategoriesRpcRequest>((IRabbitQueue queue) => queue.Name == GetCategoriesRpcRequest.Queue,
-                                                                (IRabbitQueue queue) => queue.Name == GetCategoriesRpcResponse.Queue);
-
-                        builder.AddRPC<GetCategoryRpcRequest>((IRabbitQueue queue) => queue.Name == GetCategoryRpcRequest.Queue,
-                                                              (IRabbitQueue queue) => queue.Name == GetCategoryRpcResponse.Queue);
                     });
 
                     configure?.Invoke(options);

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 using ToDo.MQ.Abstractions;
+using ToDo.MQ.RabbitMQ.Clients;
+using ToDo.MQ.RabbitMQ.Endpoints;
+using ToDo.MQ.RabbitMQ.Handlers;
 
 namespace ToDo.MQ.RabbitMQ
 {
@@ -12,7 +15,7 @@ namespace ToDo.MQ.RabbitMQ
 
         private RabbitEndpointsBuilder _endpointsBuilder;
 
-        private RabbitWorkersBuildler _workersBuilder;
+        private RabbitHandlersBuildler _handlersBuilder;
 
         private RabbitQueueClientBuilder(IServiceCollection services)
         {
@@ -20,7 +23,7 @@ namespace ToDo.MQ.RabbitMQ
 
             _connectionFactory = new ConnectionFactory();
             _endpointsBuilder = new RabbitEndpointsBuilder();
-            _workersBuilder = new RabbitWorkersBuildler(() => _endpointsBuilder.Build());
+            _handlersBuilder = new RabbitHandlersBuildler(() => _endpointsBuilder.Build());
         }
 
         internal static RabbitQueueClientBuilder Create(IServiceCollection services)
@@ -28,7 +31,7 @@ namespace ToDo.MQ.RabbitMQ
             return new RabbitQueueClientBuilder(services);
         }
 
-        public RabbitQueueClientBuilder UseConnection(Action<ConnectionFactory> options)
+        public RabbitQueueClientBuilder SetConnection(Action<ConnectionFactory> options)
         {
             options.Invoke(_connectionFactory);
 
@@ -42,9 +45,9 @@ namespace ToDo.MQ.RabbitMQ
             return this;
         }
 
-        public RabbitQueueClientBuilder AddWorkers(Action<RabbitWorkersBuildler> options)
+        public RabbitQueueClientBuilder AddHandlers(Action<RabbitHandlersBuildler> options)
         {
-            options.Invoke(_workersBuilder);
+            options.Invoke(_handlersBuilder);
 
             return this;
         }
@@ -52,13 +55,21 @@ namespace ToDo.MQ.RabbitMQ
         internal void Build()
         {
             if (_connectionFactory is null)
-                throw new ArgumentNullException(string.Empty, $"The connection factory can not be null. Configure the connection using the '{nameof(UseConnection)}' method.");
+                throw new ArgumentNullException(string.Empty, $"The connection factory can not be null. Configure the connection using the '{nameof(SetConnection)}' method.");
 
-            var endpoints = _endpointsBuilder.Build();
 
-            _services.AddSingleton(provider => new RabbitScheme(_connectionFactory, endpoints.Exchanges, endpoints.Queues));
-            _services.AddSingleton(provider => _workersBuilder.Build());
-            _services.AddSingleton<IMessageQueueClient, RabbitQueueClient>();
+            IRabbitEndpoints endpoints = _endpointsBuilder.Build();
+            IRabbitHandles handlers = _handlersBuilder.Build();
+
+            _services.AddSingleton<IRabbitScheme>(new RabbitScheme(_connectionFactory, endpoints));
+
+            _services.AddSingleton<IReadOnlyCollection<IRabbitPublishHandler>>(handlers.Publishers);
+            _services.AddSingleton<IReadOnlyCollection<IRabbitProcedureHandler>>(handlers.Procedures);
+            _services.AddSingleton<IReadOnlyCollection<IRabbitConsumeHandler>>(handlers.Consumers);
+
+            _services.AddSingleton<IMessageQueuePublishClient, RabbitQueuePublishClient>();
+            _services.AddSingleton<IMessageQueueProcedureClient, RabbitQueueProcedureClient>();
+            _services.AddSingleton<IMessageQueueConsumeClient, RabbitQueueConsumeClient>();
         }
     }
 }

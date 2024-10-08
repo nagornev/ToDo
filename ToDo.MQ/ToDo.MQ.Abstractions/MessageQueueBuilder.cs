@@ -16,14 +16,6 @@ namespace ToDo.MQ.Abstractions
             return new MessageQueueBuilder(services);
         }
 
-        public MessageQueueBuilder UseMessageQueue<TMessageQueueClient>()
-            where TMessageQueueClient : class, IMessageQueueClient
-        {
-            _services.AddSingleton<IMessageQueueClient, TMessageQueueClient>();
-
-            return this;
-        }
-
         public IServiceCollection GetServices()
         {
             return _services;

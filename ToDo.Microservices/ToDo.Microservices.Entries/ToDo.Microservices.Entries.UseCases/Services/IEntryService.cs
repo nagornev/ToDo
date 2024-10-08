@@ -17,5 +17,7 @@ namespace ToDo.Microservices.Entries.UseCases.Services
         Task<Result> UpdateEntry(Guid userId, Guid entryId, Guid categoryId, string text, DateTime? deadline, bool completed);
 
         Task<Result> DeleteEntry(Guid userId, Guid entryId);
+
+        Task<Result> DeleteEntriesByCategory(Guid userId, Guid categoryId);
     }
 }

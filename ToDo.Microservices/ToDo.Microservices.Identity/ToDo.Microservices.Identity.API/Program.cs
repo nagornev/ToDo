@@ -13,6 +13,7 @@ services.AddServices(configuration);
 services.AddToDoMessageQueue();
 services.AddProviders();
 services.AddValidators();
+services.AddGlobalExceptionHandlerConfiguration(options => options.ServiceName = nameof(ToDo.Microservices.Identity));
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();

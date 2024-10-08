@@ -5,11 +5,15 @@ namespace ToDo.Microservices.Middleware.Exceptions
 {
     public class GlobalExceptionHandlerMiddleware
     {
-        private RequestDelegate _next;
+        private readonly RequestDelegate _next;
 
-        public GlobalExceptionHandlerMiddleware(RequestDelegate next)
+        private readonly IGlobalExceptionHandlerConfiguration _configuration;
+
+        public GlobalExceptionHandlerMiddleware(RequestDelegate next,
+                                                IGlobalExceptionHandlerConfiguration configuration)
         {
             _next = next;
+            _configuration = configuration;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -21,7 +25,7 @@ namespace ToDo.Microservices.Middleware.Exceptions
             catch (Exception exception)
             {
                 Handle(context,
-                       Result.Failure(Errors.IsInternalServer(exception.StackTrace)));
+                       Result.Failure(Errors.IsInternalServer($"The '{_configuration.ServiceName}' service is unavailable.")));
             }
         }
 

@@ -1,9 +1,19 @@
 ﻿using RabbitMQ.Client;
+using ToDo.MQ.RabbitMQ.Clients;
+using ToDo.MQ.RabbitMQ.Endpoints;
 
 namespace ToDo.MQ.RabbitMQ
 {
-    public class RabbitScheme
+    internal class RabbitScheme : IRabbitScheme, IDisposable
     {
+        private bool _disposed;
+
+        public RabbitScheme(ConnectionFactory factory,
+                            IRabbitEndpoints endpoints)
+            :this(factory, endpoints.Exchanges, endpoints.Queues)
+        { 
+        }
+
         public RabbitScheme(ConnectionFactory factory,
                             IReadOnlyCollection<IRabbitExchange> exchanges,
                             IReadOnlyCollection<IRabbitQueue> queues)
@@ -48,9 +58,9 @@ namespace ToDo.MQ.RabbitMQ
                     foreach (var bind in exchange.Binds)
                     {
                         if (bind.ToExchange is null)
-                            channel.QueueBind(bind.ToQueue.Name, bind.Exchage.Name, bind.RoutingKey, bind.Arguments);
+                            channel.QueueBind(bind.ToQueue.Name, bind.Exchage.Name, bind.RoutingKey, (IDictionary<string, object>)bind.Arguments);
                         else
-                            channel.ExchangeBind(bind.ToExchange.Name, bind.Exchage.Name, bind.RoutingKey, bind.Arguments);
+                            channel.ExchangeBind(bind.ToExchange.Name, bind.Exchage.Name, bind.RoutingKey, (IDictionary<string, object>)bind.Arguments);
                     }
                 }
 
@@ -58,11 +68,21 @@ namespace ToDo.MQ.RabbitMQ
                 {
                     foreach (var bind in queue.Binds)
                     {
-                        channel.QueueBind(bind.Queue.Name, bind.From.Name, bind.RoutingKey, bind.Arguments);
+                        channel.QueueBind(bind.Queue.Name, bind.From.Name, bind.RoutingKey, (IDictionary<string, object>)bind.Arguments);
                     }
                 }
 
             }
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(RabbitScheme));
+                
+            Connection.Close();
+
+            _disposed = true;
         }
     }
 }

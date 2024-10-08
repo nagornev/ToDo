@@ -1,42 +1,32 @@
 ﻿using ToDo.Domain.Results;
-using ToDo.Microservices.Entries.Domain.Models;
-using ToDo.Microservices.Entries.UseCases.Repositories;
+using ToDo.Microservices.Entries.UseCases.Services;
+using ToDo.Microservices.MQ;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.Abstractions.Extensions;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Consumers
 {
-    public class DeleteCategoryConsumer : IMessageQueueConsumer
+    public class DeleteCategoryConsumer : MessageQueueStableConsumer
     {
         public const string Queue = "delete_category_entries_queue";
 
-        private IEntryRepository _entryRepository;
+        private IEntryService _entryService;
 
-        public DeleteCategoryConsumer(IEntryRepository entryRepository)
+        public DeleteCategoryConsumer(IEntryService entryRepository)
         {
-            _entryRepository = entryRepository;
+            _entryService = entryRepository;
         }
 
-        public async Task Consume(IMessageQueueConsumerContext context)
+        public async override Task Execute(IMessageQueueConsumerContext context)
         {
-            DeleteCategoryPublish message = context.GetMessage<DeleteCategoryPublish>();
+            DeleteCategoryPublishMessage message = context.GetMessage<DeleteCategoryPublishMessage>();
 
-            Result<IEnumerable<Entry>> entriesResult;
+            Result deleteResult = await _entryService.DeleteEntriesByCategory(message.UserId, message.CategoryId);
 
-            do
-            {
-                entriesResult = await _entryRepository.Get(message.UserId);
-            }
-            while (!entriesResult.Success);
-
-            foreach (Entry entry in entriesResult.Content)
-            {
-                if (entry.CategoryId == message.CategoryId)
-                    await _entryRepository.Delete(message.UserId, entry.Id);
-            }
-
-            context.Ack();
+            Complete(deleteResult.Success || deleteResult.Error.Key == Errors.IsNullKey, 
+                     context);
         }
     }
 }
+

@@ -4,8 +4,8 @@ using ToDo.Microservices.Categories.Infrastructure.Publishers;
 using ToDo.Microservices.Categories.UseCases.Publishers;
 using ToDo.Microservices.MQ;
 using ToDo.Microservices.MQ.Publishers;
-using ToDo.Microservices.MQ.RPCs.GetCategories;
-using ToDo.Microservices.MQ.RPCs.GetCategory;
+using ToDo.Microservices.MQ.Queries.GetCategories;
+using ToDo.Microservices.MQ.Queries.GetCategory;
 
 namespace ToDo.Microservices.Categories.API.Extensions.Startup
 {
@@ -13,17 +13,13 @@ namespace ToDo.Microservices.Categories.API.Extensions.Startup
     {
         public static void AddToDoMessageQueue(this IServiceCollection services)
         {
+            services.ConfigureMessageQueue();
             services.AddPublishers();
             services.AddConsumers();
-            services.AddHostMessageQueue();
+            services.AddConsumeClient();
         }
 
-        private static void AddPublishers(this IServiceCollection services)
-        {
-            services.AddScoped<ICategoryPubliser, CategoryPublisher>();
-        }
-
-        private static void AddConsumers(this IServiceCollection services)
+        private static void ConfigureMessageQueue(this IServiceCollection services)
         {
             services.AddToDoMessageQueue(configure =>
             {
@@ -33,34 +29,44 @@ namespace ToDo.Microservices.Categories.API.Extensions.Startup
                                         true,
                                         false,
                                         false)
-                                .AddBind(exchange => exchange.Name == NewUserPublish.Exchange)
+                                .AddBind(exchange => exchange.Name == NewUserPublishMessage.Exchange)
                                 .Build();
                 });
 
-                configure.AddWorkers(builder =>
+                configure.AddHandlers(builder =>
                 {
+                    builder.AddPublisher<DeleteCategoryPublishMessage>(exchange => exchange.Name == DeleteCategoryPublishMessage.Exchange);
+
                     builder.AddConsumer<NewUserConsumer>(queue => queue.Name == NewUserConsumer.Queue,
                                                          false,
                                                          false);
 
-                    builder.AddConsumer<GetCategoriesConsumer>(queue => queue.Name == GetCategoriesRpcRequest.Queue,
+                    builder.AddConsumer<GetCategoriesConsumer>(queue => queue.Name == GetCategoriesProcedureRequest.Queue,
                                                                false,
                                                                true);
 
-                    builder.AddConsumer<GetCategoryConsumer>(queue => queue.Name == GetCategoryRpcRequest.Queue,
+                    builder.AddConsumer<GetCategoryConsumer>(queue => queue.Name == GetCategoryProcedureRequest.Queue,
                                                              false,
                                                              true);
                 });
             });
+        }
 
+        private static void AddPublishers(this IServiceCollection services)
+        {
+            services.AddScoped<ICategoryPubliser, CategoryPublisher>();
+        }
+
+        private static void AddConsumers(this IServiceCollection services)
+        {
             services.AddScoped<NewUserConsumer>();
             services.AddScoped<GetCategoriesConsumer>();
             services.AddScoped<GetCategoryConsumer>();
         }
 
-        private static void AddHostMessageQueue(this IServiceCollection services)
+        private static void AddConsumeClient(this IServiceCollection services)
         {
-            services.AddHostedService<MessageQueueBackground>();
+            services.AddHostedService<MessageQueueConsumeBackground>();
         }
     }
 }

@@ -2,6 +2,7 @@
 using ToDo.Microservices.Identity.Infrastructure.Publishers;
 using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.MQ;
+using ToDo.Microservices.MQ.Publishers;
 
 namespace ToDo.Microservices.Identity.API.Extensions.Startup
 {
@@ -9,9 +10,20 @@ namespace ToDo.Microservices.Identity.API.Extensions.Startup
     {
         public static void AddToDoMessageQueue(this IServiceCollection services)
         {
-            services.AddToDoMessageQueue(configure => { });
+            services.ConfigureMessageQueue();
             services.AddPublishers();
-            services.AddHostMessageQueue();
+            services.AddConsumeClient();
+        }
+
+        private static void ConfigureMessageQueue(this IServiceCollection services)
+        {
+            services.AddToDoMessageQueue(configure =>
+            {
+                configure.AddHandlers(builder =>
+                {
+                    builder.AddPublisher<NewUserPublishMessage>(exchange => exchange.Name == NewUserPublishMessage.Exchange);
+                });
+            });
         }
 
         private static void AddPublishers(this IServiceCollection services)
@@ -19,9 +31,9 @@ namespace ToDo.Microservices.Identity.API.Extensions.Startup
             services.AddScoped<IUserPublisher, UserPublisher>();
         }
 
-        private static void AddHostMessageQueue(this IServiceCollection services)
+        private static void AddConsumeClient(this IServiceCollection services)
         {
-            services.AddHostedService<MessageQueueBackground>();
+            services.AddHostedService<MessageQueueConsumeBackground>();
         }
     }
 }

@@ -7,17 +7,17 @@ namespace ToDo.Domain.Results
         public delegate TError OnErrorCreationDelegate<TError>(string key, string message)
             where TError : IError;
 
-        private const string _isMessageKey = "is.message";
+        public const string IsMessageKey = "is.message";
 
-        private const string _isInvalidArgumentKey = "is.invalid.argument";
+        public const string IsInvalidArgumentKey = "is.invalid.argument";
 
-        private const string _isNullKey = "is.null";
+        public const string IsNullKey = "is.null";
 
-        private const string _isUnautorizatedKey = "is.unauthorizated";
+        public const string IsUnautorizatedKey = "is.unauthorizated";
 
-        private const string _isForbiddenKey = "is.forbidden";
+        public const string IsForbiddenKey = "is.forbidden";
 
-        private const string _isInternalServerKey = "is.internal.server";
+        public const string IsInternalServerKey = "is.internal.server";
 
         public static TError Create<TError>(Action<TError> callback)
             where TError : IError
@@ -34,7 +34,7 @@ namespace ToDo.Domain.Results
         public static IError IsInternalServer(string message)
         {
             return new Error(500,
-                             _isInternalServerKey,
+                             IsInternalServerKey,
                              message);
         }
 
@@ -45,7 +45,7 @@ namespace ToDo.Domain.Results
         public static IError IsUnauthorizated(string message)
         {
             return new Error(401,
-                             _isUnautorizatedKey,
+                             IsUnautorizatedKey,
                              message);
         }
 
@@ -56,7 +56,7 @@ namespace ToDo.Domain.Results
         public static IError IsForbidden(string message)
         {
             return new Error(403,
-                             _isForbiddenKey,
+                             IsForbiddenKey,
                              message);
         }
 
@@ -67,7 +67,7 @@ namespace ToDo.Domain.Results
         public static IError IsMessage(string message)
         {
             return new Error(400,
-                             _isMessageKey,
+                             IsMessageKey,
                              message);
         }
 
@@ -78,14 +78,14 @@ namespace ToDo.Domain.Results
         public static IError IsInvalidArgument(string message)
         {
             return new Error(400,
-                             _isInvalidArgumentKey,
+                             IsInvalidArgumentKey,
                              message);
         }
 
         public static IError IsInvalidArgument(string message, string field)
         {
             return new ErrorField(400,
-                                  _isInvalidArgumentKey,
+                                  IsInvalidArgumentKey,
                                   message,
                                   field);
         }
@@ -97,14 +97,14 @@ namespace ToDo.Domain.Results
         public static IError IsNull(string message)
         {
             return new Error(400,
-                             _isNullKey,
+                             IsNullKey,
                              message);
         }
 
         public static IError IsNull(string message, string field)
         {
             return new ErrorField(400,
-                                  _isNullKey,
+                                  IsNullKey,
                                   message,
                                   field);
         }

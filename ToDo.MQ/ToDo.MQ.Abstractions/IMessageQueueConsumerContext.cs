@@ -7,5 +7,7 @@
         void Ack();
 
         void Respond(byte[] response);
+
+        void Repeat(int delay = 1000);
     }
 }

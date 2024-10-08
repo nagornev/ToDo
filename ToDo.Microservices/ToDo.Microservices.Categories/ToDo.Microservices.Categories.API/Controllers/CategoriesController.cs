@@ -64,7 +64,7 @@ namespace ToDo.Microservices.Categories.API.Controllers
         [HttpPut]
         [Identity(IdentityPermissions.User)]
         public async Task<IResult> Update([FromServices] IValidator<CategoriesContractUpdate> validator,
-                                     [FromBody] CategoriesContractUpdate contract)
+                                          [FromBody] CategoriesContractUpdate contract)
         {
             if (!validator.Validate(contract, out Result validatonResult))
                 return Results.BadRequest(validatonResult);
@@ -81,7 +81,7 @@ namespace ToDo.Microservices.Categories.API.Controllers
         [HttpDelete]
         [Identity(IdentityPermissions.User)]
         public async Task<IResult> Delete([FromServices] IValidator<CategoriesContractDelete> validator,
-                                [FromBody] CategoriesContractDelete contract)
+                                          [FromBody] CategoriesContractDelete contract)
         {
             if (!validator.Validate(contract, out Result validatonResult))
                 return Results.BadRequest(validatonResult);

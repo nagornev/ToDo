@@ -14,6 +14,7 @@ services.AddValidators();
 services.AddToDoMessageQueue();
 services.AddIdentity();
 services.AddIdentityChecker<CategoriesIdentityChecker>();
+services.AddGlobalExceptionHandlerConfiguration(options => options.ServiceName = nameof(ToDo.Microservices.Categories));
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();

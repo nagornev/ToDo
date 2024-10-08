@@ -1,8 +1,9 @@
-﻿using ToDo.Domain.Results;
+﻿using Microsoft.Extensions.Logging;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.MQ.Models;
-using ToDo.Microservices.MQ.RPCs.GetCategories;
+using ToDo.Microservices.MQ.Queries.GetCategories;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.Abstractions.Extensions;
 
@@ -12,14 +13,18 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
     {
         private ICategoryService _categoryService;
 
-        public GetCategoriesConsumer(ICategoryService categoryService)
+        private ILogger<GetCategoriesConsumer> _logger;
+
+        public GetCategoriesConsumer(ICategoryService categoryService,
+                                     ILogger<GetCategoriesConsumer> logger)
         {
             _categoryService = categoryService;
+            _logger = logger;
         }
 
         public async Task Consume(IMessageQueueConsumerContext context)
         {
-            GetCategoriesRpcRequest request = context.GetMessage<GetCategoriesRpcRequest>();
+            GetCategoriesProcedureRequest request = context.GetMessage<GetCategoriesProcedureRequest>();
 
             try
             {
@@ -29,7 +34,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
                                                             categoriesResult.Content.Select(x => new CategoryMQ(x.Id, x.Name)) :
                                                             Enumerable.Empty<CategoryMQ>();
 
-                GetCategoriesRpcResponse response = new GetCategoriesRpcResponse(categoriesResult.Success ?
+                GetCategoriesProcedureResponse response = new GetCategoriesProcedureResponse(categoriesResult.Success ?
                                                                                     Result<IEnumerable<CategoryMQ>>.Successful(mqCategories) :
                                                                                     Result<IEnumerable<CategoryMQ>>.Failure(categoriesResult.Error));
 
@@ -37,7 +42,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
             }
             catch (Exception exception)
             {
-                context.Respond(new GetCategoriesRpcResponse(Result<IEnumerable<CategoryMQ>>.Failure(Errors.IsInternalServer(exception.StackTrace))));
+                context.Respond(new GetCategoriesProcedureResponse(Result<IEnumerable<CategoryMQ>>.Failure(Errors.IsInternalServer("The category service is not available."))));
+                _logger.LogError(exception, "Invalid RPC (GetCategories) call.");
             }
 
             context.Ack();

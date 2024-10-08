@@ -1,12 +1,13 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.UseCases.Services;
+using ToDo.Microservices.MQ;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.Abstractions.Extensions;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Consumers
 {
-    public class NewUserConsumer : IMessageQueueConsumer
+    public class NewUserConsumer : MessageQueueStableConsumer
     {
         public const string Queue = "new_users_entries_queue";
 
@@ -17,19 +18,13 @@ namespace ToDo.Microservices.Entries.Infrastructure.Consumers
             _userService = userService;
         }
 
-        public async Task Consume(IMessageQueueConsumerContext context)
+        public async override Task Execute(IMessageQueueConsumerContext context)
         {
-            NewUserPublish message = context.GetMessage<NewUserPublish>();
+            NewUserPublishMessage message = context.GetMessage<NewUserPublishMessage>();
 
-            Result result;
+            Result result = await _userService.CreateUser(message.User.Id);
 
-            do
-            {
-                result = await _userService.CreateUser(message.User.Id);
-            }
-            while (!result.Success);
-
-            context.Ack();
+            Complete(result.Success, context);
         }
     }
 }

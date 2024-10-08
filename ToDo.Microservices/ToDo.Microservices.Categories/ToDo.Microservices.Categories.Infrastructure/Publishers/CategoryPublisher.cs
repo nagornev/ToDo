@@ -7,18 +7,18 @@ namespace ToDo.Microservices.Categories.Infrastructure.Publishers
 {
     public class CategoryPublisher : ICategoryPubliser
     {
-        private IMessageQueueClient _messageQueue;
+        private IMessageQueuePublishClient _publishClient;
 
-        public CategoryPublisher(IMessageQueueClient messageQueue)
+        public CategoryPublisher(IMessageQueuePublishClient publishClient)
         {
-            _messageQueue = messageQueue;
+            _publishClient = publishClient;
         }
 
         public async Task<Result> Delete(Guid userId, Guid categoryId)
         {
             try
             {
-                await _messageQueue.Publish(new DeleteCategoryPublish(userId, categoryId));
+                await _publishClient.Publish(new DeleteCategoryPublishMessage(userId, categoryId));
 
                 return Result.Successful();
             }
