@@ -21,27 +21,26 @@ namespace ToDo.MQ.RabbitMQ.Clients
 
         public Task Publish<TMessageType>(TMessageType message)
         {
-
             if (message is null)
                 throw new ArgumentNullException(nameof(message));
 
             using (var channel = _scheme.Connection.CreateModel())
             {
-                byte[] body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
-
                 IEnumerable<IRabbitPublishHandler> publishers = _publishers.Where(x => x.MessageType == typeof(TMessageType));
 
-                if (publishers.Count() == 0)
+                if (publishers.Count() < 1)
                     throw new ArgumentException($"No publishers with '{typeof(TMessageType).Name}' type of message.");
 
-                foreach (var producer in publishers)
+                byte[] body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
+
+                foreach (IRabbitPublishHandler publisher in publishers)
                 {
                     IBasicProperties properties = channel.CreateBasicProperties();
 
-                    producer.Properties?.Invoke(properties);
+                    publisher.Properties?.Invoke(properties);
 
-                    channel.BasicPublish(exchange: producer.Exchange?.Name ?? string.Empty,
-                                         routingKey: producer.RoutingKey,
+                    channel.BasicPublish(exchange: publisher.Exchange?.Name ?? string.Empty,
+                                         routingKey: publisher.RoutingKey,
                                          basicProperties: properties,
                                          body: body);
                 }

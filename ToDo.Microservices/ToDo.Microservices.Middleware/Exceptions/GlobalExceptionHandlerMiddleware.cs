@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using ToDo.Domain.Results;
 
 namespace ToDo.Microservices.Middleware.Exceptions
@@ -9,11 +10,15 @@ namespace ToDo.Microservices.Middleware.Exceptions
 
         private readonly IGlobalExceptionHandlerConfiguration _configuration;
 
+        private readonly ILogger<GlobalExceptionHandlerMiddleware> _logger;
+
         public GlobalExceptionHandlerMiddleware(RequestDelegate next,
-                                                IGlobalExceptionHandlerConfiguration configuration)
+                                                IGlobalExceptionHandlerConfiguration configuration,
+                                                ILogger<GlobalExceptionHandlerMiddleware> logger)
         {
             _next = next;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -26,6 +31,8 @@ namespace ToDo.Microservices.Middleware.Exceptions
             {
                 Handle(context,
                        Result.Failure(Errors.IsInternalServer($"The '{_configuration.ServiceName}' service is unavailable.")));
+
+                _logger.LogError(exception, context.Request.Path);
             }
         }
 

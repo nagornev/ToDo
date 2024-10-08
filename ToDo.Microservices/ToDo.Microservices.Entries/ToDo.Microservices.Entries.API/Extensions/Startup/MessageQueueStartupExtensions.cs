@@ -49,10 +49,10 @@ namespace ToDo.Microservices.Entries.API.Extensions.Startup
                                                                 false);
 
                     builder.AddProcedure<GetCategoriesProcedureRequest>((IRabbitQueue queue) => queue.Name == GetCategoriesProcedureRequest.Queue,
-                                                                  (IRabbitQueue queue) => queue.Name == GetCategoriesProcedureResponse.Queue);
+                                                                        (IRabbitQueue queue) => queue.Name == GetCategoriesProcedureResponse.Queue);
 
                     builder.AddProcedure<GetCategoryProcedureRequest>((IRabbitQueue queue) => queue.Name == GetCategoryProcedureRequest.Queue,
-                                                                (IRabbitQueue queue) => queue.Name == GetCategoryProcedureResponse.Queue);
+                                                                      (IRabbitQueue queue) => queue.Name == GetCategoryProcedureResponse.Queue);
                 });
             });
         }

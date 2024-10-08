@@ -5,16 +5,15 @@ using ToDo.Microservices.MQ.Models;
 namespace ToDo.Microservices.MQ.Queries.GetCategory
 {
     [Serializable]
-    public class GetCategoryProcedureResponse
+    public class GetCategoryProcedureResponse : Result<CategoryMQ>
     {
         public const string Queue = "get_category_rpc_responses";
 
-        public GetCategoryProcedureResponse(Result<CategoryMQ> result)
+        public GetCategoryProcedureResponse(bool success,
+                                            CategoryMQ? content,
+                                            IError error) 
+            : base(success, content, error)
         {
-            Result = result;
         }
-
-        [JsonPropertyName("result")]
-        public Result<CategoryMQ> Result { get; private set; }
     }
 }

@@ -29,11 +29,14 @@ namespace ToDo.Microservices.Middleware.Identities
                 return;
             }
 
-            QuererHttpClient quererClient = factory.Create();
+
             IdentityRequestCompiler compiler = new IdentityRequestCompiler(attribute);
             IdentityResponseHandler handler = new IdentityResponseHandler();
 
-            await quererClient.SendAsync(compiler, handler);
+            using (QuererHttpClient quererClient = factory.Create())
+            {
+                await quererClient.SendAsync(compiler, handler);
+            }
 
             Result<Guid?> identityResult = handler.Content;
 

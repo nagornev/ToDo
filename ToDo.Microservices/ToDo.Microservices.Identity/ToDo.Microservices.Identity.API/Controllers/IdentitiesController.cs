@@ -28,8 +28,8 @@ namespace ToDo.Microservices.Identity.API.Controllers
             if (!validator.Validate(contract, out Result validationResult))
                 return Results.BadRequest(validationResult);
 
-            Result<User> resultUp = await _userService.SignUp(contract.Email,
-                                                              contract.Password);
+            Result resultUp = await _userService.SignUp(contract.Email,
+                                                        contract.Password);
 
 
 

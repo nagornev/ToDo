@@ -18,18 +18,15 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected override void Configure(InvokerOptionsBuilder options)
         {
-            options.SetFailure((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"Internal server.")))
-                   .AddLogger();
+            options.SetFailure(options=>
+                                options.AddFailure<Exception>((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"The 'Identity' service is unavailable."))))
+                   .SetLogger(options => 
+                                options.AddAspLogger());
         }
 
         protected override void SetContent(ContentHandler handler)
         {
-            handler.SetContent(response => response.GetContent((JToken json) => json.ToObject<Result<Guid?>>(_serializer)!));
-        }
-
-        protected override IEnumerable<Scheme.Set> SetScheme(Scheme scheme)
-        {
-            return scheme.Configure(scheme.Content);
+            handler.Set(response => response.GetContent((JToken json) => json.ToObject<Result<Guid?>>(_serializer)!));
         }
     }
 }

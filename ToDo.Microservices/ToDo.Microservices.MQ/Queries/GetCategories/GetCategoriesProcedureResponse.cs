@@ -4,16 +4,15 @@ using ToDo.Microservices.MQ.Models;
 
 namespace ToDo.Microservices.MQ.Queries.GetCategories
 {
-    public class GetCategoriesProcedureResponse
+    public class GetCategoriesProcedureResponse : Result<IEnumerable<CategoryMQ>>
     {
         public const string Queue = "get_categories_rpc_responses";
 
-        public GetCategoriesProcedureResponse(Result<IEnumerable<CategoryMQ>> result)
+        public GetCategoriesProcedureResponse(bool success,
+                                              IEnumerable<CategoryMQ>? content,
+                                              IError error) 
+            : base(success, content, error)
         {
-            Result = result;
         }
-
-        [JsonPropertyName("result")]
-        public Result<IEnumerable<CategoryMQ>> Result { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Nagornev.Querer.Http;
+using Nagornev.Querer.Http.Loggers;
 using System.Security.Claims;
 
 namespace ToDo.Microservices.Middleware.Identities
@@ -12,9 +13,9 @@ namespace ToDo.Microservices.Middleware.Identities
             return Guid.Parse(id);
         }
 
-        public static QuererHttpResponseMessageHandler<T>.InvokerOptionsBuilder AddLogger<T>(this QuererHttpResponseMessageHandler<T>.InvokerOptionsBuilder builder)
+        public static QuererLoggerBuilder AddAspLogger(this QuererLoggerBuilder builder)
         {
-            return builder.SetLogger(new LoggerBridge<QuererHttpResponseMessageHandler<T>>());
+            return builder.AddLogger(new LoggerBridge<QuererLoggerBuilder>());
         }
     }
 }

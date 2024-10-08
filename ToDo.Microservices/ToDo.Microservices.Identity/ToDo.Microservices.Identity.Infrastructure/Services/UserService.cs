@@ -46,7 +46,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
                     Result<User>.Failure(Errors.IsNull($"The user ({email}) was not found."));
         }
 
-        public async Task<Result<User>> SignUp(string email, string password)
+        public async Task<Result> SignUp(string email, string password)
         {
             if (await _userRepository.Get(email) is not null)
                 return Result<User>.Failure(Errors.IsInvalidArgument($"The user ({email}) has already been registrated."));
@@ -55,9 +55,9 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
 
             return await _userRepository.Create(user) ?
                      ((await _userPublisher.New(user)).Success ?
-                        Result<User>.Successful(user) :
-                        Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."))) :
-                     Result<User>.Failure(Errors.IsMessage("Registration error. Please try again later."));
+                        Result.Successful() :
+                        Result.Failure(Errors.IsMessage("Registration error. Please try again later."))) :
+                     Result.Failure(Errors.IsMessage("Registration error. Please try again later."));
         }
 
         public async Task<Result<string>> SignIn(string email, string password)

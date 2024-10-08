@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using ToDo.Domain.Results;
+﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Services;
 using ToDo.Microservices.MQ.Queries.GetCategories;
@@ -24,13 +23,13 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             {
                 GetCategoriesProcedureResponse response = await _procedureClient.Send<GetCategoriesProcedureResponse, GetCategoriesProcedureRequest>(new GetCategoriesProcedureRequest(userId));
 
-                return response.Result.Success ?
-                          Result<IEnumerable<Category>>.Successful(response.Result.Content.Select(x => new Category(x.Id, x.Name))) :
-                          Result<IEnumerable<Category>>.Failure(response.Result.Error);
+                return response.Success ?
+                          Result<IEnumerable<Category>>.Successful(response.Content.Select(x => new Category(x.Id, x.Name))) :
+                          Result<IEnumerable<Category>>.Failure(response.Error);
             }
             catch (TimeoutException)
             {
-                return Result<IEnumerable<Category>>.Failure(Errors.IsInternalServer("The category service is not avaliable."));
+                return Result<IEnumerable<Category>>.Failure(Errors.IsInternalServer("The 'Categories' service is unavaliable."));
             }
         }
 
@@ -40,14 +39,14 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             {
                 GetCategoryProcedureResponse response = await _procedureClient.Send<GetCategoryProcedureResponse, GetCategoryProcedureRequest>(new GetCategoryProcedureRequest(userId, categoryId));
 
-                return response.Result.Success ?
-                          Result<Category>.Successful(new Category(response.Result.Content.Id, response.Result.Content.Name)) :
-                          Result<Category>.Failure(response.Result.Error);
+                return response.Success ?
+                          Result<Category>.Successful(new Category(response.Content.Id, response.Content.Name)) :
+                          Result<Category>.Failure(response.Error);
 
             }
             catch (TimeoutException)
             {
-                return Result<Category>.Failure(Errors.IsInternalServer("The category service is not avaliable."));
+                return Result<Category>.Failure(Errors.IsInternalServer("The 'Categories' service is unavaliable."));
             }
         }
     }

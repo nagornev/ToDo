@@ -98,8 +98,8 @@ namespace ToDo.MQ.RabbitMQ.Clients
 
             byte[] body = GetBody(request, Encoding.UTF8);
 
-            ProcedureTask procedureTask = new ProcedureTask();
-            _rpcs.TryAdd(properties.CorrelationId, procedureTask);
+            if (!_rpcs.TryAdd(properties.CorrelationId, new ProcedureTask(), out ProcedureTask procedureTask))
+                throw new InvalidOperationException("The procedure task can not be added.");
 
             _channel.BasicPublish(exchange: procedure.Exchange?.Name ?? string.Empty,
                                   routingKey: procedure.RoutingKey,

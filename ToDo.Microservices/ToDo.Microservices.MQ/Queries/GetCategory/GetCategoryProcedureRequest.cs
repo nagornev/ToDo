@@ -8,7 +8,7 @@ namespace ToDo.Microservices.MQ.Queries.GetCategory
         public const string Queue = "get_category_rpc_requests";
 
         public GetCategoryProcedureRequest(Guid userId,
-                                     Guid categoryId)
+                                           Guid categoryId)
         {
             UserId = userId;
             CategoryId = categoryId;

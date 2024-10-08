@@ -5,7 +5,7 @@ namespace ToDo.Microservices.Middleware.Exceptions
 {
     public static class GlobalExceptionHandlerStartupExtensions
     {
-        public static void AddGlobalExceptionHandlerConfiguration(this IServiceCollection services, Action<GlobalExceptionHandlerConfigurationBuilder> options)
+        public static void AddGlobalExceptionHandler(this IServiceCollection services, Action<GlobalExceptionHandlerConfigurationBuilder> options)
         {
             GlobalExceptionHandlerConfigurationBuilder builder = new GlobalExceptionHandlerConfigurationBuilder();
 

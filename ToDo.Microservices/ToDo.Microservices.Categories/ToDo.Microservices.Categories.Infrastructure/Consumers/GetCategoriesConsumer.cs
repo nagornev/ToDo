@@ -30,19 +30,15 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
             {
                 Result<IEnumerable<Category>> categoriesResult = await _categoryService.GetCategories(request.UserId);
 
-                IEnumerable<CategoryMQ> mqCategories = categoriesResult.Success ?
-                                                            categoriesResult.Content.Select(x => new CategoryMQ(x.Id, x.Name)) :
-                                                            Enumerable.Empty<CategoryMQ>();
-
-                GetCategoriesProcedureResponse response = new GetCategoriesProcedureResponse(categoriesResult.Success ?
-                                                                                    Result<IEnumerable<CategoryMQ>>.Successful(mqCategories) :
-                                                                                    Result<IEnumerable<CategoryMQ>>.Failure(categoriesResult.Error));
+                GetCategoriesProcedureResponse response = new GetCategoriesProcedureResponse(categoriesResult.Success,
+                                                                                             categoriesResult.Content?.Select(x=>new CategoryMQ(x.Id, x.Name)) ?? default,
+                                                                                             categoriesResult.Error);
 
                 context.Respond(response);
             }
             catch (Exception exception)
             {
-                context.Respond(new GetCategoriesProcedureResponse(Result<IEnumerable<CategoryMQ>>.Failure(Errors.IsInternalServer("The category service is not available."))));
+                context.Respond(GetCategoriesProcedureResponse.Failure(Errors.IsInternalServer($"The '{nameof(ToDo.Microservices.Categories)}' service is unavailable.")));
                 _logger.LogError(exception, "Invalid RPC (GetCategories) call.");
             }
 
