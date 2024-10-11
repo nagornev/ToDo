@@ -16,7 +16,6 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             _entryContext = entryContext;
         }
 
-
         public async Task<Result<IEnumerable<Entry>>> Get(Guid userId)
         {
             IEnumerable<EntryEntity> entryEntities = await _entryContext.Entries.AsNoTracking()

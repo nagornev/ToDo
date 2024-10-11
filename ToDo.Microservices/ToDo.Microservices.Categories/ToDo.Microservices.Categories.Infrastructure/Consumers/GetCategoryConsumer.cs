@@ -41,7 +41,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
             }
             catch (Exception exception)
             {
-                context.Respond(GetCategoryProcedureResponse.Failure(Errors.IsInternalServer($"The '{nameof(ToDo.Microservices.Categories)}' service is unavailable.")));
+                context.Respond(GetCategoryProcedureResponse.Failure(Errors.IsInternalServer($"The '{nameof(Categories)}' service is unavailable.")));
                 _logger.LogError(exception, "Invalid RPC (GetCategory) call.");
             }
 

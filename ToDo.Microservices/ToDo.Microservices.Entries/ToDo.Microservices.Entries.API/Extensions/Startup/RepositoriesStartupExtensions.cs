@@ -7,7 +7,9 @@ namespace ToDo.Microservices.Entries.API.Extensions.Startup
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IEntryRepository, EntryRepository>();
+            services.AddScoped<EntryRepository>();
+            services.AddScoped<IEntryRepository, CachedEntryRepository>();
+
             services.AddScoped<IUserRepository, UserRepository>();
         }
     }

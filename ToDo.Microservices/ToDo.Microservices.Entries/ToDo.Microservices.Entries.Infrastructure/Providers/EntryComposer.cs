@@ -6,6 +6,8 @@ namespace ToDo.Microservices.Entries.Infrastructure.Providers
 {
     public class EntryComposer : IEntryСomposer
     {
+        private const string _undefined = "Undefined";
+
         public IEnumerable<EntryCompose> Compose(IEnumerable<Entry> entries, IEnumerable<Category> categories)
         {
             List<EntryCompose> composes = new List<EntryCompose>();
@@ -14,12 +16,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Providers
             {
                 Category? category = categories.FirstOrDefault(x => x.Id == entry.CategoryId);
 
-                //Пропуск записи нужен для того, чтобы не отображать записи с удаленными категориями, которые ещё не были обработаны
-                //месседж брокером: каскадно удалить все записи связанные с удаленной категорией.
-                if (category is null)
-                    continue;
-
-                composes.Add(new EntryCompose(entry, category));
+                composes.Add(new EntryCompose(entry, category ?? GetUndefinedCategory(entry)));
             }
 
             return composes;
@@ -27,7 +24,12 @@ namespace ToDo.Microservices.Entries.Infrastructure.Providers
 
         public EntryCompose Compose(Entry entry, Category category)
         {
-            return new EntryCompose(entry, category);
+            return new EntryCompose(entry, category ?? GetUndefinedCategory(entry));
+        }
+
+        private Category GetUndefinedCategory(Entry entry)
+        {
+            return new Category(entry.CategoryId, _undefined);
         }
     }
 }

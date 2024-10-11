@@ -14,7 +14,7 @@ namespace ToDo.MQ.RabbitMQ.Clients
 
         private readonly IReadOnlyCollection<IRabbitConsumeHandler> _consumers;
 
-        private readonly IDictionary<RabbitConsumeHandler, IModel> _channels;
+        private readonly IDictionary<IRabbitConsumeHandler, IModel> _channels;
 
         public RabbitQueueConsumeClient(IServiceProvider provider,
                                         IRabbitScheme scheme,
@@ -23,12 +23,12 @@ namespace ToDo.MQ.RabbitMQ.Clients
             _provider = provider;
             _scheme = scheme;
             _consumers = consumers;
-            _channels = new Dictionary<RabbitConsumeHandler, IModel>();
+            _channels = new Dictionary<IRabbitConsumeHandler, IModel>();
         }
 
         public Task Start()
         {
-            foreach (RabbitConsumeHandler consumer in _consumers)
+            foreach (IRabbitConsumeHandler consumer in _consumers)
             {
                 IModel channel = _scheme.Connection.CreateModel();
 
@@ -44,7 +44,7 @@ namespace ToDo.MQ.RabbitMQ.Clients
             return Task.CompletedTask;
         }
 
-        private IBasicConsumer CreateBasic(RabbitConsumeHandler consumer, IModel channel)
+        private IBasicConsumer CreateBasic(IRabbitConsumeHandler consumer, IModel channel)
         {
             EventingBasicConsumer basic = new EventingBasicConsumer(channel);
 
@@ -90,7 +90,7 @@ namespace ToDo.MQ.RabbitMQ.Clients
 
         public Task Stop()
         {
-            foreach (RabbitConsumeHandler consumer in _consumers)
+            foreach (IRabbitConsumeHandler consumer in _consumers)
             {
                 if (_channels.TryGetValue(consumer, out var channel))
                 {

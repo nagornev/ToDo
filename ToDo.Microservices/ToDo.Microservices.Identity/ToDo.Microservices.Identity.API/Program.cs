@@ -10,7 +10,7 @@ services.AddOptions(configuration);
 services.AddContexts(configuration);
 services.AddRepositories(configuration);
 services.AddServices(configuration);
-services.AddToDoMessageQueue();
+services.AddMessageQueue();
 services.AddProviders();
 services.AddValidators();
 services.AddGlobalExceptionHandler(options => options.ServiceName = nameof(ToDo.Microservices.Identity));

@@ -71,17 +71,6 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
                     Result<string>.Failure(Errors.IsMessage("Please check your password and email and try again."));
         }
 
-
-        public async Task<Result<string>> SignIn(string email, string password, Action<string> callback)
-        {
-            Result<string> signInResult = await SignIn(email, password);
-
-            if (signInResult.Success)
-                callback.Invoke(signInResult.Content);
-
-            return signInResult;
-        }
-
         public async Task<Result<Guid?>> Validate(string token, IEnumerable<Permission> permissions)
         {
             if (!_tokenProvider.Validate(token, out string subject))

@@ -88,7 +88,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                 catch (Exception exception)
                 {
                     transaction.Rollback();
-                    throw exception;
+                    throw;
                 }
             }
         }

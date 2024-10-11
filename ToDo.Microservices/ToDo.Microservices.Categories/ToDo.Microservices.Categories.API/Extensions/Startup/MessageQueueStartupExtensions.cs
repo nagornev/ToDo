@@ -11,7 +11,7 @@ namespace ToDo.Microservices.Categories.API.Extensions.Startup
 {
     public static class MessageQueueStartupExtensions
     {
-        public static void AddToDoMessageQueue(this IServiceCollection services)
+        public static void AddMessageQueue(this IServiceCollection services)
         {
             services.ConfigureMessageQueue();
             services.AddPublishers();

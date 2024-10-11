@@ -68,7 +68,7 @@ namespace ToDo.MQ.RabbitMQ.Clients
         {
             IModel channel = _scheme.Connection.CreateModel();
 
-            foreach (RabbitProcedureHandler procedurer in _procedures)
+            foreach (IRabbitProcedureHandler procedurer in _procedures)
             {
                 IBasicProperties properties = channel.CreateBasicProperties();
                 procedurer.Properties(properties);
@@ -106,7 +106,11 @@ namespace ToDo.MQ.RabbitMQ.Clients
                                   basicProperties: properties,
                                   body: body);
 
-            cancellationToken.Register(() => _rpcs.TryRemove(properties.CorrelationId, out _));
+            cancellationToken.Register(() =>
+            {
+                _rpcs.TryRemove(properties.CorrelationId, out var task);
+                task?.Source.SetCanceled();
+            });
 
             return procedureTask.Source.Task;
         }
