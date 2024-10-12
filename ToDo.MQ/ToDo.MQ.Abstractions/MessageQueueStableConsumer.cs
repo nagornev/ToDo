@@ -1,6 +1,8 @@
-﻿using ToDo.MQ.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace ToDo.Microservices.MQ
+namespace ToDo.MQ.Abstractions
 {
     public abstract class MessageQueueStableConsumer : IMessageQueueConsumer
     {
@@ -22,7 +24,7 @@ namespace ToDo.Microservices.MQ
             }
         }
 
-        public abstract Task Execute(IMessageQueueConsumerContext context);
+        protected abstract Task Execute(IMessageQueueConsumerContext context);
 
         public void Complete(bool state, IMessageQueueConsumerContext context)
         {

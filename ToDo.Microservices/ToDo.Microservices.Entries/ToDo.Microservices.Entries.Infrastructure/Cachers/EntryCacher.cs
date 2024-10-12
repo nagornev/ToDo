@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System.Text.Json;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
@@ -35,7 +34,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
 
                 return !string.IsNullOrEmpty(cache) ?
                           JsonSerializer.Deserialize<Result<IEnumerable<Entry>>>(cache)! :
-                          Result<IEnumerable<Entry>>.Failure(Errors.IsNull("No entries cache."));
+                          Result<IEnumerable<Entry>>.Failure(Errors.IsNull("No entries in cache."));
             }
             catch(Exception exception)
             {

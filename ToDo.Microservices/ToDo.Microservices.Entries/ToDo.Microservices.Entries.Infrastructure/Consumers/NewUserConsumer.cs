@@ -1,6 +1,5 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.UseCases.Services;
-using ToDo.Microservices.MQ;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.MQ.Abstractions;
 using ToDo.MQ.Abstractions.Extensions;
@@ -18,7 +17,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Consumers
             _userService = userService;
         }
 
-        public async override Task Execute(IMessageQueueConsumerContext context)
+        protected async override Task Execute(IMessageQueueConsumerContext context)
         {
             NewUserPublishMessage message = context.GetMessage<NewUserPublishMessage>();
 
