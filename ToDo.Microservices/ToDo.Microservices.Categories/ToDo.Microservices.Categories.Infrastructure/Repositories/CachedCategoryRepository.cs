@@ -4,7 +4,7 @@ using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.Infrastructure.Cachers;
 using ToDo.Microservices.Categories.UseCases.Publishers;
 using ToDo.Microservices.Categories.UseCases.Repositories;
-using ToDo.Microservices.Cache.Extensions;
+using ToDo.Cache.Abstractions.Extensions;
 
 namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 {

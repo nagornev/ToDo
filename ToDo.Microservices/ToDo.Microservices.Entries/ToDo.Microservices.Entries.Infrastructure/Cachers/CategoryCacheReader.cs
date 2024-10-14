@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
-using ToDo.Microservices.Cache;
 using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Entries.Domain.Models;
 

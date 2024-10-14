@@ -1,6 +1,7 @@
-﻿using ToDo.Domain.Results;
+﻿using System.Threading.Tasks;
+using ToDo.Domain.Results;
 
-namespace ToDo.Microservices.Cache
+namespace ToDo.Cache.Abstractions
 {
     public interface ICacheReader<TCacheType, THashType> : ICache<THashType>
     {

@@ -1,4 +1,6 @@
-﻿namespace ToDo.Microservices.Cache.Hashers
+﻿using ToDo.Cache.Abstractions;
+
+namespace ToDo.Microservices.Cache.Hashers
 {
     public class EntryCacheHasher : ICacheHasher<Guid>
     {

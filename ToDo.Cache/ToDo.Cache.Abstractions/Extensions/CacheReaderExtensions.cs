@@ -1,6 +1,10 @@
-﻿using ToDo.Domain.Results;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using ToDo.Domain.Results;
 
-namespace ToDo.Microservices.Cache.Extensions
+namespace ToDo.Cache.Abstractions.Extensions
 {
     public static class CacheReaderExtensions
     {
@@ -13,9 +17,9 @@ namespace ToDo.Microservices.Cache.Extensions
             if (!cacheResult.Success)
                 return Result<TCacheType>.Failure(cacheResult.Error);
 
-            TCacheType? searchedCache = cacheResult.Content.FirstOrDefault(x => predicate.Invoke(x));
+            TCacheType searchedCache = cacheResult.Content.FirstOrDefault(x => predicate.Invoke(x));
 
-            return searchedCache is not null ?
+            return searchedCache != null ?
                        Result<TCacheType>.Successful(searchedCache) :
                        Result<TCacheType>.Failure(Errors.IsNull(notFoundMessage));
         }

@@ -2,7 +2,7 @@
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.Infrastructure.Cachers;
 using ToDo.Microservices.Entries.UseCases.Repositories;
-using ToDo.Microservices.Cache.Extensions;
+using ToDo.Cache.Abstractions.Extensions;
 using ToDo.Microservices.Entries.Database.Contexts;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Repositories
