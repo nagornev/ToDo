@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ToDo.Microservices.Categories.Domain.Models
 {
@@ -6,6 +7,7 @@ namespace ToDo.Microservices.Categories.Domain.Models
     {
         public const int MaximumNameLength = 20;
 
+        [JsonConstructor]
         private Category(Guid id, string name)
         {
             Id = id;

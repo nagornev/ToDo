@@ -7,8 +7,8 @@ namespace ToDo.Microservices.Categories.API.Extensions.Startup
     {
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<ICategoryRepository, CachedCategoryRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
     }
 }

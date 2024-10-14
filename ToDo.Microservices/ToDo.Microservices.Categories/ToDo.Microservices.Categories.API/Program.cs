@@ -12,6 +12,7 @@ services.AddRepositories();
 services.AddServices();
 services.AddValidators();
 services.AddMessageQueue();
+services.AddCache(configuration);
 services.AddIdentity();
 services.AddIdentityChecker<CategoriesIdentityChecker>();
 services.AddGlobalExceptionHandler(options => options.ServiceName = nameof(ToDo.Microservices.Categories));
