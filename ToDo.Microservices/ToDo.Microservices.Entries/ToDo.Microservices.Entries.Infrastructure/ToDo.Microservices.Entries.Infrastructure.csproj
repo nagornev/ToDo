@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\ToDo.Extensions\ToDo.Extensions.csproj" />
+    <ProjectReference Include="..\..\ToDo.Microservices.Cache\ToDo.Microservices.Cache.csproj" />
     <ProjectReference Include="..\..\ToDo.Microservices.MQ\ToDo.Microservices.MQ.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Entries.Database\ToDo.Microservices.Entries.Database.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Entries.Domain\ToDo.Microservices.Entries.Domain.csproj" />

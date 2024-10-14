@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToDo.Microservices.Cache.Hashers
+﻿namespace ToDo.Microservices.Cache.Hashers
 {
-    internal class EntryHasher
+    public class EntryCacheHasher : ICacheHasher<Guid>
     {
+        private const string _tag = "Entries";
+
+        public string Hash(Guid key)
+        {
+            return $"{_tag}-{key}";
+        }
     }
 }

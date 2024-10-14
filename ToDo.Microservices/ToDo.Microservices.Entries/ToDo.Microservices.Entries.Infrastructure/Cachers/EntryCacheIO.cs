@@ -2,12 +2,13 @@
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using ToDo.Domain.Results;
+using ToDo.Microservices.Cache;
+using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Entries.Domain.Models;
-using ToDo.Microservices.Entries.UseCases.Cachers;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Cachers
 {
-    public class EntryCacher : IEntryCacher
+    public class EntryCacheIO : ICacheIO<IEnumerable<Entry>, Guid>
     {
         private const int _cacheLifetime = 600000;
 
@@ -15,22 +16,25 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
 
         private DistributedCacheEntryOptions _options;
 
-        private ILogger<EntryCacher> _logger;
+        private ILogger<EntryCacheIO> _logger;
 
-        public EntryCacher(IDistributedCache cache, 
-                           //IOptions<DistributedCacheEntryOptions> options,
-                           ILogger<EntryCacher> logger)
+        public EntryCacheIO(EntryCacheHasher hasher,
+                                IDistributedCache cache, 
+                                ILogger<EntryCacheIO> logger)
         {
+            Hasher = hasher;
             _cache = cache;
-            _options = /*options.Value ??*/ (new DistributedCacheEntryOptions()).SetSlidingExpiration(TimeSpan.FromMilliseconds(_cacheLifetime));
+            _options = (new DistributedCacheEntryOptions()).SetSlidingExpiration(TimeSpan.FromMilliseconds(_cacheLifetime));
             _logger = logger;
         }
+
+        public ICacheHasher<Guid> Hasher { get; private set; }
 
         public async Task<Result<IEnumerable<Entry>>> Get(Guid userId)
         {
             try
             {
-                string? cache = await _cache.GetStringAsync(CreateKey(userId));
+                string? cache = await _cache.GetStringAsync(CreateHash(userId));
 
                 return !string.IsNullOrEmpty(cache) ?
                           JsonSerializer.Deserialize<Result<IEnumerable<Entry>>>(cache)! :
@@ -48,7 +52,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
             {
                 string cache = JsonSerializer.Serialize(entriesResult);
 
-                await _cache.SetStringAsync(CreateKey(userId), cache, _options);
+                await _cache.SetStringAsync(CreateHash(userId), cache, _options);
 
                 return Result.Successful();
             }
@@ -62,7 +66,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
         {
             try
             {
-                await _cache.RemoveAsync(CreateKey(userId));
+                await _cache.RemoveAsync(CreateHash(userId));
 
                 return Result.Successful();
             }
@@ -72,9 +76,9 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
             }
         }
 
-        private string CreateKey(Guid userId)
+        private string CreateHash(Guid userId)
         {
-            return $"{nameof(EntryCacher)}-{userId}";
+            return Hasher.Hash(userId);
         }
 
         private TResultType HandleException<TResultType>(Exception exception, Func<IError, TResultType> result)

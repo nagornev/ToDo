@@ -8,8 +8,8 @@ namespace ToDo.Microservices.Entries.UseCases.Services
 {
     public interface ICategoryService
     {
-        Task<Result<IEnumerable<Category>>> Get(Guid userId);
+        Task<Result<IEnumerable<Category>>> GetCategories(Guid userId);
 
-        Task<Result<Category>> Get(Guid userId, Guid categoryId);
+        Task<Result<Category>> GetCategory(Guid userId, Guid categoryId);
     }
 }

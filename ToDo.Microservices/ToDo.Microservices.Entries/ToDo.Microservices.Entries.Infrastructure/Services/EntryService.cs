@@ -27,7 +27,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         public async Task<Result<IEnumerable<EntryCompose>>> GetEntries(Guid userId)
         {
             Result<IEnumerable<Entry>> entriesResult = await _entryRepository.Get(userId);
-            Result<IEnumerable<Category>> categoriesResult = await _categoryService.Get(userId);
+            Result<IEnumerable<Category>> categoriesResult = await _categoryService.GetCategories(userId);
 
             return entriesResult.Success && categoriesResult.Success ?
                     Result<IEnumerable<EntryCompose>>.Successful(_composer.Compose(entriesResult.Content, categoriesResult.Content)) :
@@ -42,7 +42,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
             if (!entryResult.Success)
                 return Result<EntryCompose>.Failure(entryResult.Error);
 
-            Result<Category> categoryResult = await _categoryService.Get(userId, entryResult.Content.CategoryId);
+            Result<Category> categoryResult = await _categoryService.GetCategory(userId, entryResult.Content.CategoryId);
 
             return categoryResult.Success ?
                      Result<EntryCompose>.Successful(_composer.Compose(entryResult.Content, categoryResult.Content)) :
@@ -52,7 +52,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> CreateEntry(Guid userId, Guid categoryId, string text, DateTime? deadline)
         {
-            Result<Category> categoryResult = await _categoryService.Get(userId, categoryId);
+            Result<Category> categoryResult = await _categoryService.GetCategory(userId, categoryId);
 
             return categoryResult.Success ?
                      await _entryRepository.Create(userId, Entry.New(categoryId, text, deadline)) :
@@ -62,7 +62,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> UpdateEntry(Guid userId, Guid entryId, Guid categoryId, string text, DateTime? deadline, bool completed)
         {
-            Result<Category> categoryResult = await _categoryService.Get(userId, categoryId);
+            Result<Category> categoryResult = await _categoryService.GetCategory(userId, categoryId);
 
             return categoryResult.Success ?
                         await _entryRepository.Update(userId, Entry.Constructor(entryId, categoryId, text, deadline, completed)) :
