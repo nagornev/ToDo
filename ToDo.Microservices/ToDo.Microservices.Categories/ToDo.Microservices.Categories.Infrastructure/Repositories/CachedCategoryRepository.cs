@@ -1,53 +1,52 @@
 ﻿using ToDo.Domain.Results;
-using ToDo.Microservices.Categories.Database.Contexts;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.Infrastructure.Cachers;
-using ToDo.Microservices.Categories.UseCases.Publishers;
 using ToDo.Microservices.Categories.UseCases.Repositories;
 using ToDo.Cache.Abstractions.Extensions;
 
 namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 {
-    public class CachedCategoryRepository : CategoryRepository, ICategoryRepository
+    public class CachedCategoryRepository :  ICategoryRepository
     {
+        private CategoryRepository _categoryRepository;
+
         private CategoryCacheIO _categoryCacheIO;
 
-        public CachedCategoryRepository(CategoryContext context,
-                                        ICategoryPubliser categoryPublisher,
-                                        CategoryCacheIO categoryCacheIO) 
-            : base(context, categoryPublisher)
+        public CachedCategoryRepository(CategoryRepository categoryRepository,
+                                        CategoryCacheIO categoryCacheIO)
         {
+            _categoryRepository = categoryRepository;
             _categoryCacheIO = categoryCacheIO;
         }
 
-        public new async Task<Result<IEnumerable<Category>>> Get(Guid userId)
+        public async Task<Result<IEnumerable<Category>>> Get(Guid userId)
         {
             Result<IEnumerable<Category>> categoriesResult = await _categoryCacheIO.Get(userId);
 
             if (!categoriesResult.Success)
-                categoriesResult = await base.Get(userId);
+                categoriesResult = await _categoryRepository.Get(userId);
 
             await _categoryCacheIO.Set(userId, categoriesResult);
 
             return categoriesResult;
         }
 
-        public new async Task<Result<Category>> Get(Guid userId, Guid categoryId)
+        public async Task<Result<Category>> Get(Guid userId, Guid categoryId)
         {
             Result<Category> categoryResult = await _categoryCacheIO.Get(userId,
                                                                          category => category.Id == categoryId,
                                                                          $"The category ({categoryId}) was not found.");
 
             if (!categoryResult.Success)
-                categoryResult = await base.Get(userId, categoryId);
+                categoryResult = await _categoryRepository.Get(userId, categoryId);
 
             return categoryResult;
         }
 
 
-        public new async Task<Result> Create(Guid userId, Category category)
+        public async Task<Result> Create(Guid userId, Category category)
         {
-            Result creationResult = await base.Create(userId, category);
+            Result creationResult = await _categoryRepository.Create(userId, category);
 
             if (creationResult.Success)
                 await _categoryCacheIO.Remove(userId);
@@ -56,9 +55,9 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
         }
 
 
-        public new async Task<Result> Update(Guid userId, Category category)
+        public async Task<Result> Update(Guid userId, Category category)
         {
-            Result updateResult =  await base.Update(userId, category);
+            Result updateResult =  await _categoryRepository.Update(userId, category);
 
             if (!updateResult.Success)
                 await _categoryCacheIO.Remove(userId);
@@ -66,9 +65,9 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
             return updateResult;
         }
 
-        public new async Task<Result> Delete(Guid userId, Guid categoryId)
+        public async Task<Result> Delete(Guid userId, Guid categoryId)
         {
-            Result deleteResult = await base.Delete(userId, categoryId);
+            Result deleteResult = await _categoryRepository.Delete(userId, categoryId);
 
             if(!deleteResult.Success)
                 await _categoryCacheIO.Remove(userId);

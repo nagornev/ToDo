@@ -3,36 +3,37 @@ using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.Infrastructure.Cachers;
 using ToDo.Microservices.Entries.UseCases.Repositories;
 using ToDo.Cache.Abstractions.Extensions;
-using ToDo.Microservices.Entries.Database.Contexts;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 {
-    public class CachedEntryRepository : EntryRepository, IEntryRepository
+    public class CachedEntryRepository : IEntryRepository
     {
+        private EntryRepository _entryRepository;
+
         private EntryCacheIO _entryCacheIO;
 
-        public CachedEntryRepository(EntryContext context,
+        public CachedEntryRepository(EntryRepository entryRepository,
                                      EntryCacheIO entryCacheIO)
-            : base(context)
         {
+            _entryRepository = entryRepository;
             _entryCacheIO = entryCacheIO;
         }
 
-        public new async Task<Result<IEnumerable<Entry>>> Get(Guid userId)
+        public async Task<Result<IEnumerable<Entry>>> Get(Guid userId)
         {
             Result<IEnumerable<Entry>> cachedEntriesResult = await _entryCacheIO.Get(userId);
 
             if (cachedEntriesResult.Success)
                 return cachedEntriesResult;
 
-            Result<IEnumerable<Entry>> entriesResult = await base.Get(userId);
+            Result<IEnumerable<Entry>> entriesResult = await _entryRepository.Get(userId);
 
             await _entryCacheIO.Set(userId, entriesResult);
 
             return entriesResult;
         }
 
-        public new async Task<Result<Entry>> Get(Guid userId, Guid entryId)
+        public async Task<Result<Entry>> Get(Guid userId, Guid entryId)
         {
             Result<Entry> cachedEntryResult = await _entryCacheIO.Get(userId, 
                                                                       entry => entry.Id == entryId,
@@ -41,14 +42,14 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             if(cachedEntryResult.Success)
                 return cachedEntryResult;
 
-            Result<Entry> entryResult = await base.Get(userId, entryId);
+            Result<Entry> entryResult = await _entryRepository.Get(userId, entryId);
 
             return entryResult;
         }
 
-        public new async Task<Result> Create(Guid userId, Entry entry)
+        public async Task<Result> Create(Guid userId, Entry entry)
         {
-            Result creationResult = await base.Create(userId, entry);
+            Result creationResult = await _entryRepository.Create(userId, entry);
 
             if (creationResult.Success)
                 await _entryCacheIO.Remove(userId);
@@ -56,9 +57,9 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             return creationResult;
         }
 
-        public new async Task<Result> Update(Guid userId, Entry entry)
+        public async Task<Result> Update(Guid userId, Entry entry)
         {
-            Result updateResult = await base.Update(userId, entry);
+            Result updateResult = await _entryRepository.Update(userId, entry);
 
             if (updateResult.Success)
                 await _entryCacheIO.Remove(userId);
@@ -66,9 +67,9 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             return updateResult;
         }
 
-        public new async Task<Result> Delete(Guid userId, Guid entryId)
+        public async Task<Result> Delete(Guid userId, Guid entryId)
         {
-            Result deleteResult = await base.Delete(userId, entryId);
+            Result deleteResult = await _entryRepository.Delete(userId, entryId);
 
             if(deleteResult.Success)
                 await _entryCacheIO.Remove(userId);
@@ -76,9 +77,9 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             return deleteResult;
         }
 
-        public new async Task<Result> DeleteByCategory(Guid userId, Guid categoryId)
+        public async Task<Result> DeleteByCategory(Guid userId, Guid categoryId)
         {
-            Result deleteResult = await base.DeleteByCategory(userId, categoryId);
+            Result deleteResult = await _entryRepository.DeleteByCategory(userId, categoryId);
 
             if (deleteResult.Success)
                 await _entryCacheIO.Remove(userId);
