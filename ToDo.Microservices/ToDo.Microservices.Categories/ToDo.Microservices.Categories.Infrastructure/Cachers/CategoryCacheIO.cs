@@ -38,7 +38,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Cachers
                 string? cache = await _cache.GetStringAsync(CreateHash(userId));
 
                 return !string.IsNullOrEmpty(cache) ?
-                          JsonSerializer.Deserialize<Result<IEnumerable<Category>>>(cache)! :
+                          Result<IEnumerable<Category>>.Deserialize(cache)! :
                           Result<IEnumerable<Category>>.Failure(Errors.IsNull("No categories in cache."));
             }
             catch (Exception exception)
@@ -51,7 +51,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Cachers
         {
             try
             {
-                string cache = JsonSerializer.Serialize(categoriesResult);
+                string cache = categoriesResult.Serialize();
 
                 await _cache.SetStringAsync(CreateHash(userId), cache, _options);
 

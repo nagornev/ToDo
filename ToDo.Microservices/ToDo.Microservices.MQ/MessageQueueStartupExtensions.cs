@@ -25,7 +25,7 @@ namespace ToDo.Microservices.MQ
                 {
                     options.SetConnection(connection =>
                     {
-                        connection.HostName = "localhost";
+                        connection.HostName = "rabbitmq_broker";
                         connection.UserName = "user";
                         connection.Password = "HHHHhhhh1111";
                     });

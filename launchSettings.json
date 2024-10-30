@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "todo.microservices.categories.api": "StartDebugging",
+        "todo.microservices.entries.api": "StartDebugging",
+        "todo.microservices.identity.api": "StartDebugging"
+      }
+    }
+  }
+}

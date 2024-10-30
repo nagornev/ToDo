@@ -59,7 +59,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
         {
             Result updateResult =  await _categoryRepository.Update(userId, category);
 
-            if (!updateResult.Success)
+            if (updateResult.Success)
                 await _categoryCacheIO.Remove(userId);
 
             return updateResult;
@@ -69,7 +69,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
         {
             Result deleteResult = await _categoryRepository.Delete(userId, categoryId);
 
-            if(!deleteResult.Success)
+            if(deleteResult.Success)
                 await _categoryCacheIO.Remove(userId);
 
             return deleteResult;

@@ -12,6 +12,8 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "HHHHhhhh1111"
+    networks:
+      - application
 
   entry_db:
     container_name: entry_db
@@ -24,6 +26,8 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "HHHHhhhh1111"
+    networks:
+      - application
 
   category_db:
     container_name: category_db
@@ -36,7 +40,9 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "HHHHhhhh1111"
-  
+    networks:
+      - application
+
   rabbitmq_broker:
     container_name: rabbitmq_broker
     image: rabbitmq:4-management
@@ -50,7 +56,9 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=HHHHhhhh1111
-  
+    networks:
+      - application
+
   redis:
     container_name: redis
     image: redis:latest
@@ -62,3 +70,74 @@ services:
       - ./Data/Redis/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_PASSWORD=HHHHhhhh1111
+    networks:
+      - application
+      
+  identity_microservice:
+    container_name: identity_microservice
+    restart: always
+    build: 
+      context: .
+      dockerfile: .\ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.API\Dockerfile
+    ports:
+      - 7000:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - rabbitmq_broker
+      - identity_db
+    networks:
+      - application
+      
+  entries_microservice:
+    container_name: entries_microservice
+    restart: always
+    build: 
+      context: .
+      dockerfile: .\ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.API\Dockerfile
+    ports:
+      - 7001:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - rabbitmq_broker
+      - identity_microservice
+      - entry_db
+      - redis
+    networks:
+      - application
+      
+  categories_microservice:
+    container_name: categories_microservice
+    restart: always
+    build: 
+      context: .
+      dockerfile: .\ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.API\Dockerfile
+    ports:
+      - 7002:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - rabbitmq_broker
+      - identity_microservice
+      - category_db
+      - redis
+    networks:
+      - application
+
+
+networks:
+  application:
+    driver: bridge

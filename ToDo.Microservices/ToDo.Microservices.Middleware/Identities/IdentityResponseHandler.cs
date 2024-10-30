@@ -8,6 +8,8 @@ namespace ToDo.Microservices.Middleware.Identities
 {
     public class IdentityResponseHandler : QuererHttpResponseMessageHandler<Result<Guid?>>
     {
+        private const string _errorMessage = "The 'Identity' service is unavalibable.";
+
         private JsonSerializer _serializer;
 
         public IdentityResponseHandler()
@@ -19,14 +21,14 @@ namespace ToDo.Microservices.Middleware.Identities
         protected override void Configure(InvokerOptionsBuilder options)
         {
             options.SetFailure(options =>
-                                options.AddFailure<Exception>((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer($"The 'Identity' service is unavailable."))))
+                                options.AddFailure<Exception>((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer(_errorMessage))))
                    .SetLogger(options =>
                                 options.AddAspLogger());
         }
 
         protected override void SetContent(ContentHandler handler)
         {
-            handler.Set(response => response.GetContent((JToken json) => json.ToObject<Result<Guid?>>(_serializer)!));
+            handler.Set(response => response.GetContent((string text) => Result<Guid?>.Deserialize(text)!));
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ToDo.Microservices.Entries.Domain.Models
 {
+    [Serializable]
     public class Entry
     {
         public const int TextMaximumLength = 100;

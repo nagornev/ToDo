@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace ToDo.Microservices.Identity.Domain.Models
 {
+    [Serializable]
     public class Access
     {
         private static IReadOnlyDictionary<Role, IEnumerable<Permission>> _accesses = new Dictionary<Role, IEnumerable<Permission>>
@@ -12,6 +14,7 @@ namespace ToDo.Microservices.Identity.Domain.Models
             { Role.User, new[] { Permission.User } }
         };
 
+        [JsonConstructor]
         private Access(Role role)
         {
             Role = role;

@@ -22,6 +22,20 @@ services.AddGlobalExceptionHandler(options => options.ServiceName = nameof(ToDo.
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+services.AddCors(options =>
+{
+    options.AddPolicy("Default", policy =>
+    {
+        //policy.WithOrigins("http://identity_microservice:7000",
+        //                   "http://entries_microservice:7001",
+        //                   "http://categories_microservice:7002",
+        //                   "http://localhost");
+
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -33,6 +47,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseGlobalExceptionHandler();
 app.UseHttpsRedirection();
+app.UseCors("Default");
 app.UseIdentity<EntriesIdentityMiddleware>();
 app.MapControllers();
 

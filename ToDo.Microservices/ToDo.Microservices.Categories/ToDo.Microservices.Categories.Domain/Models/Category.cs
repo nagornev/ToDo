@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace ToDo.Microservices.Categories.Domain.Models
 {
+    [Serializable]
     public class Category
     {
         public const int MaximumNameLength = 20;

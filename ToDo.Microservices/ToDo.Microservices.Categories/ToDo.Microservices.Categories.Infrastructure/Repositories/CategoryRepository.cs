@@ -78,16 +78,20 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                         return Result.Failure(Errors.IsNull($"The category {categoryId} was not found."));
 
                     _context.Categories.Remove(categoryEntity);
-                    await _context.SaveChangesAsync();
-                    await _categoryPublisher.Delete(userId, categoryId);
+                    if ((await _context.SaveChangesAsync()) > 0 &&
+                        (await _categoryPublisher.Delete(userId, categoryId)).Success)
+                    {
+                        await transaction.CommitAsync();
+                        return Result.Successful();
 
-                    transaction.Commit();
+                    }
 
-                    return Result.Successful();
+                    await transaction.RollbackAsync();
+                    return Result.Failure();
                 }
-                catch (Exception exception)
+                catch
                 {
-                    transaction.Rollback();
+                    await transaction.RollbackAsync();
                     throw;
                 }
             }

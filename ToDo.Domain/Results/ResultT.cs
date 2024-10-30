@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ToDo.Domain.Results
@@ -16,6 +17,11 @@ namespace ToDo.Domain.Results
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault | JsonIgnoreCondition.WhenWritingNull)]
         public T Content { get; private set; }
 
+        public string Serialize()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
         private static Result<T> Create(bool success, T content, IError error)
         {
             return new Result<T>(success, content, error);
@@ -29,6 +35,11 @@ namespace ToDo.Domain.Results
         public static Result<T> Successful(T content)
         {
             return Create(true, content, default);
+        }
+
+        public static Result<T> Deserialize(string content)
+        {
+            return JsonSerializer.Deserialize<Result<T>>(content);
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ToDo.Microservices.Identity.Domain.Models
 {
+    [Serializable]
     public class User
     {
         public const string PasswordPattern = @"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
 
+        [JsonConstructor]
         private User(Guid id,
                     string email,
                     string password,

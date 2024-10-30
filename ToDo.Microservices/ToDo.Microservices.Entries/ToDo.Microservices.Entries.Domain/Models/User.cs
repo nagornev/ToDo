@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ToDo.Microservices.Entries.Domain.Models
 {
+    [Serializable]
     public class User
     {
+        [JsonConstructor]
         private User(Guid id)
         {
             Id = id;

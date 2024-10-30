@@ -19,7 +19,7 @@ namespace ToDo.Microservices.Middleware.Identities
 
         protected override void SetUrl(UrlCompiler compiler)
         {
-            compiler.Set("http://localhost:5254/Identities/Validate");
+            compiler.Set("http://identity_microservice:8080/Identities/Validate");
         }
 
         protected override void SetContent(ContentCompiler compiler)

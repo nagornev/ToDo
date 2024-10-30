@@ -38,7 +38,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
                 string? cache = await _cache.GetStringAsync(CreateHash(userId));
 
                 return !string.IsNullOrEmpty(cache) ?
-                          JsonSerializer.Deserialize<Result<IEnumerable<Entry>>>(cache)! :
+                          Result<IEnumerable<Entry>>.Deserialize(cache)! :
                           Result<IEnumerable<Entry>>.Failure(Errors.IsNull("No entries in cache."));
             }
             catch(Exception exception)
@@ -51,7 +51,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
         {
             try
             {
-                string cache = JsonSerializer.Serialize(entriesResult);
+                string cache = entriesResult.Serialize();
 
                 await _cache.SetStringAsync(CreateHash(userId), cache, _options);
 
