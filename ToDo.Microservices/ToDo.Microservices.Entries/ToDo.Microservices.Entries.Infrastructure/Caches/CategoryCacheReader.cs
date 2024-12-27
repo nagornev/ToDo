@@ -5,10 +5,11 @@ using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Entries.Domain.Models;
+using ToDo.Microservices.Entries.UseCases.Caches;
 
-namespace ToDo.Microservices.Entries.Infrastructure.Cachers
+namespace ToDo.Microservices.Entries.Infrastructure.Caches
 {
-    public class CategoryCacheReader : ICacheReader<IEnumerable<Category>, Guid>
+    public class CategoryCacheReader : ICategoryCacheReader
     {
         private IDistributedCache _cache;
 

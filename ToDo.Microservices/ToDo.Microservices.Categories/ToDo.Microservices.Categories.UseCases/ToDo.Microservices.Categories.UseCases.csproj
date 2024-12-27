@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ToDo.Cache\ToDo.Cache.Abstractions\ToDo.Cache.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\ToDo.Domain\ToDo.Domain.csproj" />
     <ProjectReference Include="..\ToDo.Microservices.Categories.Domain\ToDo.Microservices.Categories.Domain.csproj" />
   </ItemGroup>

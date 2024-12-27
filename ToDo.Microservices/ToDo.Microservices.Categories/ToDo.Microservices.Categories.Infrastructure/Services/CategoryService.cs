@@ -31,7 +31,6 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
             return await _categoryRepository.Create(userId, category);
         }
 
-
         public async Task<Result> UpdateCategory(Guid userId, Guid categoryId, string name)
         {
             Category category = Category.Constructor(categoryId, name);
