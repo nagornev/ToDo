@@ -61,7 +61,7 @@ namespace ToDo.MQ.RabbitMQ
             IRabbitEndpoints endpoints = _endpointsBuilder.Build();
             IRabbitHandles handlers = _handlersBuilder.Build();
 
-            _services.AddSingleton<IRabbitScheme>(new RabbitScheme(_connectionFactory, endpoints));
+            _services.AddSingleton<IRabbitScheme>(provider => new RabbitScheme(_connectionFactory, endpoints));
 
             _services.AddSingleton<IReadOnlyCollection<IRabbitPublishHandler>>(handlers.Publishers);
             _services.AddSingleton<IReadOnlyCollection<IRabbitProcedureHandler>>(handlers.Procedures);

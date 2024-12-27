@@ -21,8 +21,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             return userEntity is not null ?
-                    Result<User>.Successful(User.Constructor(userEntity.Id)) :
-                    Result<User>.Failure(Errors.IsNull($"The user {userId} was not found."));
+                        Result<User>.Successful(User.Constructor(userEntity.Id)) :
+                        Result<User>.Failure(Errors.IsNull($"The user {userId} was not found."));
         }
 
         public async Task<Result> Create(User user)
@@ -32,8 +32,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
             await _context.Users.AddAsync(userEntity);
 
             return await _context.SaveChangesAsync() > 0 ?
-                      Result.Successful() :
-                      Result.Failure(Errors.IsMessage("The user was not created. Please try again later"));
+                        Result.Successful() :
+                        Result.Failure(Errors.IsMessage("The user was not created. Please try again later"));
         }
 
         private UserEntity CreateUserEntity(User user)

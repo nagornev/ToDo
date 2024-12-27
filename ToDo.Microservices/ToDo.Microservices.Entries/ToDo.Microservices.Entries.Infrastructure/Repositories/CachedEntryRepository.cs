@@ -1,8 +1,8 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
-using ToDo.Microservices.Entries.Infrastructure.Cachers;
 using ToDo.Microservices.Entries.UseCases.Repositories;
 using ToDo.Cache.Abstractions.Extensions;
+using ToDo.Microservices.Entries.UseCases.Caches;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 {
@@ -10,10 +10,10 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
     {
         private EntryRepository _entryRepository;
 
-        private EntryCacheIO _entryCacheIO;
+        private IEntryCacheIO _entryCacheIO;
 
         public CachedEntryRepository(EntryRepository entryRepository,
-                                     EntryCacheIO entryCacheIO)
+                                     IEntryCacheIO entryCacheIO)
         {
             _entryRepository = entryRepository;
             _entryCacheIO = entryCacheIO;

@@ -1,26 +1,26 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
 using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Cache.Hashers;
-using ToDo.Microservices.Entries.Domain.Models;
+using ToDo.Microservices.Categories.Domain.Models;
+using ToDo.Microservices.Categories.UseCases.Caches;
 
-namespace ToDo.Microservices.Entries.Infrastructure.Cachers
+namespace ToDo.Microservices.Categories.Infrastructure.Caches
 {
-    public class EntryCacheIO : ICacheIO<IEnumerable<Entry>, Guid>
+    public class CategoryCacheIO : ICategoryCacheIO
     {
         private const int _cacheLifetime = 600000;
 
         private IDistributedCache _cache;
 
-        private ILogger<EntryCacheIO> _logger;
+        private ILogger<CategoryCacheIO> _logger;
 
         private DistributedCacheEntryOptions _options;
 
-        public EntryCacheIO(EntryCacheHasher hasher,
-                            IDistributedCache cache, 
-                            ILogger<EntryCacheIO> logger)
+        public CategoryCacheIO(CategoryCacheHasher hasher,
+                               IDistributedCache cache,
+                               ILogger<CategoryCacheIO> logger)
         {
             Hasher = hasher;
             _cache = cache;
@@ -31,27 +31,27 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
 
         public ICacheHasher<Guid> Hasher { get; private set; }
 
-        public async Task<Result<IEnumerable<Entry>>> Get(Guid userId)
+        public async Task<Result<IEnumerable<Category>>> Get(Guid userId)
         {
             try
             {
                 string? cache = await _cache.GetStringAsync(CreateHash(userId));
 
                 return !string.IsNullOrEmpty(cache) ?
-                          Result<IEnumerable<Entry>>.Deserialize(cache)! :
-                          Result<IEnumerable<Entry>>.Failure(Errors.IsNull("No entries in cache."));
+                          Result<IEnumerable<Category>>.Deserialize(cache)! :
+                          Result<IEnumerable<Category>>.Failure(Errors.IsNull("No categories in cache."));
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                return HandleException(exception, (error) => Result<IEnumerable<Entry>>.Failure(error));
+                return HandleException(exception, (error) => Result<IEnumerable<Category>>.Failure(error));
             }
         }
 
-        public async Task<Result> Set(Guid userId, Result<IEnumerable<Entry>> entriesResult)
+        public async Task<Result> Set(Guid userId, Result<IEnumerable<Category>> categoriesResult)
         {
             try
             {
-                string cache = entriesResult.Serialize();
+                string cache = categoriesResult.Serialize();
 
                 await _cache.SetStringAsync(CreateHash(userId), cache, _options);
 
@@ -77,13 +77,13 @@ namespace ToDo.Microservices.Entries.Infrastructure.Cachers
             }
         }
 
-        private string CreateHash(Guid userId)
+        private string CreateHash(Guid key)
         {
-            return Hasher.Hash(userId);
+            return Hasher.Hash(key);
         }
 
         private TResultType HandleException<TResultType>(Exception exception, Func<IError, TResultType> result)
-            where TResultType : Result
+          where TResultType : Result
         {
             _logger.LogError(exception, "The distributed cache service is unavaliable.");
 

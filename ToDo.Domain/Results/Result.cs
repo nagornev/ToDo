@@ -43,5 +43,10 @@ namespace ToDo.Domain.Results
         {
             return Create(true);
         }
+
+        public static implicit operator bool(Result result)
+        {
+            return result.Success;
+        }
     }
 }

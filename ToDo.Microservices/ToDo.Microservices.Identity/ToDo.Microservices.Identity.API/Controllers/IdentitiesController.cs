@@ -28,14 +28,14 @@ namespace ToDo.Microservices.Identity.API.Controllers
             if (!validator.Validate(contract, out Result validationResult))
                 return Results.BadRequest(validationResult);
 
-            Result resultUp = await _userService.SignUp(contract.Email,
+            Result upResult = await _userService.SignUp(contract.Email,
                                                         contract.Password);
 
 
 
-            return resultUp.Success ?
-                    Results.Ok(resultUp) :
-                    Results.BadRequest(resultUp);
+            return upResult.Success ?
+                    Results.Ok(upResult) :
+                    Results.BadRequest(upResult);
         }
 
         [HttpPost]
@@ -46,13 +46,13 @@ namespace ToDo.Microservices.Identity.API.Controllers
             if (!validator.Validate(contract, out Result validationResult))
                 return Results.BadRequest(validationResult);
 
-            Result<string> resultIn = await _userService.SignIn(contract.Email,
+            Result<string> inResult = await _userService.SignIn(contract.Email,
                                                                 contract.Password,
                                                                 (token) => HttpContext.Response.Cookies.Append(JwtTokenProviderDefaults.Cookies, token));
 
-            return resultIn.Success ?
-                    Results.Ok(resultIn) :
-                    Results.BadRequest(resultIn);
+            return inResult.Success ?
+                    Results.Ok(inResult) :
+                    Results.BadRequest(inResult);
         }
 
         [HttpPost]
@@ -66,12 +66,12 @@ namespace ToDo.Microservices.Identity.API.Controllers
                         Results.BadRequest(validationResult) :
                         Results.BadRequest(Result.Failure(Errors.IsNull("No cookies.")));
 
-            Result<Guid?> resultAccess = await _userService.Validate(token,
+            Result<Guid?> accessResult = await _userService.Validate(token,
                                                                      contract.Permissions);
 
-            return resultAccess.Success ?
-                    Results.Ok(resultAccess) :
-                    Results.BadRequest(resultAccess);
+            return accessResult.Success ?
+                    Results.Ok(accessResult) :
+                    Results.BadRequest(accessResult);
         }
     }
 }
