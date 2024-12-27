@@ -11,9 +11,9 @@ namespace ToDo.Microservices.Categories.Database.Contexts
         {
         }
 
-        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<UserEntity> Users { get; private set; }
 
-        public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<CategoryEntity> Categories { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,9 +2,14 @@
 
 namespace ToDo.Microservices.Categories.API.Middlewares
 {
-    public class CategoriesIdentityAttributeProvider : IIdentityAttributeProvider
+    public class CategoriesIdentityMiddleware : IdentityMiddleware
     {
-        public bool TryGet(HttpContext context, out IdentityAttribute attribute)
+        public CategoriesIdentityMiddleware(RequestDelegate next)
+            : base(next)
+        {
+        }
+
+        protected override bool TryGetIdentity(HttpContext context, out IdentityAttribute? attribute)
         {
             attribute = context.GetEndpoint()?
                                .Metadata

@@ -34,8 +34,4 @@
     <ProjectReference Include="..\ToDo.Microservices.Categories.UseCases\ToDo.Microservices.Categories.UseCases.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <InternalsVisibleTo Include="ToDo.Microservices.Categories.Tests" />
-  </ItemGroup>
 </Project>

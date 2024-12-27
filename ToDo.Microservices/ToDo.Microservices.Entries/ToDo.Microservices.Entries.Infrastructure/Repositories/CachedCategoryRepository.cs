@@ -1,8 +1,8 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Cache.Abstractions.Extensions;
 using ToDo.Microservices.Entries.Domain.Models;
+using ToDo.Microservices.Entries.Infrastructure.Cachers;
 using ToDo.Microservices.Entries.UseCases.Repositories;
-using ToDo.Microservices.Entries.UseCases.Caches;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 {
@@ -10,10 +10,10 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
     {
         private CategoryRepository _categoryRepository;
 
-        private ICategoryCacheReader _categoryCacheReader;
+        private CategoryCacheReader _categoryCacheReader;
 
         public CachedCategoryRepository(CategoryRepository categoryRepository,
-                                        ICategoryCacheReader categoryCacheReader)
+                                        CategoryCacheReader categoryCacheReader)
         {
             _categoryRepository = categoryRepository;
             _categoryCacheReader = categoryCacheReader;

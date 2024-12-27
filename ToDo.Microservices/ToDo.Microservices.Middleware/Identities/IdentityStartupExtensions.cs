@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ToDo.Extensions;
 
@@ -7,17 +6,21 @@ namespace ToDo.Microservices.Middleware.Identities
 {
     public static class IdentityStartupExtensions
     {
-        public static void AddIdentity<TIdentityAttributeProvider>(this IServiceCollection services) 
-            where TIdentityAttributeProvider: class, IIdentityAttributeProvider
+        public static void AddIdentity(this IServiceCollection services)
         {
-            services.AddScoped<IIdentityProvider, IdentityProvider>();
             services.AddRedirectableQuererHttpClientFactory();
-            services.AddScoped<IIdentityAttributeProvider, TIdentityAttributeProvider>();
         }
 
-        public static void UseIdentity(this IApplicationBuilder app)
+        public static void AddIdentityChecker<TCheckerType>(this IServiceCollection services)
+            where TCheckerType : class, IIdentityChecker
         {
-            app.UseMiddleware<IdentityMiddleware>();
+            services.AddScoped<IIdentityChecker, TCheckerType>();
+        }
+
+        public static void UseIdentity<TIdentityMiddleware>(this IApplicationBuilder app)
+            where TIdentityMiddleware : IdentityMiddleware
+        {
+            app.UseMiddleware<TIdentityMiddleware>();
         }
     }
 }

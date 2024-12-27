@@ -1,19 +1,19 @@
 ﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.UseCases.Services;
-using ToDo.Microservices.Middleware.Users;
+using ToDo.Microservices.Middleware.Identities;
 
 namespace ToDo.Microservices.Categories.API.Middlewares
 {
-    public class CategoriesUserValidator : IUserValidator
+    public class CategoriesIdentityChecker : IIdentityChecker
     {
         private IUserService _userService;
 
-        public CategoriesUserValidator(IUserService userService)
+        public CategoriesIdentityChecker(IUserService userService)
         {
             _userService = userService;
         }
 
-        public async Task<Result> Validate(Guid userId)
+        public async Task<Result> Check(Guid userId)
         {
             return await _userService.GetUser(userId);
         }

@@ -39,8 +39,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                                                                                                 x.Id == categoryId);
 
             return categoryEntity is not null ?
-                        Result<Category>.Successful(Category.Constructor(categoryEntity.Id, categoryEntity.Name)) :
-                        Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found."));
+                    Result<Category>.Successful(Category.Constructor(categoryEntity.Id, categoryEntity.Name)) :
+                    Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found."));
         }
 
 
@@ -83,6 +83,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                     {
                         await transaction.CommitAsync();
                         return Result.Successful();
+
                     }
 
                     await transaction.RollbackAsync();

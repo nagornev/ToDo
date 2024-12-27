@@ -1,7 +1,6 @@
 ﻿using StackExchange.Redis;
 using ToDo.Microservices.Cache.Hashers;
-using ToDo.Microservices.Categories.Infrastructure.Caches;
-using ToDo.Microservices.Categories.UseCases.Caches;
+using ToDo.Microservices.Categories.Infrastructure.Cachers;
 
 namespace ToDo.Microservices.Categories.API.Extensions.Startup
 {
@@ -21,7 +20,7 @@ namespace ToDo.Microservices.Categories.API.Extensions.Startup
 
         private static void AddCacheHandlers(this IServiceCollection services)
         {
-            services.AddScoped<ICategoryCacheIO, CategoryCacheIO>();
+            services.AddScoped<CategoryCacheIO>();
         }
 
         private static void AddCacheDistributedClient(this IServiceCollection services, IConfiguration configuration)
