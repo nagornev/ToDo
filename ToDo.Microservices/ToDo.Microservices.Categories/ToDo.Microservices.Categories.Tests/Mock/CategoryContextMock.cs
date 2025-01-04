@@ -9,15 +9,14 @@ namespace ToDo.Microservices.Categories.Tests.Mock
     {
         public IReadOnlyDictionary<User, IEnumerable<Category>> Data { get; }
 
-        public IEnumerable<User> DefaultUsers => Data.Keys;
-
-        public IEnumerable<IEnumerable<Category>> DefaultCategories => Data.Values;
-
         public CategoryContextMock(string dbName, Func<IReadOnlyDictionary<User, IEnumerable<Category>>> data = null)
             : base(new DbContextOptionsBuilder<CategoryContext>()
-                            .UseInMemoryDatabase(dbName)
+                            .UseSqlite($"DataSource=file:{dbName}?mode=memory&cache=shared")
                             .Options)
         {
+            Database.OpenConnection();
+            Database.EnsureCreated();
+
             Data = data?.Invoke() ?? new Dictionary<User, IEnumerable<Category>>();
 
             Initialize();

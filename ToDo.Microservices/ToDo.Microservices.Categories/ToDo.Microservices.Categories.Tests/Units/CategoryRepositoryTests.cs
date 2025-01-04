@@ -4,81 +4,246 @@ using ToDo.Microservices.Categories.UseCases.Repositories;
 using Moq;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Domain.Models;
+using ToDo.Microservices.Categories.UseCases.Publishers;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToDo.Microservices.Categories.Tests.Units
 {
     public class CategoryRepositoryTests
     {
-        private CategoryContextMock _categoryContextMock;
-
-        private CategoryPublisherMock _categoryPublisherMock;
-
-        private ICategoryRepository _categoryRepository;
-
-        public CategoryRepositoryTests()
+        private CategoryContextMock GetCategoryContextMock( Func<IReadOnlyDictionary<User, IEnumerable<Category>>> data = null)
         {
-            _categoryContextMock = new CategoryContextMock($"{Guid.NewGuid()}", () =>
-            {
-                return new Dictionary<User, IEnumerable<Category>>()
-                {
-                    { User.Constructor(Guid.NewGuid()), new Category[] 
-                    { 
-                            Category.Constructor(Guid.Parse("43b8f286-dc09-4768-b084-3d6bc78fe0b4"), "test category"), 
-                            Category.New("test category") } 
-                    } ,
-                    { User.Constructor(Guid.NewGuid()), new Category[] { } } ,
-                    { User.Constructor(Guid.NewGuid()), new Category[] { Category.New("test category") } } ,
-                };
-            });
-
-            _categoryPublisherMock = new CategoryPublisherMock((mock)=>
-            {
-                mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () => Result.Successful());
-            });
-
-            _categoryRepository = new CategoryRepository(_categoryContextMock, _categoryPublisherMock);
+            return new CategoryContextMock($"{Guid.NewGuid()}", data);
         }
 
+        private CategoryPublisherMock GetCategoryPublisherMock(Action<Mock<ICategoryPubliser>> configure = null)
+        {
+            return new CategoryPublisherMock((mock) =>
+            {
+                mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () => Result.Successful());
+
+                configure?.Invoke(mock);
+            });
+        }
+
+        #region Get
+
         [Fact]
-        public async void CategoryRepository_GetCategories_ShouldReturnSuccessTrueAndUserCategories()
+        public async void CategoryRepository_Get_UserExistAndCategoryCollectionIsNotEmpty_ShouldReturnSuccessTrueAndCategoryCollection()
         {
             //Arrage
 
-            User user = _categoryContextMock.DefaultUsers.First();
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category[] categories =
+            {
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+            };
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, categories}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
 
             //Act
 
-            Result<IEnumerable<Category>> categoriesResult = await _categoryRepository.Get(user.Id);
+            Result<IEnumerable<Category>> categoriesResult = await categoryRepository.Get(user.Id);
 
             //Assert
 
             Assert.True(categoriesResult.Success);
             Assert.NotEmpty(categoriesResult.Content);
-            Assert.All(categoriesResult.Content, (category) => Assert.Contains(_categoryContextMock.Data[user], (selectedCategory)=>selectedCategory.Id == category.Id));
+            Assert.All(categoriesResult.Content, (category) => Assert.Contains(user.Id.ToString(), category.Name));
         }
 
         [Fact]
-        public async void CategoryRepository_GetCategory_ShouldReturnSuccessTrueAndUserCategory()
-        {
-            
-        }
-
-        [Fact]
-        public async void CategoryRepository_Create_ShouldReturnSuccessTrue()
+        public async void CategoryRepository_Get_UserExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessTrueAndEmptyCategoryCollection()
         {
             //Arrage
 
-            User user = _categoryContextMock.DefaultUsers.First();
+            User user = User.Constructor(Guid.NewGuid());
 
-            Category category = Category.New("new category");
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, Enumerable.Empty<Category>()}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
 
             //Act
 
-            Result createResult = await _categoryRepository.Create(user.Id, category);
+            Result<IEnumerable<Category>> categoriesResult = await categoryRepository.Get(user.Id);
+
+            //Assert
+
+            Assert.True(categoriesResult.Success);
+            Assert.Empty(categoriesResult.Content);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Get_UserNotExistAndCategoryCollectionNotExist_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
+                                                                            GetCategoryPublisherMock());
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            //Act
+
+            Result<IEnumerable<Category>> categoriesResult = await categoryRepository.Get(user.Id);
+
+            //Assert
+
+            Assert.False(categoriesResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Get_UserExistAndCategoryCollectionIsNotEmpty_ShouldReturnSuccessTrueAndCategory()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category[] categories =
+            {
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+            };
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, categories}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category receiveCategory = categories.First();
+
+            //Act
+
+            Result<Category> categoryResult = await categoryRepository.Get(user.Id, receiveCategory.Id);
+
+            //Assert
+
+            Assert.True(categoryResult.Success);
+            Assert.Equal(receiveCategory.Id.ToString(), categoryResult.Content.Id.ToString());
+        }
+
+        [Fact]
+        public async void CategoryRepository_Get_UserExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, Enumerable.Empty<Category>()}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category receiveCategory = Category.New(user.Id.ToString());
+
+            //Act
+
+            Result<Category> categoryResult = await categoryRepository.Get(user.Id, receiveCategory.Id);
+
+            //Assert
+
+            Assert.False(categoryResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Get_UsersExistAndCategoryCollectionsIsNotEmpty_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User firstUser = User.Constructor(Guid.NewGuid());
+
+            Category[] firstCategories =
+            {
+                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()),
+            };
+
+            User secondUser = User.Constructor(Guid.NewGuid());
+
+            Category[] secondCategories =
+            {
+                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()),
+            };
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {firstUser, firstCategories},
+                                                                                                                {secondUser, secondCategories},
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category receiveCategory = secondCategories.First();
+
+            //Act
+
+            Result<Category> categoryResult = await categoryRepository.Get(firstUser.Id, receiveCategory.Id);
+
+            //Assert
+
+            Assert.False(categoryResult.Success);
+        }
+
+        #endregion
+
+
+        #region Create
+
+        [Fact]
+        public async void CategoryRepository_Create_UserExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessTrue()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, Enumerable.Empty<Category>()}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category newCategory = Category.New(user.Id.ToString());
+
+            //Act
+
+            Result createResult = await categoryRepository.Create(user.Id, newCategory);
 
             //Assert
 
             Assert.True(createResult.Success);
         }
+
+        [Fact]
+        public async void CategoryRepository_Create_UserNotExistAndCategoryCollectionIsEmpty_ShouldThrowDbUpdateException()
+        {
+            //Arrage
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
+                                                                            GetCategoryPublisherMock());
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category category = Category.New(user.Id.ToString());
+
+            //Act & Assert
+
+            await Assert.ThrowsAsync<DbUpdateException>(async () => await categoryRepository.Create(user.Id, category));
+        }
+
+        #endregion
     }
 }

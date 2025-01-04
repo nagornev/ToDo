@@ -23,13 +23,13 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 
         public async Task<Result<IEnumerable<Category>>> Get(Guid userId)
         {
-            IEnumerable<CategoryEntity> categoryEntities = await _context.Categories.AsNoTracking()
-                                                                                        .Where(x => x.UserId == userId)
-                                                                                        .ToListAsync();
+            UserEntity? userEntity = await _context.Users.AsNoTracking()
+                                                         .Include(x => x.Categories)
+                                                         .FirstOrDefaultAsync(x => x.Id == userId);
 
-            IEnumerable<Category> categories = categoryEntities.Select(x => Category.Constructor(x.Id, x.Name));
-
-            return Result<IEnumerable<Category>>.Successful(categories);
+            return userEntity is not null ?
+                    Result<IEnumerable<Category>>.Successful(userEntity.Categories.Select(x => Category.Constructor(x.Id, x.Name))) :
+                    Result<IEnumerable<Category>>.Failure(Errors.IsNull($"The user {userId} was not found."));
         }
 
         public async Task<Result<Category>> Get(Guid userId, Guid categoryId)
