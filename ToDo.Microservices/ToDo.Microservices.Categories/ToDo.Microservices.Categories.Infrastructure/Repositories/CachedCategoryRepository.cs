@@ -35,7 +35,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
         {
             Result<Category> categoryResult = await _categoryCacheIO.Get(userId,
                                                                          category => category.Id == categoryId,
-                                                                         $"The category ({categoryId}) was not found.");
+                                                                         $"The category {categoryId} was not found.");
 
             if (!categoryResult.Success)
                 categoryResult = await _categoryRepository.Get(userId, categoryId);

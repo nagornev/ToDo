@@ -200,7 +200,6 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
         #endregion
 
-
         #region Create
 
         [Fact]
@@ -242,6 +241,88 @@ namespace ToDo.Microservices.Categories.Tests.Units
             //Act & Assert
 
             await Assert.ThrowsAsync<DbUpdateException>(async () => await categoryRepository.Create(user.Id, category));
+        }
+
+        #endregion
+
+        #region Update
+
+        [Fact]
+        public async void CategoryRepository_Update_UserExistAndCategoryCollectionIsNotEmpty_ShouldReturnSuccessTrue()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category[] categories =
+            {
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+            };
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, categories}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            string updatedCategoryName = "Updated category name";
+
+            Category category = Category.Constructor(categories.First().Id, updatedCategoryName);
+
+            //Act
+
+            Result updateResult = await categoryRepository.Update(user.Id, category);
+
+            //Assert
+
+            Assert.True(updateResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Update_UserExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, Enumerable.Empty<Category>()}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+
+            //Act
+
+            Result updateResult = await categoryRepository.Update(user.Id, category);
+
+            //Assert
+
+            Assert.False(updateResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Update_UserNotExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
+                                                                            GetCategoryPublisherMock());
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+
+            //Act
+
+            Result updateResult = await categoryRepository.Update(user.Id, category);
+
+            //Assert
+
+            Assert.False(updateResult.Success);
         }
 
         #endregion
