@@ -11,9 +11,9 @@ namespace ToDo.Microservices.Categories.Tests.Units
 {
     public class CategoryRepositoryTests
     {
-        private CategoryContextMock GetCategoryContextMock( Func<IReadOnlyDictionary<User, IEnumerable<Category>>> data = null)
+        private CategoryContextMock GetCategoryContextMock( Func<IReadOnlyDictionary<User, IEnumerable<Category>>> startContext = null)
         {
-            return new CategoryContextMock($"{Guid.NewGuid()}", data);
+            return new CategoryContextMock($"{Guid.NewGuid()}", startContext);
         }
 
         private CategoryPublisherMock GetCategoryPublisherMock(Action<Mock<ICategoryPubliser>> configure = null)
@@ -324,6 +324,123 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             Assert.False(updateResult.Success);
         }
+
+        #endregion
+
+        #region Delete
+
+        [Fact]
+        public async void CategoryRepository_Delete_UserExistAndCategoryCollectionIsNotEmpty_ShouldReturnSuccessTrue()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category[] categories =
+            {
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+            };
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, categories}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category category = categories.First();
+
+            //Act
+
+            Result deleteResult = await categoryRepository.Delete(user.Id, category.Id);
+
+            //Assert
+
+            Assert.True(deleteResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Delete_UserExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, Enumerable.Empty<Category>()}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock());
+
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+
+            //Act
+
+            Result deleteResult = await categoryRepository.Delete(user.Id, category.Id);
+
+            //Assert
+
+            Assert.False(deleteResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Delete_UserNotExistAndCategoryCollectionIsEmpty_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
+                                                                            GetCategoryPublisherMock());
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+
+            //Act
+
+            Result deleteResult = await categoryRepository.Delete(user.Id, category.Id);
+
+            //Assert
+
+            Assert.False(deleteResult.Success);
+        }
+
+        [Fact]
+        public async void CategoryRepository_Delete_UserExistAndCategoryCollectionIsNotEmptyPublisherIsDisabled_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid());
+
+            Category[] categories =
+            {
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+            };
+
+            ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
+                                                                                                           {
+                                                                                                                {user, categories}
+                                                                                                           }),
+                                                                            GetCategoryPublisherMock(mock =>
+                                                                            {
+                                                                                //Имитация недоступности брокера сообщений
+                                                                                mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () =>
+                                                                                    Result.Failure(Errors.IsInternalServer("The publisher service is unavalible.")));
+                                                                            }));
+
+            Category category = categories.First();
+
+            //Act
+
+            Result deleteResult = await categoryRepository.Delete(user.Id, category.Id);
+
+            //Assert
+
+            Assert.False(deleteResult.Success);
+        }
+
 
         #endregion
     }
