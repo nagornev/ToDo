@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Microservices.Categories.Database.Contexts;
 using ToDo.Microservices.Categories.Database.Entities;
+using ToDo.Microservices.Categories.Database.Extensions;
 using ToDo.Microservices.Categories.Domain.Models;
 
 namespace ToDo.Microservices.Categories.Tests.Mock
@@ -27,22 +28,13 @@ namespace ToDo.Microservices.Categories.Tests.Mock
 
             foreach (User user in Data.Keys)
             {
-                UserEntity userEntity = new UserEntity()
-                {
-                    Id = user.Id,
-                };
+                UserEntity userEntity = user.GetEntity();
 
                 Users.Add(userEntity);
 
                 foreach (Category category in Data[user])
                 {
-                    CategoryEntity categoryEntity = new CategoryEntity()
-                    {
-                        Id = category.Id,
-                        Name = category.Name,
-
-                        UserId = user.Id,
-                    };
+                    CategoryEntity categoryEntity = category.GetEntity(user.Id);
 
                     Categories.Add(categoryEntity);
                 }

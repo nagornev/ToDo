@@ -10,7 +10,7 @@ namespace ToDo.Microservices.Categories.Database.Extensions
             return new UserEntity
             {
                 Id = user.Id,
-                Categories = categories?.GetEntity(user.Id) ?? Enumerable.Empty<CategoryEntity>(),
+                Categories = categories?.GetEntity(user.Id),
             };
         }
     }
