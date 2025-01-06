@@ -29,7 +29,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             }
             catch (TimeoutException)
             {
-                return Result<IEnumerable<Category>>.Failure(Errors.IsInternalServer("The 'Categories' service is unavaliable."));
+                return Result<IEnumerable<Category>>.Failure(Errors.IsInternalServer("The \"Category\" service is unavaliable."));
             }
         }
 
@@ -46,7 +46,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             }
             catch (TimeoutException)
             {
-                return Result<Category>.Failure(Errors.IsInternalServer("The 'Categories' service is unavaliable."));
+                return Result<Category>.Failure(Errors.IsInternalServer("The \"Category\" service is unavaliable."));
             }
         }
     }
