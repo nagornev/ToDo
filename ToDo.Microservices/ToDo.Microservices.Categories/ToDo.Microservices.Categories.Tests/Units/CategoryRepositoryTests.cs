@@ -11,7 +11,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 {
     public class CategoryRepositoryTests
     {
-        private CategoryContextMock GetCategoryContextMock( Func<IReadOnlyDictionary<User, IEnumerable<Category>>> startContext = null)
+        private CategoryContextMock GetCategoryContextMock(Func<IReadOnlyDictionary<User, IEnumerable<Category>>> startContext = null)
         {
             return new CategoryContextMock($"{Guid.NewGuid()}", startContext);
         }

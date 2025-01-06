@@ -11,9 +11,9 @@ namespace ToDo.Microservices.Entries.Tests.Mock
         public IReadOnlyDictionary<User, IEnumerable<Entry>> Data { get; }
 
         public EntryContextMock(string dbName, Func<IReadOnlyDictionary<User, IEnumerable<Entry>>> data = null)
-                    : base(new DbContextOptionsBuilder<EntryContext>()
-                                    .UseSqlite($"DataSource=file:{dbName}?mode=memory&cache=shared")
-                                    .Options)
+            : base(new DbContextOptionsBuilder<EntryContext>()
+                            .UseSqlite($"DataSource=file:{dbName}?mode=memory&cache=shared")
+                            .Options)
         {
             Database.OpenConnection();
             Database.EnsureCreated();

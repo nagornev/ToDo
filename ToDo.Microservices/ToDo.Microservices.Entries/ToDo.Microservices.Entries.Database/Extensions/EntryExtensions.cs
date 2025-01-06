@@ -11,6 +11,9 @@ namespace ToDo.Microservices.Entries.Database.Extensions
             {
                 Id = entry.Id,
                 CategoryId = entry.CategoryId,
+                Text = entry.Text,
+                Deadline = entry.Deadline,
+                Completed = entry.Completed,
 
                 UserId = userId,
             };
@@ -22,6 +25,9 @@ namespace ToDo.Microservices.Entries.Database.Extensions
             {
                 Id = entry.Id,
                 CategoryId = entry.CategoryId,
+                Text = entry.Text,
+                Deadline = entry.Deadline,
+                Completed = entry.Completed,
 
                 UserId = userEntity.Id,
                 User = userEntity,

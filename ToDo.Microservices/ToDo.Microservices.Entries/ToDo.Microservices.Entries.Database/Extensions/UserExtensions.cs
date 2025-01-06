@@ -10,7 +10,7 @@ namespace ToDo.Microservices.Entries.Database.Extensions
             return new UserEntity()
             {
                 Id = user.Id,
-                Entries = entries?.GetEntity(user.Id)
+                Entries = entries?.GetEntity(user.Id),
             };
         }
     }

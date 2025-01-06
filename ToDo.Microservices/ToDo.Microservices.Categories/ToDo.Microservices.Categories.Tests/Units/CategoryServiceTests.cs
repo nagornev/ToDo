@@ -480,7 +480,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                             {
                                                                                 //Имитация недоступности брокера сообщений
                                                                                 mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () =>
-                                                                                    Result.Failure(Errors.IsInternalServer("The publisher service is unavalible.")));
+                                                                                    Result.Failure(Errors.IsInternalServer("The publisher service is unavailable.")));
                                                                             }));
 
             ICategoryService categoryService = new CategoryService(categoryRepository);
