@@ -65,6 +65,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Tests", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Tests\ToDo.Microservices.Categories.Tests.csproj", "{5F2A0D05-463B-4161-B13B-066E3F094E4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Entries.Tests", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.Tests\ToDo.Microservices.Entries.Tests.csproj", "{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +173,10 @@ Global
 		{5F2A0D05-463B-4161-B13B-066E3F094E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F2A0D05-463B-4161-B13B-066E3F094E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F2A0D05-463B-4161-B13B-066E3F094E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -201,6 +207,7 @@ Global
 		{3C9B429F-B6FB-4660-8C82-7C409F284360} = {FC1EECDF-07F8-4048-8593-4EE460EF9D4D}
 		{1BF319E5-8F69-42E5-ACB8-31C3791780AF} = {56FD76B2-3853-4D93-8581-78F037341F21}
 		{5F2A0D05-463B-4161-B13B-066E3F094E4D} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
+		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C} = {47E8ED24-5D3C-42DA-9706-E29DE7551695}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B023FCCE-7B07-45E5-B23B-725D55C2AD80}
