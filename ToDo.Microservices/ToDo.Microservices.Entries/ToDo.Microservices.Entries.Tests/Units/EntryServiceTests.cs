@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Domain.Collectings;
 using ToDo.Microservices.Entries.Domain.Models;
@@ -54,10 +55,10 @@ namespace ToDo.Microservices.Entries.Tests.Units
                 string errorMessage = "The category service is unavailable.";
 
                 mock.Setup(service => service.GetCategories(It.IsAny<Guid>()))
-                                             .Returns(async () => Result<IEnumerable<Category>>.Failure(Errors.IsInternalServer(errorMessage)));
+                                             .Returns(async () => Result<IEnumerable<Category>>.Failure(error => error.InternalServer(errorMessage)));
 
                 mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                    .Returns(async () => Result<Category>.Failure(Errors.IsInternalServer(errorMessage)));
+                    .Returns(async () => Result<Category>.Failure(error => error.InternalServer(errorMessage)));
 
                 configure?.Invoke(mock);
             });
@@ -483,7 +484,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                                {
                                                                                    mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found.")));
+                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                                });
 
             IEntryСomposer entryComposer = new EntryComposer();
@@ -543,7 +544,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                               {
                                                                                   mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                      .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found.")));
+                                                                                      .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                               });
 
             IEntryСomposer entryComposer = new EntryComposer();
@@ -591,7 +592,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                               {
                                                                                   mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                      .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found.")));
+                                                                                      .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                               });
 
             IEntryСomposer entryComposer = new EntryComposer();
@@ -672,7 +673,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                                {
                                                                                    mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found.")));
+                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                                });
 
             IEntryСomposer entryComposer = new EntryComposer();
@@ -732,7 +733,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                                {
                                                                                    mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found.")));
+                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure( error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                                });
 
             IEntryСomposer entryComposer = new EntryComposer();
@@ -785,7 +786,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                                {
                                                                                    mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(Errors.IsNull($"The category {categoryId} was not found.")));
+                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure  (error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                                });
 
             IEntryСomposer entryComposer = new EntryComposer();

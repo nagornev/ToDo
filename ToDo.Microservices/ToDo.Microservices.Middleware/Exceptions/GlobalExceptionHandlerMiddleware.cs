@@ -38,7 +38,7 @@ namespace ToDo.Microservices.Middleware.Exceptions
 
         private async void Handle(HttpContext context, Result result)
         {
-            context.Response.StatusCode = result.Error.Code;
+            context.Response.StatusCode = result.Error.Status;
             await context.Response.WriteAsync(result.ToString());
         }
     }

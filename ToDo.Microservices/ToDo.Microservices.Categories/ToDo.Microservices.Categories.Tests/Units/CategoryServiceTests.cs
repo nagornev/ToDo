@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.Infrastructure.Repositories;
 using ToDo.Microservices.Categories.Infrastructure.Services;
@@ -40,13 +41,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -73,7 +74,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -103,7 +104,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             //Act
 
@@ -120,13 +121,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -154,7 +155,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -164,7 +165,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
-            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content;
 
             //Act
 
@@ -185,9 +186,9 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content;
 
             //Act
 
@@ -207,13 +208,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -238,7 +239,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -268,7 +269,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             //Act & Assert
 
@@ -284,13 +285,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -303,7 +304,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             string updatedCategoryName = "Updated name";
 
-            Category category = Category.Constructor(categories.First().Id, updatedCategoryName);
+            Category category = Category.Constructor(categories.First().Id, updatedCategoryName).Content;
 
             //Act
 
@@ -319,7 +320,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -331,7 +332,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             string updatedCategoryName = "Updated name";
 
-            Category category = Category.Constructor(Guid.NewGuid(), updatedCategoryName);
+            Category category = Category.Constructor(Guid.NewGuid(), updatedCategoryName).Content;
 
             //Act
 
@@ -353,11 +354,11 @@ namespace ToDo.Microservices.Categories.Tests.Units
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             string updatedCategoryName = "Updated name";
 
-            Category category = Category.Constructor(Guid.NewGuid(), updatedCategoryName);
+            Category category = Category.Constructor(Guid.NewGuid(), updatedCategoryName).Content;
 
             //Act
 
@@ -378,13 +379,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -412,7 +413,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -423,7 +424,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
 
-            Category category = Category.New(user.Id.ToString());
+            Category category = Category.New(user.Id.ToString()).Content;
 
             //Act
 
@@ -444,9 +445,9 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             ICategoryService categoryService = new CategoryService(categoryRepository);
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Category category = Category.New(user.Id.ToString());
+            Category category = Category.New(user.Id.ToString()).Content;
 
             //Act
 
@@ -463,13 +464,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -480,7 +481,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                             {
                                                                                 //Имитация недоступности брокера сообщений
                                                                                 mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () =>
-                                                                                    Result.Failure(Errors.IsInternalServer("The publisher service is unavailable.")));
+                                                                                    Result.Failure(error => error.InternalServer("The publisher service is unavailable.")));
                                                                             }));
 
             ICategoryService categoryService = new CategoryService(categoryRepository);

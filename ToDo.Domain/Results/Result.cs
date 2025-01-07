@@ -18,6 +18,7 @@ namespace ToDo.Domain.Results
         }
 
         [JsonPropertyName("success")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public bool Success { get; private set; }
 
         [JsonPropertyName("error")]
@@ -37,6 +38,15 @@ namespace ToDo.Domain.Results
         public static Result Failure(IError error = default)
         {
             return Create(false, error);
+        }
+
+        public static Result Failure(Action<ErrorBuilder> options)
+        {
+            ErrorBuilder builder = new ErrorBuilder();
+
+            options.Invoke(builder);
+
+            return Create(false, builder.Build());
         }
 
         public static Result Successful()

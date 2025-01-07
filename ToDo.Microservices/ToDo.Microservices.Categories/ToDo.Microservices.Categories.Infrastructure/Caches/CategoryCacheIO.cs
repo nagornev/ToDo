@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Azure.Core;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Caches;
@@ -10,6 +12,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Caches
 {
     public class CategoryCacheIO : ICategoryCacheIO
     {
+        private const string _internalServerMessage = "The distributed cache service is unavaliable.";
+
         private const int _cacheLifetime = 600000;
 
         private IDistributedCache _cache;
@@ -39,11 +43,11 @@ namespace ToDo.Microservices.Categories.Infrastructure.Caches
 
                 return !string.IsNullOrEmpty(cache) ?
                           Result<IEnumerable<Category>>.Deserialize(cache)! :
-                          Result<IEnumerable<Category>>.Failure(Errors.IsNull("No categories in cache."));
+                          Result<IEnumerable<Category>>.Failure(error => error.NullOrEmpty("No categories in cache."));
             }
             catch (Exception exception)
             {
-                return HandleException(exception, (error) => Result<IEnumerable<Category>>.Failure(error));
+                return HandleException(exception, () => Result<IEnumerable<Category>>.Failure(error => error.InternalServer(_internalServerMessage)));
             }
         }
 
@@ -59,7 +63,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Caches
             }
             catch (Exception exception)
             {
-                return HandleException(exception, (error) => Result.Failure(error));
+                return HandleException(exception, () => Result.Failure(error => error.InternalServer(_internalServerMessage)));
             }
         }
 
@@ -73,7 +77,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Caches
             }
             catch (Exception exception)
             {
-                return HandleException(exception, (error) => Result.Failure(error));
+                return HandleException(exception, () => Result.Failure(error => error.InternalServer(_internalServerMessage)));
             }
         }
 
@@ -82,12 +86,12 @@ namespace ToDo.Microservices.Categories.Infrastructure.Caches
             return Hasher.Hash(key);
         }
 
-        private TResultType HandleException<TResultType>(Exception exception, Func<IError, TResultType> result)
+        private TResultType HandleException<TResultType>(Exception exception, Func<TResultType> resultFactory)
           where TResultType : Result
         {
-            _logger.LogError(exception, "The distributed cache service is unavaliable.");
+            _logger.LogError(exception, _internalServerMessage);
 
-            return result.Invoke(Errors.IsInternalServer("The distributed cache service is unavaliable."));
+            return resultFactory.Invoke();
         }
     }
 }

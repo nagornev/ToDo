@@ -3,6 +3,7 @@ using ToDo.Microservices.Categories.Tests.Mock;
 using ToDo.Microservices.Categories.UseCases.Repositories;
 using Moq;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Publishers;
 using Microsoft.EntityFrameworkCore;
@@ -33,13 +34,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -64,7 +65,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -90,7 +91,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
                                                                             GetCategoryPublisherMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             //Act
 
@@ -106,13 +107,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -138,7 +139,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -146,7 +147,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                                                            }),
                                                                             GetCategoryPublisherMock());
 
-            Category receiveCategory = Category.New(user.Id.ToString());
+            Category receiveCategory = Category.New(user.Id.ToString()).Content;
 
             //Act
 
@@ -162,22 +163,22 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User firstUser = User.Constructor(Guid.NewGuid());
+            User firstUser = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] firstCategories =
             {
-                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), firstUser.Id.ToString()).Content,
             };
 
-            User secondUser = User.Constructor(Guid.NewGuid());
+            User secondUser = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] secondCategories =
             {
-                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), secondUser.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -207,7 +208,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -215,7 +216,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                                                            }),
                                                                             GetCategoryPublisherMock());
 
-            Category newCategory = Category.New(user.Id.ToString());
+            Category newCategory = Category.New(user.Id.ToString()).Content;
 
             //Act
 
@@ -234,9 +235,9 @@ namespace ToDo.Microservices.Categories.Tests.Units
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
                                                                             GetCategoryPublisherMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Category category = Category.New(user.Id.ToString());
+            Category category = Category.New(user.Id.ToString()).Content;
 
             //Act & Assert
 
@@ -252,13 +253,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -269,7 +270,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             string updatedCategoryName = "Updated category name";
 
-            Category category = Category.Constructor(categories.First().Id, updatedCategoryName);
+            Category category = Category.Constructor(categories.First().Id, updatedCategoryName).Content;
 
             //Act
 
@@ -285,7 +286,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -293,7 +294,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                                                            }),
                                                                             GetCategoryPublisherMock());
 
-            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content;
 
             //Act
 
@@ -312,9 +313,9 @@ namespace ToDo.Microservices.Categories.Tests.Units
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
                                                                             GetCategoryPublisherMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content;
 
             //Act
 
@@ -334,13 +335,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -365,7 +366,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
                                                                                                            {
@@ -373,7 +374,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                                                            }),
                                                                             GetCategoryPublisherMock());
 
-            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content;
 
             //Act
 
@@ -392,9 +393,9 @@ namespace ToDo.Microservices.Categories.Tests.Units
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(),
                                                                             GetCategoryPublisherMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString());
+            Category category = Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content;
 
             //Act
 
@@ -410,13 +411,13 @@ namespace ToDo.Microservices.Categories.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Category[] categories =
             {
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
-                Category.Constructor(Guid.NewGuid(), user.Id.ToString()),
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
+                Category.Constructor(Guid.NewGuid(), user.Id.ToString()).Content,
             };
 
             ICategoryRepository categoryRepository = new CategoryRepository(GetCategoryContextMock(() => new Dictionary<User, IEnumerable<Category>>()
@@ -427,7 +428,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                             {
                                                                                 //Имитация недоступности брокера сообщений
                                                                                 mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () =>
-                                                                                    Result.Failure(Errors.IsInternalServer("The publisher service is unavalible.")));
+                                                                                    Result.Failure(error => error.InternalServer("The publisher service is unavalible.")));
                                                                             }));
 
             Category category = categories.First();

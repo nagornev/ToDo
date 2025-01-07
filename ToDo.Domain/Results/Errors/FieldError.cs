@@ -1,14 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Net;
+using System.Text.Json.Serialization;
 
-namespace ToDo.Domain.Results
+namespace ToDo.Domain.Results.Errors
 {
-    public class ErrorField : Error
+    public class FieldError : DefaultError
     {
-        public ErrorField(int code,
-                          string key,
+        public FieldError(HttpStatusCode status,
                           string message,
                           string field)
-            : base(code, key, message)
+            : base(status, message)
         {
             Field = field;
         }

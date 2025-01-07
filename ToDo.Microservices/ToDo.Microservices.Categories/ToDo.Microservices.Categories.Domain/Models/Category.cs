@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Microservices.Categories.Domain.Models
 {
@@ -19,15 +21,18 @@ namespace ToDo.Microservices.Categories.Domain.Models
 
         public string Name { get; private set; }
 
-        public static Category Constructor(Guid id, string name)
+        public static Result<Category> Constructor(Guid id, string name)
         {
             if (id == Guid.Empty)
-                throw new ArgumentException("The category id can not be empty.");
+                return Result<Category>.Failure(error => error.NullOrEmpty("The category ID can`t be null or empty.", nameof(Id)));
 
-            return new Category(id, name);
+            if (name.Length > MaximumNameLength)
+                return Result<Category>.Failure(error => error.InvalidArgument($"The category name can`t be more than {MaximumNameLength} symbols.", nameof(Name)));
+
+            return Result<Category>.Successful(new Category(id, name));
         }
 
-        public static Category New(string name)
+        public static Result<Category> New(string name)
         {
             return Constructor(Guid.NewGuid(), name);
         }

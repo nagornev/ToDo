@@ -1,4 +1,5 @@
 ﻿using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.UseCases.Publishers;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.MQ.Abstractions;
@@ -24,7 +25,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Publishers
             }
             catch (Exception exception)
             {
-                return Result.Failure(Errors.IsInternalServer(exception.StackTrace));
+                return Result.Failure(error => error.InternalServer(exception.StackTrace));
             }
         }
     }

@@ -1,27 +1,22 @@
 ﻿using System;
+using System.Net;
 using System.Text.Json.Serialization;
 
-namespace ToDo.Domain.Results
+namespace ToDo.Domain.Results.Errors
 {
     [Serializable]
-    public class Error : IError
+    public class DefaultError : IError
     {
-        public Error(int code,
-                     string key,
+        public DefaultError(HttpStatusCode status,
                      string message)
         {
-            Code = code;
-            Key = key;
+            Status = (int)status;
             Message = message;
         }
 
         [JsonPropertyName("code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int Code { get; private set; }
-
-        [JsonPropertyName("key")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Key { get; private set; }
+        public int Status { get; private set; }
 
         [JsonPropertyName("message")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

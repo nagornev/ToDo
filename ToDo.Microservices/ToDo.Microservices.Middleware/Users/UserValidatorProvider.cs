@@ -36,7 +36,7 @@ namespace ToDo.Microservices.Middleware.Users
 
         private async void BadRequest(HttpResponse response, Result output)
         {
-            response.StatusCode = output.Error!.Code;
+            response.StatusCode = output.Error!.Status;
             await response.WriteAsync(output.ToString());
         }
     }

@@ -16,14 +16,16 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
 
         public async Task<Result<User>> GetUser(Guid userId)
         {
-            return await _userRepository.Get(userId); ;
+            return await _userRepository.Get(userId);
         }
 
         public async Task<Result> CreateUser(Guid userId)
         {
-            User user = User.Constructor(userId);
+            Result<User> userResult = User.Constructor(userId);
 
-            return await _userRepository.Create(user);
+            return userResult.Success?
+                        await _userRepository.Create(userResult.Content):
+                        userResult;
         }
     }
 }

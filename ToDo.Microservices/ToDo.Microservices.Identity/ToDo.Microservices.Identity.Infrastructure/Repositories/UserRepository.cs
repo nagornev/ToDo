@@ -2,8 +2,10 @@
 using System.Data;
 using System.Linq.Expressions;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Identity.Database.Contexts;
 using ToDo.Microservices.Identity.Database.Entities;
+using ToDo.Microservices.Identity.Database.Extensions;
 using ToDo.Microservices.Identity.Domain.Models;
 using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.Identity.UseCases.Repositories;
@@ -29,7 +31,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
 
             return userResult.Success ?
                       userResult :
-                      Result<User>.Failure(Errors.IsNull($"The user ({userId}) was not found."));
+                      Result<User>.Failure(error => error.NullOrEmpty($"The user {userId} was not found."));
         }
 
         public async Task<Result<User>> Get(string email)
@@ -38,18 +40,12 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
 
             return userResult.Success ?
                     userResult :
-                    Result<User>.Failure(Errors.IsNull($"The user ({email}) was not found"));
+                    Result<User>.Failure(error => error.NullOrEmpty($"The user {email} was not found."));
         }
 
         public async Task<Result> Create(User user)
         {
-            UserEntity userEntity = new UserEntity()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Password = user.Password,
-                RoleId = (int)user.Access.Role
-            };
+            UserEntity userEntity = user.GetEntity();
 
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -86,7 +82,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
                                             .ExecuteUpdateAsync(p => p.SetProperty(x => x.Email, user.Email)
                                                                       .SetProperty(x => x.RoleId, (int)user.Access.Role))) > 0 ?
                           Result.Successful() :
-                          Result.Failure();
+                          Result.Failure(error => error.NullOrEmpty($"The user {user.Id} was not found."));
         }
 
         public async Task<Result> Delete(Guid userId)
@@ -98,7 +94,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
                     UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
                     if (userEntity is null)
-                        return Result.Failure(Errors.IsNull($"The user ({userId}) was not found."));
+                        return Result.Failure(error => error.NullOrEmpty($"The user {userId} was not found."));
 
                     _context.Users.Remove(userEntity);
 
@@ -110,7 +106,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
                     {
                         await transaction.RollbackAsync();
 
-                        return Result.Failure(Errors.IsMessage("Registration error. Please try again later."));
+                        return Result.Failure(error => error.InternalServer("Registration error. Please try again later."));
                     }
 
                     await transaction.CommitAsync();
@@ -130,11 +126,8 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(predicate);
 
             return userEntity is not null ?
-                    Result<User>.Successful(User.Constructor(userEntity.Id,
-                                                             userEntity.Email,
-                                                             userEntity.Password,
-                                                             Access.Constructor((Role)userEntity.RoleId))) :
-                    Result<User>.Failure(Errors.IsNull("The user was not found."));
+                    Result<User>.Successful(userEntity.GetDomain()) :
+                    Result<User>.Failure(error => error.NullOrEmpty("The user was not found."));
         }
     }
 }

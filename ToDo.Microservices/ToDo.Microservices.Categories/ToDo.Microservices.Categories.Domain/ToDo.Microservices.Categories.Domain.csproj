@@ -8,4 +8,8 @@
     <ProjectReference Include="..\..\..\ToDo.Domain\ToDo.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Errors\" />
+  </ItemGroup>
+
 </Project>

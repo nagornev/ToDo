@@ -1,14 +1,13 @@
 ﻿using System.Text.Json.Serialization;
+using ToDo.Domain.Results.Errors;
 
 namespace ToDo.Domain.Results
 {
-    [JsonDerivedType(typeof(Error))]
-    [JsonDerivedType(typeof(ErrorField))]
+    [JsonDerivedType(typeof(DefaultError))]
+    [JsonDerivedType(typeof(FieldError))]
     public interface IError
     {
-        int Code { get; }
-
-        string Key { get; }
+        int Status { get; }
 
         string Message { get; }
     }

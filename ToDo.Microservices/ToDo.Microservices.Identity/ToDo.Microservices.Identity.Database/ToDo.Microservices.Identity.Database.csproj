@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDo.Microservices.Identity.Domain\ToDo.Microservices.Identity.Domain.csproj" />
-    <ProjectReference Include="..\ToDo.Microservices.Identity.UseCases\ToDo.Microservices.Identity.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

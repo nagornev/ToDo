@@ -26,16 +26,21 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
 
         public async Task<Result> CreateCategory(Guid userId, string name)
         {
-            Category category = Category.New(name);
+            Result<Category> categoryResult = Category.New(name);
 
-            return await _categoryRepository.Create(userId, category);
+            return categoryResult.Success?
+                        await _categoryRepository.Create(userId, categoryResult.Content):
+                        categoryResult;
         }
 
         public async Task<Result> UpdateCategory(Guid userId, Guid categoryId, string name)
         {
-            Category category = Category.Constructor(categoryId, name);
+            Result<Category> categoryResult = Category.Constructor(categoryId, name);
 
-            return await _categoryRepository.Update(userId, category);
+            return categoryResult.Success?
+                        await _categoryRepository.Update(userId, categoryResult.Content):
+                        categoryResult;
+                        
         }
 
         public async Task<Result> DeleteCategory(Guid userId, Guid categoryId)

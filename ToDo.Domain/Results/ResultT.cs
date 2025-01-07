@@ -32,6 +32,15 @@ namespace ToDo.Domain.Results
             return Create(false, default, error);
         }
 
+        public new static Result<T> Failure(Action<ErrorBuilder> options)
+        {
+            ErrorBuilder builder = new ErrorBuilder();
+
+            options.Invoke(builder);
+
+            return Create(false, default, builder.Build());
+        }
+
         public static Result<T> Successful(T content)
         {
             return Create(true, content, default);

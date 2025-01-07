@@ -1,4 +1,5 @@
 ﻿using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Repositories;
 using ToDo.Microservices.MQ.Queries.GetCategories;
@@ -29,7 +30,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             }
             catch (TimeoutException)
             {
-                return Result<IEnumerable<Category>>.Failure(Errors.IsInternalServer("The \"Category\" service is unavaliable."));
+                return Result<IEnumerable<Category>>.Failure(error => error.InternalServer("The category service is unavaliable."));
             }
         }
 
@@ -46,7 +47,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             }
             catch (TimeoutException)
             {
-                return Result<Category>.Failure(Errors.IsInternalServer("The \"Category\" service is unavaliable."));
+                return Result<Category>.Failure(error => error.InternalServer("The category service is unavaliable."));
             }
         }
     }

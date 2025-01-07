@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.Database.Contexts;
 using ToDo.Microservices.Categories.Database.Entities;
 using ToDo.Microservices.Categories.Domain.Models;
@@ -22,8 +23,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             return userEntity is not null ?
-                        Result<User>.Successful(userEntity.GetDomain()) :
-                        Result<User>.Failure(Errors.IsNull($"The user {userId} was not found."));
+                        userEntity.GetDomain() :
+                        Result<User>.Failure(error => error.NullOrEmpty($"The user {userId} was not found."));
         }
 
         public async Task<Result> Create(User user)
@@ -32,7 +33,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 
             return await _context.SaveChangesAsync() > 0 ?
                         Result.Successful() :
-                        Result.Failure(Errors.IsMessage("The user was not created. Please try again later"));
+                        Result.Failure(error => error.InternalServer("The user was not created. Please try again later"));
         }
     }
 }

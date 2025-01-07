@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Microservices.Categories.Domain.Models
 {
@@ -14,12 +16,12 @@ namespace ToDo.Microservices.Categories.Domain.Models
 
         public Guid Id { get; private set; }
 
-        public static User Constructor(Guid id)
+        public static Result<User> Constructor(Guid id)
         {
             if (id == Guid.Empty)
-                throw new ArgumentException("The user id can not be empty.");
+                return Result<User>.Failure(error => error.NullOrEmpty("The user ID can`t be null or empty."));
 
-            return new User(id);
+            return Result<User>.Successful(new User(id));
         }
     }
 }
