@@ -23,8 +23,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Consumers
 
             Result deleteResult = await _entryService.DeleteEntriesByCategory(message.UserId, message.CategoryId);
 
-            Complete(deleteResult.Success || deleteResult.Error.Key == Errors.IsNullKey,
-                     context);
+            Complete(true, context);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Cache.Abstractions.Extensions
 {
@@ -21,7 +22,7 @@ namespace ToDo.Cache.Abstractions.Extensions
 
             return searchedCache != null ?
                        Result<TCacheType>.Successful(searchedCache) :
-                       Result<TCacheType>.Failure(Errors.IsNull(notFoundMessage));
+                       Result<TCacheType>.Failure(error => error.NullOrEmpty(notFoundMessage));
         }
     }
 }

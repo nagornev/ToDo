@@ -54,9 +54,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         {
             Result<Category> categoryResult = await _categoryService.GetCategory(userId, categoryId);
 
-            return categoryResult.Success ?
-                     await _entryRepository.Create(userId, Entry.New(categoryId, text, deadline)) :
-                     categoryResult;
+            Result<Entry> entryResult = Entry.New(categoryId, text, deadline);
+
+            return categoryResult.Success && entryResult.Success ?
+                     await _entryRepository.Create(userId, entryResult.Content) :
+                     Result.Failure(categoryResult.Error ?? entryResult.Error);
         }
 
 
@@ -64,9 +66,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         {
             Result<Category> categoryResult = await _categoryService.GetCategory(userId, categoryId);
 
-            return categoryResult.Success ?
-                        await _entryRepository.Update(userId, Entry.Constructor(entryId, categoryId, text, deadline, completed)) :
-                        categoryResult;
+            Result<Entry> entryResult = Entry.Constructor(entryId, categoryId, text, deadline, completed);
+
+            return categoryResult.Success && entryResult.Success ?
+                        await _entryRepository.Update(userId, entryResult.Content) :
+                        Result.Failure(categoryResult.Error ?? entryResult.Error);
         }
 
         public async Task<Result> DeleteEntry(Guid userId, Guid entryId)

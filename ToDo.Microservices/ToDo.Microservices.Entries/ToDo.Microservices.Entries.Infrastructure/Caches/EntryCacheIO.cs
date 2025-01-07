@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Caches;
@@ -10,6 +12,8 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
 {
     public class EntryCacheIO : IEntryCacheIO
     {
+        private const string _internalServerMessage = "The distributed cache service is unavaliable.";
+
         private const int _cacheLifetime = 600000;
 
         private IDistributedCache _cache;
@@ -39,11 +43,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
 
                 return !string.IsNullOrEmpty(cache) ?
                           Result<IEnumerable<Entry>>.Deserialize(cache)! :
-                          Result<IEnumerable<Entry>>.Failure(Errors.IsNull("No entries in cache."));
+                          Result<IEnumerable<Entry>>.Failure(error => error.NullOrEmpty("No entries in cache."));
             }
             catch(Exception exception)
             {
-                return HandleException(exception, (error) => Result<IEnumerable<Entry>>.Failure(error));
+                return HandleException(exception, () => Result<IEnumerable<Entry>>.Failure(error => error.InternalServer(_internalServerMessage)));
             }
         }
 
@@ -59,7 +63,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
             }
             catch (Exception exception)
             {
-                return HandleException(exception, (error) => Result.Failure(error));
+                return HandleException(exception, () => Result.Failure(error => error.InternalServer(_internalServerMessage)));
             }
         }
 
@@ -73,7 +77,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
             }
             catch (Exception exception)
             {
-                return HandleException(exception, (error) => Result.Failure(error));
+                return HandleException(exception, () => Result.Failure(error => error.InternalServer(_internalServerMessage)));
             }
         }
 
@@ -82,12 +86,12 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
             return Hasher.Hash(userId);
         }
 
-        private TResultType HandleException<TResultType>(Exception exception, Func<IError, TResultType> result)
+        private TResultType HandleException<TResultType>(Exception exception, Func<TResultType> result)
             where TResultType : Result
         {
-            _logger.LogError(exception, "The distributed cache service is unavaliable.");
+            _logger.LogError(exception, _internalServerMessage);
 
-            return result.Invoke(Errors.IsInternalServer("The distributed cache service is unavaliable."));
+            return result.Invoke();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using System.Net;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Errors;
 
 namespace ToDo.Microservices.Categories.API.Contracts.Categories
 {
@@ -10,10 +12,10 @@ namespace ToDo.Microservices.Categories.API.Contracts.Categories
             #region Id
 
             RuleFor(x => x.CategoryId).NotNull()
-                                      .WithState(x => Errors.IsNull("The category id can not be null."));
+                                      .WithState(x => new DefaultError(HttpStatusCode.BadRequest, "The category id can`t be null."));
 
             RuleFor(x => x.CategoryId).NotEmpty()
-                                      .WithState(x => Errors.IsNull("The category id can not be empty."));
+                                      .WithState(x => new DefaultError(HttpStatusCode.BadRequest, "The category id can`t be empty."));
 
             #endregion
         }

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
-using ToDo.Domain.Results;
+using System.Net;
+using ToDo.Domain.Results.Errors;
 
 namespace ToDo.Microservices.Entries.API.Contracts.Entries
 {
@@ -10,10 +11,11 @@ namespace ToDo.Microservices.Entries.API.Contracts.Entries
             #region Id
 
             RuleFor(x => x.EntryId).NotNull()
-                                      .WithState(x => Errors.IsNull("The entry id can not be null."));
+                                   .NotEmpty()
+                                      .WithState(x => new DefaultError(HttpStatusCode.BadRequest, "The entry ID can`t be null."));
 
             RuleFor(x => x.EntryId).NotEmpty()
-                                      .WithState(x => Errors.IsNull("The entry id can not be empty."));
+                                      .WithState(x => new DefaultError(HttpStatusCode.BadRequest, "The entry ID can`t be empty."));
 
             #endregion
         }

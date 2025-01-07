@@ -1,4 +1,5 @@
 ﻿using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Identity.Domain.Models;
 using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.MQ.Models;
@@ -26,7 +27,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Publishers
             }
             catch (Exception exception)
             {
-                return Result.Failure(Errors.IsMessage($"Unknown error. {exception.Message}"));
+                return Result.Failure(error => error.InternalServer("The identity service is unavailable."));
             }
         }
     }

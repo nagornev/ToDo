@@ -8,7 +8,7 @@ namespace ToDo.Microservices.Categories.Domain.Models
     [Serializable]
     public class Category
     {
-        public const int MaximumNameLength = 20;
+        public const int NameMaximumLength = 20;
 
         [JsonConstructor]
         private Category(Guid id, string name)
@@ -26,8 +26,8 @@ namespace ToDo.Microservices.Categories.Domain.Models
             if (id == Guid.Empty)
                 return Result<Category>.Failure(error => error.NullOrEmpty("The category ID can`t be null or empty.", nameof(Id)));
 
-            if (name.Length > MaximumNameLength)
-                return Result<Category>.Failure(error => error.InvalidArgument($"The category name can`t be more than {MaximumNameLength} symbols.", nameof(Name)));
+            if (name.Length > NameMaximumLength)
+                return Result<Category>.Failure(error => error.InvalidArgument($"The category name can`t be more than {NameMaximumLength} symbols.", nameof(Name)));
 
             return Result<Category>.Successful(new Category(id, name));
         }

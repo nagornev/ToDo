@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Microservices.Middleware.Exceptions
 {
@@ -30,7 +31,7 @@ namespace ToDo.Microservices.Middleware.Exceptions
             catch (Exception exception)
             {
                 Handle(context,
-                       Result.Failure(Errors.IsInternalServer($"The '{_configuration.ServiceName}' service is unavailable.")));
+                       Result.Failure(error => error.InternalServer($"The '{_configuration.ServiceName}' service is unavailable.")));
 
                 _logger.LogError(exception, context.Request.Path);
             }

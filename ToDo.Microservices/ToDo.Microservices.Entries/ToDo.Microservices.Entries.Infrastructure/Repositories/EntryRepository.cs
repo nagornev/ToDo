@@ -25,7 +25,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                                                               .FirstOrDefaultAsync(x => x.Id == userId);
 
             return userEntity is not null ?
-                        Result<IEnumerable<Entry>>.Successful(userEntity.Entries.GetDomain()) :
+                        userEntity.Entries.GetDomain() :
                         Result<IEnumerable<Entry>>.Failure(error => error.NullOrEmpty($"The user {userId} was not found."));
         }
 
@@ -36,7 +36,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                                                                                             x.Id == entryId);
 
             return entryEntity is not null ?
-                        Result<Entry>.Successful(entryEntity.GetDomain()) :
+                        entryEntity.GetDomain() :
                         Result<Entry>.Failure(error => error.NullOrEmpty($"The entry {entryId} was not found. Please check get entry parameters and try again later."));
         }
 

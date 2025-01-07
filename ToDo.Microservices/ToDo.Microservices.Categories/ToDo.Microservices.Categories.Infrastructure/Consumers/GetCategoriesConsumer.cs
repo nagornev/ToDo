@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.MQ.Models;
@@ -38,7 +39,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Consumers
             }
             catch (Exception exception)
             {
-                context.Respond(GetCategoriesProcedureResponse.Failure(Errors.IsInternalServer($"The '{nameof(Categories)}' service is unavailable.")));
+                context.Respond(GetCategoriesProcedureResponse.Failure(error => error.InternalServer($"The category service is unavailable.")));
+
                 _logger.LogError(exception, "Invalid RPC (GetCategories) call.");
             }
 

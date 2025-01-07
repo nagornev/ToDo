@@ -21,9 +21,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
 
         public async Task<Result> CreateUser(Guid userId)
         {
-            User user = User.Constructor(userId);
+            Result<User> userResult = User.Constructor(userId);
 
-            return await _userRepository.Create(user);
+            return userResult.Success?
+                        await _userRepository.Create(userResult.Content):
+                        userResult;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Microservices.Entries.Domain.Models
 {
@@ -32,22 +34,27 @@ namespace ToDo.Microservices.Entries.Domain.Models
 
         public bool Completed { get; private set; }
 
-        public static Entry Constructor(Guid id,
-                                        Guid categoryId,
-                                        string text,
-                                        DateTime? deadline,
-                                        bool completed)
+        public static Result<Entry> Constructor(Guid id,
+                                                Guid categoryId,
+                                                string text,
+                                                DateTime? deadline,
+                                                bool completed)
         {
             if (id == Guid.Empty)
-                throw new ArgumentNullException("The entry id can not be empty.");
+                return Result<Entry>.Failure(error => error.NullOrEmpty("The entry ID can`t be null or empty.", nameof(Id)));
 
             if (categoryId == Guid.Empty)
-                throw new ArgumentNullException("The category id can not be empty.");
+                return Result<Entry>.Failure(error => error.NullOrEmpty("The category ID can`t be null or empty.", nameof(CategoryId)));
 
-            return new Entry(id, categoryId, text, deadline, completed);
+            if (string.IsNullOrEmpty(text) ||
+                string.IsNullOrWhiteSpace(text) ||
+                text.Length > TextMaximumLength)
+                return Result<Entry>.Failure(error => error.InvalidArgument($"The entry text can`t be null or empty and more than {TextMaximumLength} symbols.", nameof(Text)));
+
+            return Result<Entry>.Successful(new Entry(id, categoryId, text, deadline, completed));
         }
 
-        public static Entry New(Guid categoryId, string text, DateTime? deadline)
+        public static Result<Entry> New(Guid categoryId, string text, DateTime? deadline)
         {
             return Constructor(Guid.NewGuid(), categoryId, text, deadline, false);
         }

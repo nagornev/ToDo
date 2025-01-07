@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Domain.Results.Errors;
 using ToDo.Extensions.Converters;
 
@@ -9,7 +10,7 @@ namespace ToDo.Microservices.Middleware.Identities
 {
     public class IdentityResponseHandler : QuererHttpResponseMessageHandler<Result<Guid?>>
     {
-        private const string _errorMessage = "The 'Identity' service is unavalibable.";
+        private const string _errorMessage = "The identity service is unavalibable.";
 
         private JsonSerializer _serializer;
 
@@ -22,7 +23,7 @@ namespace ToDo.Microservices.Middleware.Identities
         protected override void Configure(InvokerOptionsBuilder options)
         {
             options.SetFailure(options =>
-                                options.AddFailure<Exception>((response, exception) => Result<Guid?>.Failure(Errors.IsInternalServer(_errorMessage))))
+                                options.AddFailure<Exception>((response, exception) => Result<Guid?>.Failure(error => error.InternalServer(_errorMessage))))
                    .SetLogger(options =>
                                 options.AddAspLogger());
         }

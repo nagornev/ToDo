@@ -23,7 +23,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             return userEntity is not null ?
-                    Result<User>.Successful(userEntity.GetDomain()) :
+                    userEntity.GetDomain() :
                     Result<User>.Failure(error => error.NullOrEmpty($"The user {userId} was not found."));
         }
 

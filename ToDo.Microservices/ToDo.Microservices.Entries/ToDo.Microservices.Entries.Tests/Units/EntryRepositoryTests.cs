@@ -22,13 +22,13 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] entries =
             {
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(()=> new Dictionary<User, IEnumerable<Entry>>()
@@ -53,7 +53,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
@@ -78,7 +78,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             //Act
 
@@ -94,13 +94,13 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] entries =
             {
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
@@ -126,7 +126,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
@@ -134,7 +134,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                                                                                             })
                                                                    );
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -150,23 +150,23 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User firstUser = User.Constructor(Guid.NewGuid());
+            User firstUser = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] firstEntries =
             {
-                Entry.New(firstUser.Id, firstUser.Id.ToString(), default),
-                Entry.New(firstUser.Id, firstUser.Id.ToString(), default),
-                Entry.New(firstUser.Id, firstUser.Id.ToString(), default),
+                Entry.New(firstUser.Id, firstUser.Id.ToString(), default).Content,
+                Entry.New(firstUser.Id, firstUser.Id.ToString(), default).Content,
+                Entry.New(firstUser.Id, firstUser.Id.ToString(), default).Content,
             };
 
 
-            User secondUser = User.Constructor(Guid.NewGuid());
+            User secondUser = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] secondEntries =
             {
-                Entry.New(secondUser.Id, secondUser.Id.ToString(), default),
-                Entry.New(secondUser.Id, secondUser.Id.ToString(), default),
-                Entry.New(secondUser.Id, secondUser.Id.ToString(), default),
+                Entry.New(secondUser.Id, secondUser.Id.ToString(), default).Content,
+                Entry.New(secondUser.Id, secondUser.Id.ToString(), default).Content,
+                Entry.New(secondUser.Id, secondUser.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
@@ -196,13 +196,13 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] entries =
             {
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
@@ -211,7 +211,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                                                                                             })
                                                                    );
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -227,7 +227,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
@@ -235,7 +235,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                                                                                             })
                                                                    );
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -253,9 +253,9 @@ namespace ToDo.Microservices.Entries.Tests.Units
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act & Arrage
 
@@ -271,13 +271,13 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] entries =
             {
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
@@ -286,7 +286,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                                                                                             })
                                                                    );
 
-            Entry entry = Entry.Constructor(entries.First().Id, user.Id, user.Id.ToString(), default, true);
+            Entry entry = Entry.Constructor(entries.First().Id, user.Id, user.Id.ToString(), default, true).Content;
 
             //Act
 
@@ -302,7 +302,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
@@ -310,7 +310,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                                                                                             })
                                                                    );
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -328,9 +328,9 @@ namespace ToDo.Microservices.Entries.Tests.Units
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -350,13 +350,13 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] entries =
             {
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
@@ -381,7 +381,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
@@ -389,7 +389,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                                                                                             })
                                                                    );
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -408,9 +408,9 @@ namespace ToDo.Microservices.Entries.Tests.Units
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
-            Entry entry = Entry.New(user.Id, user.Id.ToString(), default);
+            Entry entry = Entry.New(user.Id, user.Id.ToString(), default).Content;
 
             //Act
 
@@ -430,13 +430,13 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Entry[] entries =
             {
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
-                Entry.New(user.Id, user.Id.ToString(), default),
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
@@ -460,7 +460,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
         {
             //Arrage
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
@@ -485,7 +485,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
 
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock());
 
-            User user = User.Constructor(Guid.NewGuid());
+            User user = User.Constructor(Guid.NewGuid()).Content;
 
             Guid categoryId = Guid.NewGuid();
 

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
+using ToDo.Domain.Results.Extensions;
 using ToDo.Extensions.Validator;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
 using ToDo.Microservices.Identity.Infrastructure.Providers;
@@ -64,7 +65,7 @@ namespace ToDo.Microservices.Identity.API.Controllers
                 !HttpContext.Request.Cookies.TryGetValue(JwtTokenProviderDefaults.Cookies, out string? token))
                 return !validationResult.Success ?
                         Results.BadRequest(validationResult) :
-                        Results.BadRequest(Result.Failure(Errors.IsNull("No cookies.")));
+                        Results.BadRequest(Result.Failure(error => error.NullOrEmpty("No cookies.")));
 
             Result<Guid?> accessResult = await _userService.Validate(token,
                                                                      contract.Permissions);
