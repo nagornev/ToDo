@@ -38,7 +38,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             if ((await _userRepository.Get(email)).Success)
                 return Result<User>.Failure(error => error.InvalidArgument($"The user with email {email} has already been registrated."));
 
-            Result<User> userResult = User.NewUser(email, password, () => _hashProvider.Hash(password));
+            Result<User> userResult = User.NewUser(email, password, (password) => _hashProvider.Hash(password));
 
             return userResult.Success ?
                         await _userRepository.Create(userResult.Content) :
