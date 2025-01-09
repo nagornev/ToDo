@@ -53,8 +53,8 @@ namespace ToDo.Microservices.Identity.Infrastructure.Services
             return userResult.Success ?
                     (_hashProvider.Verify(password, userResult.Content.Password) ?
                         Result<string>.Successful(_tokenProvider.Create(userResult.Content)) :
-                        Result<string>.Failure(error => error.SignIn())) :
-                    Result<string>.Failure(error => error.SignIn());
+                        Result<string>.Failure(error => error.InvalidSignIn())) :
+                    Result<string>.Failure(error => error.InvalidSignIn());
         }
 
         public async Task<Result<Guid?>> Validate(string token, IEnumerable<Permission> permissions)

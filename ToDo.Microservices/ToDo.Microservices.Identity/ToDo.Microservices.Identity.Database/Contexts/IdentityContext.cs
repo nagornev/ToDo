@@ -11,11 +11,11 @@ namespace ToDo.Microservices.Identity.Database.Contexts
         {
         }
 
-        public DbSet<UserEntity> Users { get; private set; }
+        public DbSet<UserEntity> Users { get; set; }
 
-        public DbSet<RoleEntity> Roles { get; private set; }
+        public DbSet<RoleEntity> Roles { get; set; }
 
-        public DbSet<PermissionEntity> Permissions { get; private set; }
+        public DbSet<PermissionEntity> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

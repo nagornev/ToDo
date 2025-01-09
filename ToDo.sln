@@ -63,9 +63,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Cache.Abstractions", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D2218DF5-73E1-4A01-B80E-378E6DDA8666}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Categories.Tests", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Tests\ToDo.Microservices.Categories.Tests.csproj", "{5F2A0D05-463B-4161-B13B-066E3F094E4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Categories.Tests", "ToDo.Microservices\ToDo.Microservices.Categories\ToDo.Microservices.Categories.Tests\ToDo.Microservices.Categories.Tests.csproj", "{5F2A0D05-463B-4161-B13B-066E3F094E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Entries.Tests", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.Tests\ToDo.Microservices.Entries.Tests.csproj", "{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.Microservices.Entries.Tests", "ToDo.Microservices\ToDo.Microservices.Entries\ToDo.Microservices.Entries.Tests\ToDo.Microservices.Entries.Tests.csproj", "{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Microservices.Identity.Tests", "ToDo.Microservices\ToDo.Microservices.Identity\ToDo.Microservices.Identity.Tests\ToDo.Microservices.Identity.Tests.csproj", "{D6353F25-063C-4078-BC9E-967DC15490EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +179,10 @@ Global
 		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6353F25-063C-4078-BC9E-967DC15490EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6353F25-063C-4078-BC9E-967DC15490EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6353F25-063C-4078-BC9E-967DC15490EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6353F25-063C-4078-BC9E-967DC15490EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +214,7 @@ Global
 		{1BF319E5-8F69-42E5-ACB8-31C3791780AF} = {56FD76B2-3853-4D93-8581-78F037341F21}
 		{5F2A0D05-463B-4161-B13B-066E3F094E4D} = {3B127112-E8A2-48A4-A7A6-EAFA478D9284}
 		{4AEB3D2B-ECB4-4A81-8CB3-BDDFE0119E7C} = {47E8ED24-5D3C-42DA-9706-E29DE7551695}
+		{D6353F25-063C-4078-BC9E-967DC15490EE} = {8F3AE2CF-C626-41C8-9D33-B78F01F522B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B023FCCE-7B07-45E5-B23B-725D55C2AD80}

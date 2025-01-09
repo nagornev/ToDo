@@ -38,7 +38,7 @@ namespace ToDo.Domain.Results
             return builder;
         }
 
-        public static ErrorBuilder SignIn(this ErrorBuilder builder,
+        public static ErrorBuilder InvalidSignIn(this ErrorBuilder builder,
                                           string message = "Invalid sign in.")
         {
             builder.SetStatus(HttpStatusCode.BadRequest)

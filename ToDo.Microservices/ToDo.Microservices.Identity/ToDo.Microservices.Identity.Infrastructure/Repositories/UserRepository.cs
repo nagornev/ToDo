@@ -52,10 +52,9 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
                 {
                     await _context.Users.AddAsync(userEntity);
 
-                    if (await _context.SaveChangesAsync() > 0)
+                    if (await _context.SaveChangesAsync() > 0 &&
+                        await _userPublisher.New(user))
                     {
-                        await _userPublisher.New(user);
-
                         await transaction.CommitAsync();
 
                         return Result.Successful();
@@ -105,7 +104,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
                     {
                         await transaction.RollbackAsync();
 
-                        return Result.Failure(error => error.InternalServer("Registration error. Please try again later."));
+                        return Result.Failure(error => error.InternalServer("Sign up error. Please try again later."));
                     }
 
                     await transaction.CommitAsync();

@@ -47,7 +47,7 @@ namespace ToDo.Microservices.Identity.Domain.Models
                 throw new ArgumentException($"The {role} role is not defined.");
 
             if (!_accesses.ContainsKey(role))
-                throw new ArgumentException($"The access by {role} role is not contains parameters.");
+                throw new ArgumentException($"The access by {role} role is not contained.");
 
             return new Access(role);
         }
