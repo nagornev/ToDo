@@ -24,9 +24,10 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
             Result<IEnumerable<Category>> categoriesResult = await _categoryCacheIO.Get(userId);
 
             if (!categoriesResult.Success)
+            {
                 categoriesResult = await _categoryRepository.Get(userId);
-
-            await _categoryCacheIO.Set(userId, categoriesResult);
+                await _categoryCacheIO.Set(userId, categoriesResult);
+            }
 
             return categoriesResult;
         }

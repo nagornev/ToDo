@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using System.Net;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Errors;
 
 namespace ToDo.Microservices.Identity.API.Contracts.Sign
 {
@@ -25,13 +24,13 @@ namespace ToDo.Microservices.Identity.API.Contracts.Sign
             #region Permissions
 
             RuleFor(x => x.Permissions).NotNull()
-                                       .WithState(x => new DefaultError(HttpStatusCode.BadRequest, "The permissions can`t be null."));
+                                       .WithState(x => new Error(HttpStatusCode.BadRequest, ErrorKeys.NullOrEmpty, "The permissions can`t be null."));
 
             RuleFor(x => x.Permissions).NotEmpty()
-                                       .WithState(x => new DefaultError(HttpStatusCode.BadRequest, "The permissions can`t be empty"));
+                                       .WithState(x => new Error(HttpStatusCode.BadRequest, ErrorKeys.NullOrEmpty, "The permissions can`t be empty"));
 
             RuleForEach(x => x.Permissions).IsInEnum()
-                                           .WithState((x, invalidPermission) => new DefaultError(HttpStatusCode.BadRequest, $"The permissions contain the invalid permission ({invalidPermission})."));
+                                           .WithState((x, invalidPermission) => new Error(HttpStatusCode.BadRequest, ErrorKeys.InvalidArgument, $"The permissions contain the invalid permission ({invalidPermission})."));
 
             #endregion
         }

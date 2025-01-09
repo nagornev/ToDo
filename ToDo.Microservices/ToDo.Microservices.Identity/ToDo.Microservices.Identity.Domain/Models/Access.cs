@@ -44,10 +44,10 @@ namespace ToDo.Microservices.Identity.Domain.Models
         public static Access Constructor(Role role)
         {
             if (!Enum.IsDefined(typeof(Role), role))
-                throw new ArgumentException($"The '{role}' role is not defined.");
+                throw new ArgumentException($"The {role} role is not defined.");
 
             if (!_accesses.ContainsKey(role))
-                throw new ArgumentException($"The access by '{role}' role is not contains parameters.");
+                throw new ArgumentException($"The access by {role} role is not contains parameters.");
 
             return new Access(role);
         }

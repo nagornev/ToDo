@@ -7,7 +7,10 @@ namespace ToDo.Domain.Results
     [Serializable]
     public class Result<T> : Result
     {
-        public Result(bool success, T content, IError error)
+        [JsonConstructor]
+        protected Result(bool success,
+                         T content = default,
+                         IError error = default)
             : base(success, error)
         {
             Content = content;
@@ -17,19 +20,28 @@ namespace ToDo.Domain.Results
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault | JsonIgnoreCondition.WhenWritingNull)]
         public T Content { get; private set; }
 
-        public string Serialize()
-        {
-            return JsonSerializer.Serialize(this);
-        }
-
-        private static Result<T> Create(bool success, T content, IError error)
+        private static Result<T> Constructor(bool success,
+                                             T content = default,
+                                             IError error = default)
         {
             return new Result<T>(success, content, error);
         }
 
+        public static Result<T> Successful(T content)
+        {
+            return Constructor(success: true,
+                               content: content);
+        }
+
+        public new static Result<T> Failure()
+        {
+            return Constructor(success: false);
+        }
+
         public new static Result<T> Failure(IError error)
         {
-            return Create(false, default, error);
+            return Constructor(success: false,
+                               error: error);
         }
 
         public new static Result<T> Failure(Action<ErrorBuilder> options)
@@ -38,17 +50,21 @@ namespace ToDo.Domain.Results
 
             options.Invoke(builder);
 
-            return Create(false, default, builder.Build());
-        }
-
-        public static Result<T> Successful(T content)
-        {
-            return Create(true, content, default);
+            return Failure(builder.Build());
         }
 
         public static Result<T> Deserialize(string content)
         {
             return JsonSerializer.Deserialize<Result<T>>(content);
         }
+
+        #region Overrides
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
+        #endregion
     }
 }

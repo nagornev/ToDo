@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.Database.Contexts;
 using ToDo.Microservices.Categories.Database.Entities;
 using ToDo.Microservices.Categories.Database.Extensions;
@@ -42,7 +41,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 
             return categoryEntity is not null ?
                         categoryEntity.GetDomain() :
-                        Result<Category>.Failure(error => error.NullOrEmpty($"The category {categoryId} was not found. Please check get category parameters and try again later."));
+                        Result<Category>.Failure(error => error.NullOrEmpty($"The category {categoryId} was not found."));
         }
 
 
@@ -52,7 +51,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 
             return await _context.SaveChangesAsync() > 0 ?
                      Result.Successful() :
-                     Result.Failure(error => error.InternalServer($"The category \"{category.Name}\" was not created. Please check get category parameters and try again later."));
+                     Result.Failure(error => error.InternalServer($"The category \"{category.Name}\" was not created."));
         }
 
 
@@ -62,7 +61,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                                                         x.Id == category.Id)
                                             .ExecuteUpdateAsync(x => x.SetProperty(p => p.Name, category.Name)) > 0 ?
                       Result.Successful() :
-                      Result.Failure(error => error.InternalServer($"The category {category.Id} was not updated. Please check update parameters and try again later."));
+                      Result.Failure(error => error.InternalServer($"The category {category.Id} was not updated."));
         }
 
         public async Task<Result> Delete(Guid userId, Guid categoryId)
@@ -82,7 +81,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                     }
 
                     await transaction.RollbackAsync();
-                    return Result.Failure(error => error.NullOrEmpty($"The category {categoryId} was not deleted. Please check delete parameters and try again later."));
+                    return Result.Failure(error => error.NullOrEmpty($"The category {categoryId} was not deleted."));
                 }
                 catch
                 {

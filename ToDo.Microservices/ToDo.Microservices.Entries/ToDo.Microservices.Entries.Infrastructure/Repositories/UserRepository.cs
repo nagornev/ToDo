@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Database.Entities;
 using ToDo.Microservices.Entries.Database.Extensions;

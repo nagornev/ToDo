@@ -1,5 +1,4 @@
 ﻿using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Repositories;
 using ToDo.Microservices.MQ.Queries.GetCategories;

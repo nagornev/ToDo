@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Domain.Collectings;
 using ToDo.Microservices.Entries.Domain.Models;

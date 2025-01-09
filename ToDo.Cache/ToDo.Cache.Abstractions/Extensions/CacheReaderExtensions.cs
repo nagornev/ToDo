@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Cache.Abstractions.Extensions
 {

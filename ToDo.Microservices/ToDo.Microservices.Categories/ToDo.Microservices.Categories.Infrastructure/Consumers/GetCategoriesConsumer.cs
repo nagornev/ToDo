@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Services;
 using ToDo.Microservices.MQ.Models;

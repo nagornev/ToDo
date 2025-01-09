@@ -7,37 +7,41 @@ namespace ToDo.Domain.Results
     [Serializable]
     public class Result
     {
-        public Result(bool success,
-                      IError error = null)
+        [JsonConstructor]
+        protected Result(bool success,
+                         IError error = default)
         {
-            if (!success && error == null)
-                throw new ArgumentException($"The success result can not be true, if error has the value.");
-
             Success = success;
             Error = error;
         }
 
         [JsonPropertyName("success")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         public bool Success { get; private set; }
 
         [JsonPropertyName("error")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault | JsonIgnoreCondition.WhenWritingNull)]
         public IError Error { get; private set; }
 
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this);
-        }
-
-        private static Result Create(bool success, IError error = default)
+        private static Result Constructor(bool success, IError error = default)
         {
             return new Result(success, error);
         }
 
-        public static Result Failure(IError error = default)
+        public static Result Successful()
         {
-            return Create(false, error);
+            return Constructor(success: true);
+        }
+
+        public static Result Failure()
+        {
+            return Constructor(success: false);
+        }
+
+        public static Result Failure(IError error)
+        {
+            return Constructor(success: false,
+                               error: error);
         }
 
         public static Result Failure(Action<ErrorBuilder> options)
@@ -46,17 +50,21 @@ namespace ToDo.Domain.Results
 
             options.Invoke(builder);
 
-            return Create(false, builder.Build());
+            return Failure(error: builder.Build());
         }
 
-        public static Result Successful()
+        #region Overrides
+
+        public override string ToString()
         {
-            return Create(true);
+            return JsonSerializer.Serialize(this);
         }
 
         public static implicit operator bool(Result result)
         {
             return result.Success;
         }
+
+        #endregion
     }
 }

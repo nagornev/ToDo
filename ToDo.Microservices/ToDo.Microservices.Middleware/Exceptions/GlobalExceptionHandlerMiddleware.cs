@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Microservices.Middleware.Exceptions
 {

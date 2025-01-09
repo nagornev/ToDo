@@ -9,8 +9,8 @@ namespace ToDo.Microservices.MQ.Queries.GetCategory
         public const string Queue = "get_category_rpc_responses";
 
         public GetCategoryProcedureResponse(bool success,
-                                            CategoryMQ? content,
-                                            IError error)
+                                            CategoryMQ content = default,
+                                            IError error = default)
             : base(success, content, error)
         {
         }

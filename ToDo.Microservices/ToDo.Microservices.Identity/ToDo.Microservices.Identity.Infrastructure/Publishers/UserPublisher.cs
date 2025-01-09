@@ -1,5 +1,4 @@
 ﻿using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Identity.Domain.Models;
 using ToDo.Microservices.Identity.UseCases.Publishers;
 using ToDo.Microservices.MQ.Models;

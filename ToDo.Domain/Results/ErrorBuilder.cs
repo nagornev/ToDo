@@ -1,21 +1,29 @@
 ﻿using System.Net;
-using ToDo.Domain.Results.Errors;
 
 namespace ToDo.Domain.Results
 {
     public class ErrorBuilder
     {
-        public delegate IError ErrorFactoryDelegate(HttpStatusCode status, string message);
+        public delegate IError ErrorFactoryDelegate(HttpStatusCode status, string key, string message);
 
         private HttpStatusCode _status;
 
         private string _message;
+
+        private string _key;
 
         private ErrorFactoryDelegate _factory;
 
         public ErrorBuilder SetStatus(HttpStatusCode status)
         {
             _status = status;
+
+            return this;
+        }
+
+        public ErrorBuilder SetKey(string key)
+        {
+            _key = key;
 
             return this;
         }
@@ -36,7 +44,7 @@ namespace ToDo.Domain.Results
 
         internal IError Build()
         {
-            return _factory?.Invoke(_status, _message) ?? new DefaultError(_status, _message);
+            return _factory?.Invoke(_status, _key, _message) ?? new Error(_status, _key, _message);
         }
     }
 }

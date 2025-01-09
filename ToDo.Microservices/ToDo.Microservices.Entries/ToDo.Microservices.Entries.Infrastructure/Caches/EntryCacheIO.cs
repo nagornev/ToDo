@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Logging;
 using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Caches;
@@ -55,7 +53,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
         {
             try
             {
-                string cache = entriesResult.Serialize();
+                string cache = entriesResult.ToString();
 
                 await _cache.SetStringAsync(CreateHash(userId), cache, _options);
 

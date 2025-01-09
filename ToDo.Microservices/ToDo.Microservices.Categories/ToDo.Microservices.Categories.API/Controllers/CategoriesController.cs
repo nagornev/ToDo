@@ -70,8 +70,8 @@ namespace ToDo.Microservices.Categories.API.Controllers
                 return Results.BadRequest(validatonResult);
 
             Result updateResult = await _categoryService.UpdateCategory(User.GetId(),
-                                                                          contract.CategoryId,
-                                                                          contract.Name);
+                                                                        contract.CategoryId,
+                                                                        contract.Name);
 
             return updateResult.Success ?
                     Results.Ok(updateResult) :

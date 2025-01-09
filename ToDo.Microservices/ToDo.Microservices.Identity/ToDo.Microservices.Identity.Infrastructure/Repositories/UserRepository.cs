@@ -2,7 +2,6 @@
 using System.Data;
 using System.Linq.Expressions;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Identity.Database.Contexts;
 using ToDo.Microservices.Identity.Database.Entities;
 using ToDo.Microservices.Identity.Database.Extensions;
@@ -126,7 +125,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
             UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(predicate);
 
             return userEntity is not null ?
-                    Result<User>.Successful(userEntity.GetDomain()) :
+                    userEntity.GetDomain() :
                     Result<User>.Failure(error => error.NullOrEmpty("The user was not found."));
         }
     }

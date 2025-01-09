@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Extensions.Validator;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
 using ToDo.Microservices.Identity.Infrastructure.Providers;

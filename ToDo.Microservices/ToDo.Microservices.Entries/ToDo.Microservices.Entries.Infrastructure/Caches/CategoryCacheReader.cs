@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Cache.Hashers;
 using ToDo.Microservices.Entries.Domain.Models;
 using ToDo.Microservices.Entries.UseCases.Caches;

@@ -1,5 +1,4 @@
 ﻿using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Categories.UseCases.Publishers;
 using ToDo.Microservices.MQ.Publishers;
 using ToDo.MQ.Abstractions;

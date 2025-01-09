@@ -2,8 +2,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
-using ToDo.Domain.Results.Errors;
 using ToDo.Extensions.Converters;
 
 namespace ToDo.Microservices.Middleware.Identities
@@ -17,7 +15,7 @@ namespace ToDo.Microservices.Middleware.Identities
         public IdentityResponseHandler()
         {
             _serializer = new JsonSerializer();
-            _serializer.Converters.Add(new Interface2ClassConverter<IError, DefaultError>());
+            _serializer.Converters.Add(new Interface2ClassConverter<IError, Error>());
         }
 
         protected override void Configure(InvokerOptionsBuilder options)

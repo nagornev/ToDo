@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 
 namespace ToDo.Microservices.Entries.Domain.Models
 {

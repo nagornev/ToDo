@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Domain.Results;
-using ToDo.Domain.Results.Extensions;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Database.Entities;
 using ToDo.Microservices.Entries.Database.Extensions;
@@ -37,7 +36,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 
             return entryEntity is not null ?
                         entryEntity.GetDomain() :
-                        Result<Entry>.Failure(error => error.NullOrEmpty($"The entry {entryId} was not found. Please check get entry parameters and try again later."));
+                        Result<Entry>.Failure(error => error.NullOrEmpty($"The entry {entryId} was not found."));
         }
 
         public async Task<Result> Create(Guid userId, Entry entry)
@@ -46,7 +45,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 
             return await _entryContext.SaveChangesAsync() > 0 ?
                       Result.Successful() :
-                      Result.Failure(error => error.NullOrEmpty("The entry was not created. Please check entry create parameters and try again later."));
+                      Result.Failure(error => error.NullOrEmpty("The entry was not created."));
         }
 
         public async Task<Result> Update(Guid userId, Entry entry)
@@ -58,7 +57,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                                                                             .SetProperty(p => p.Deadline, entry.Deadline)
                                                                             .SetProperty(p => p.Completed, entry.Completed)) > 0 ?
                         Result.Successful() :
-                        Result.Failure(error => error.NullOrEmpty($"The entry {entry.Id} was not found. Please check entry update parameters and try again later."));
+                        Result.Failure(error => error.NullOrEmpty($"The entry {entry.Id} was not found."));
         }
 
         public async Task<Result> Delete(Guid userId, Guid entryId)
@@ -67,7 +66,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                                                             x.Id == entryId)
                                                   .ExecuteDeleteAsync() > 0 ?
                         Result.Successful() :
-                        Result.Failure(error => error.NullOrEmpty($"The entry {entryId} was not found. Please check entry delete parameters and try again later."));
+                        Result.Failure(error => error.NullOrEmpty($"The entry {entryId} was not found."));
         }
 
         public async Task<Result> DeleteByCategory(Guid userId, Guid categoryId)
@@ -76,7 +75,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
                                                           x.CategoryId == categoryId)
                                               .ExecuteDeleteAsync() > 0 ?
                          Result.Successful() :
-                         Result.Failure(error => error.NullOrEmpty($"The entry with category {categoryId} was not found. Please check entry delete parameters and try again later."));
+                         Result.Failure(error => error.NullOrEmpty($"The entry with category {categoryId} was not found."));
         }
     }
 }
