@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDo.Microservices.Entries.Database.Contexts;
-using ToDo.Microservices.Entries.Database.Extensions;
 using ToDo.Microservices.Entries.Database.Entities;
+using ToDo.Microservices.Entries.Database.Extensions;
 using ToDo.Microservices.Entries.Domain.Models;
 
 namespace ToDo.Microservices.Entries.Tests.Mock

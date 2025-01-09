@@ -1,6 +1,6 @@
-﻿using ToDo.Domain.Results;
+﻿using Moq;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.UseCases.Publishers;
-using Moq;
 
 namespace ToDo.Microservices.Categories.Tests.Mock
 {
@@ -10,7 +10,7 @@ namespace ToDo.Microservices.Categories.Tests.Mock
 
         public CategoryPublisherMock(Action<Mock<ICategoryPubliser>> configure)
         {
-            if(configure is null)
+            if (configure is null)
                 throw new ArgumentNullException(nameof(configure));
 
             _mock = new Mock<ICategoryPubliser>();

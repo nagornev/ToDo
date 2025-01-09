@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;

@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using ToDo.Cache.Abstractions;
 using ToDo.Domain.Results;

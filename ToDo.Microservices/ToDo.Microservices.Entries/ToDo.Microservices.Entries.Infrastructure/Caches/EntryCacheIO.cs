@@ -21,7 +21,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
         private DistributedCacheEntryOptions _options;
 
         public EntryCacheIO(EntryCacheHasher hasher,
-                            IDistributedCache cache, 
+                            IDistributedCache cache,
                             ILogger<EntryCacheIO> logger)
         {
             Hasher = hasher;
@@ -43,7 +43,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Caches
                           Result<IEnumerable<Entry>>.Deserialize(cache)! :
                           Result<IEnumerable<Entry>>.Failure(error => error.NullOrEmpty("No entries in cache."));
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return HandleException(exception, () => Result<IEnumerable<Entry>>.Failure(error => error.InternalServer(_internalServerMessage)));
             }

@@ -23,8 +23,8 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
         {
             Result<User> userResult = User.Constructor(userId);
 
-            return userResult.Success?
-                        await _userRepository.Create(userResult.Content):
+            return userResult.Success ?
+                        await _userRepository.Create(userResult.Content) :
                         userResult;
         }
     }

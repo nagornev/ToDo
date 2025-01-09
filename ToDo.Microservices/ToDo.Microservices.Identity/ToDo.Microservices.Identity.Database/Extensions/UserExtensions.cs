@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToDo.Microservices.Identity.Database.Entities;
+﻿using ToDo.Microservices.Identity.Database.Entities;
 using ToDo.Microservices.Identity.Domain.Models;
 
 namespace ToDo.Microservices.Identity.Database.Extensions

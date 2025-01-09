@@ -1,8 +1,8 @@
-﻿using ToDo.Domain.Results;
+﻿using ToDo.Cache.Abstractions.Extensions;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
-using ToDo.Microservices.Entries.UseCases.Repositories;
-using ToDo.Cache.Abstractions.Extensions;
 using ToDo.Microservices.Entries.UseCases.Caches;
+using ToDo.Microservices.Entries.UseCases.Repositories;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 {
@@ -35,11 +35,11 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 
         public async Task<Result<Entry>> Get(Guid userId, Guid entryId)
         {
-            Result<Entry> cachedEntryResult = await _entryCacheIO.Get(userId, 
+            Result<Entry> cachedEntryResult = await _entryCacheIO.Get(userId,
                                                                       entry => entry.Id == entryId,
                                                                       $"The entry ({entryId}) was not found.");
 
-            if(cachedEntryResult.Success)
+            if (cachedEntryResult.Success)
                 return cachedEntryResult;
 
             Result<Entry> entryResult = await _entryRepository.Get(userId, entryId);
@@ -71,7 +71,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
         {
             Result deleteResult = await _entryRepository.Delete(userId, entryId);
 
-            if(deleteResult.Success)
+            if (deleteResult.Success)
                 await _entryCacheIO.Remove(userId);
 
             return deleteResult;

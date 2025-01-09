@@ -1,8 +1,8 @@
-﻿using ToDo.Domain.Results;
-using ToDo.Cache.Abstractions.Extensions;
+﻿using ToDo.Cache.Abstractions.Extensions;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Domain.Models;
-using ToDo.Microservices.Entries.UseCases.Repositories;
 using ToDo.Microservices.Entries.UseCases.Caches;
+using ToDo.Microservices.Entries.UseCases.Repositories;
 
 namespace ToDo.Microservices.Entries.Infrastructure.Repositories
 {
@@ -23,7 +23,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Repositories
         {
             Result<IEnumerable<Category>> categoriesResult = await _categoryCacheReader.Get(userId);
 
-            if(!categoriesResult.Success)
+            if (!categoriesResult.Success)
                 categoriesResult = await _categoryRepository.Get(userId);
 
             return categoriesResult;

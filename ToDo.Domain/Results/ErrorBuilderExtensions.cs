@@ -39,10 +39,10 @@ namespace ToDo.Domain.Results
         }
 
         public static ErrorBuilder SignIn(this ErrorBuilder builder,
-                                          string message = "Invalid signin.")
+                                          string message = "Invalid sign in.")
         {
             builder.SetStatus(HttpStatusCode.BadRequest)
-                   .SetKey(ErrorKeys.SignIn)
+                   .SetKey(ErrorKeys.InvalidSignIn)
                    .SetMessage(message);
 
             return builder;

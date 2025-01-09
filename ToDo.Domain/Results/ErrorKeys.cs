@@ -8,7 +8,7 @@
 
         public const string InvalidArgument = nameof(InvalidArgument);
 
-        public const string SignIn = nameof(SignIn);
+        public const string InvalidSignIn = nameof(InvalidSignIn);
 
         public const string Unauthorizated = nameof(Unauthorizated);
 

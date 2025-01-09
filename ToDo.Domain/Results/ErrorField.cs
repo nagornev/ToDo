@@ -10,7 +10,7 @@ namespace ToDo.Domain.Results
         public ErrorField(HttpStatusCode status,
                           string key,
                           string message,
-                          string field) 
+                          string field)
             : this((int)status, key, message, field)
         {
         }

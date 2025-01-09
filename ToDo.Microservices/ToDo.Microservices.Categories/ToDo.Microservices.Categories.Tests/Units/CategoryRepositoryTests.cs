@@ -1,11 +1,11 @@
-﻿using ToDo.Microservices.Categories.Infrastructure.Repositories;
-using ToDo.Microservices.Categories.Tests.Mock;
-using ToDo.Microservices.Categories.UseCases.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Domain.Models;
+using ToDo.Microservices.Categories.Infrastructure.Repositories;
+using ToDo.Microservices.Categories.Tests.Mock;
 using ToDo.Microservices.Categories.UseCases.Publishers;
-using Microsoft.EntityFrameworkCore;
+using ToDo.Microservices.Categories.UseCases.Repositories;
 
 namespace ToDo.Microservices.Categories.Tests.Units
 {

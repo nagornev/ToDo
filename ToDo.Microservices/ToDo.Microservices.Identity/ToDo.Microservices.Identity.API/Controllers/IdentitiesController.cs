@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using ToDo.Domain.Results;
 using ToDo.Extensions.Validator;
 using ToDo.Microservices.Identity.API.Contracts.Sign;
+using ToDo.Microservices.Identity.Infrastructure.Extensions;
 using ToDo.Microservices.Identity.Infrastructure.Providers;
 using ToDo.Microservices.Identity.UseCases.Services;
-using ToDo.Microservices.Identity.Infrastructure.Extensions;
 
 namespace ToDo.Microservices.Identity.API.Controllers
 {

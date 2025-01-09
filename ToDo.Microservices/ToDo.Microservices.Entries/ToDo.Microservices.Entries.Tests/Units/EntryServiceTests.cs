@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Entries.Database.Contexts;
 using ToDo.Microservices.Entries.Domain.Collectings;
@@ -13,7 +8,6 @@ using ToDo.Microservices.Entries.Infrastructure.Providers;
 using ToDo.Microservices.Entries.Infrastructure.Repositories;
 using ToDo.Microservices.Entries.Infrastructure.Services;
 using ToDo.Microservices.Entries.Tests.Mock;
-using ToDo.Microservices.Entries.UseCases.Caches;
 using ToDo.Microservices.Entries.UseCases.Providers;
 using ToDo.Microservices.Entries.UseCases.Repositories;
 using ToDo.Microservices.Entries.UseCases.Services;
@@ -732,7 +726,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                                {
                                                                                    mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure( error => error.InternalServer($"The category {categoryId} was not found.")));
+                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                                });
 
             IEntryСomposer entryComposer = new EntryComposer();
@@ -785,7 +779,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             ICategoryService categoryService = GetAvailableCategoryServiceMock(mock =>
                                                                                {
                                                                                    mock.Setup(service => service.GetCategory(It.IsAny<Guid>(), It.IsAny<Guid>()))
-                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure  (error => error.InternalServer($"The category {categoryId} was not found.")));
+                                                                                       .Returns<Guid, Guid>(async (userId, categoryId) => Result<Category>.Failure(error => error.InternalServer($"The category {categoryId} was not found.")));
                                                                                });
 
             IEntryСomposer entryComposer = new EntryComposer();

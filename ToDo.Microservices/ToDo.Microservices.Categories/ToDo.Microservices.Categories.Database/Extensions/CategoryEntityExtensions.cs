@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using ToDo.Domain.Results;
+﻿using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Database.Entities;
 using ToDo.Microservices.Categories.Domain.Models;
 
@@ -16,7 +15,7 @@ namespace ToDo.Microservices.Categories.Database.Extensions
         {
             List<Category> categories = new List<Category>();
 
-            foreach(CategoryEntity categoryEntity in categoryEntities)
+            foreach (CategoryEntity categoryEntity in categoryEntities)
             {
                 Result<Category> categoryResult = categoryEntity.GetDomain();
 

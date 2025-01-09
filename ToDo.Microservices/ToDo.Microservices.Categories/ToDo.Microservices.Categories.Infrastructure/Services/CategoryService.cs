@@ -28,8 +28,8 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
         {
             Result<Category> categoryResult = Category.New(name);
 
-            return categoryResult.Success?
-                        await _categoryRepository.Create(userId, categoryResult.Content):
+            return categoryResult.Success ?
+                        await _categoryRepository.Create(userId, categoryResult.Content) :
                         categoryResult;
         }
 
@@ -37,10 +37,10 @@ namespace ToDo.Microservices.Categories.Infrastructure.Services
         {
             Result<Category> categoryResult = Category.Constructor(categoryId, name);
 
-            return categoryResult.Success?
-                        await _categoryRepository.Update(userId, categoryResult.Content):
+            return categoryResult.Success ?
+                        await _categoryRepository.Update(userId, categoryResult.Content) :
                         categoryResult;
-                        
+
         }
 
         public async Task<Result> DeleteCategory(Guid userId, Guid categoryId)

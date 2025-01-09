@@ -1,12 +1,12 @@
-﻿using ToDo.Domain.Results;
+﻿using ToDo.Cache.Abstractions.Extensions;
+using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Domain.Models;
-using ToDo.Microservices.Categories.UseCases.Repositories;
-using ToDo.Cache.Abstractions.Extensions;
 using ToDo.Microservices.Categories.UseCases.Caches;
+using ToDo.Microservices.Categories.UseCases.Repositories;
 
 namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 {
-    public class CachedCategoryRepository :  ICategoryRepository
+    public class CachedCategoryRepository : ICategoryRepository
     {
         private CategoryRepository _categoryRepository;
 
@@ -58,7 +58,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 
         public async Task<Result> Update(Guid userId, Category category)
         {
-            Result updateResult =  await _categoryRepository.Update(userId, category);
+            Result updateResult = await _categoryRepository.Update(userId, category);
 
             if (updateResult.Success)
                 await _categoryCacheIO.Remove(userId);
@@ -70,7 +70,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
         {
             Result deleteResult = await _categoryRepository.Delete(userId, categoryId);
 
-            if(deleteResult.Success)
+            if (deleteResult.Success)
                 await _categoryCacheIO.Remove(userId);
 
             return deleteResult;

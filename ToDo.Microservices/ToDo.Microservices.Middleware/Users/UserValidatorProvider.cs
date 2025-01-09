@@ -30,7 +30,7 @@ namespace ToDo.Microservices.Middleware.Users
                 BadRequest(context.Response, validateResult);
                 return;
             }
-            
+
             await next.Invoke(context);
         }
 

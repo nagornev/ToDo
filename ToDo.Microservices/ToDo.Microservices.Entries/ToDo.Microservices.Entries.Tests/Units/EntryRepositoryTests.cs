@@ -31,7 +31,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
                 Entry.New(user.Id, user.Id.ToString(), default).Content,
             };
 
-            IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(()=> new Dictionary<User, IEnumerable<Entry>>()
+            IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
                                                                                                 { user, entries }
                                                                                             })
@@ -172,7 +172,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
             IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
                                                                                             {
                                                                                                 { firstUser, firstEntries },
-                                                                                                { secondUser, secondEntries },                                      
+                                                                                                { secondUser, secondEntries },
                                                                                             })
                                                                    );
 
@@ -259,7 +259,7 @@ namespace ToDo.Microservices.Entries.Tests.Units
 
             //Act & Arrage
 
-            await Assert.ThrowsAsync<DbUpdateException>(async ()=> await entryRepository.Create(user.Id, entry));
+            await Assert.ThrowsAsync<DbUpdateException>(async () => await entryRepository.Create(user.Id, entry));
         }
 
         #endregion

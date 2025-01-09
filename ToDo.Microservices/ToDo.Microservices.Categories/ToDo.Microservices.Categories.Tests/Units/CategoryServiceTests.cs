@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.Infrastructure.Repositories;
@@ -272,7 +267,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
 
             //Act & Assert
 
-            await Assert.ThrowsAsync<DbUpdateException>(async ()=> await categoryService.CreateCategory(user.Id, user.Id.ToString()));
+            await Assert.ThrowsAsync<DbUpdateException>(async () => await categoryService.CreateCategory(user.Id, user.Id.ToString()));
         }
 
         #endregion
@@ -476,7 +471,7 @@ namespace ToDo.Microservices.Categories.Tests.Units
                                                                                                            {
                                                                                                                 {user, categories}
                                                                                                            }),
-                                                                            GetCategoryPublisherMock(mock=>
+                                                                            GetCategoryPublisherMock(mock =>
                                                                             {
                                                                                 //Имитация недоступности брокера сообщений
                                                                                 mock.Setup(_ => _.Delete(It.IsAny<Guid>(), It.IsAny<Guid>())).Returns(async () =>

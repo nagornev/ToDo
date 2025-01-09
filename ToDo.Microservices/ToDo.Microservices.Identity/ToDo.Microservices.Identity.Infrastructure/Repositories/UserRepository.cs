@@ -117,7 +117,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
                     await transaction.RollbackAsync();
                     throw;
                 }
-            }        
+            }
         }
 
         private async Task<Result<User>> GetUser(Expression<Func<UserEntity, bool>> predicate)

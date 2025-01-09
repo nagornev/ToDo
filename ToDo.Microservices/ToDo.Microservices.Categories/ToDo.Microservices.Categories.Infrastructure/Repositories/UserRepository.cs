@@ -2,9 +2,9 @@
 using ToDo.Domain.Results;
 using ToDo.Microservices.Categories.Database.Contexts;
 using ToDo.Microservices.Categories.Database.Entities;
+using ToDo.Microservices.Categories.Database.Extensions;
 using ToDo.Microservices.Categories.Domain.Models;
 using ToDo.Microservices.Categories.UseCases.Repositories;
-using ToDo.Microservices.Categories.Database.Extensions;
 
 namespace ToDo.Microservices.Categories.Infrastructure.Repositories
 {
