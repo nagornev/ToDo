@@ -14,13 +14,13 @@ namespace ToDo.Microservices.Identity.Tests.Units
 {
     public class UserRepositoryTests
     {
-        public string _passwordHashKey = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest";
+        public string _hashKey = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest";
 
-        public IHashProvider _passwordHashProvider;
+        public IHashProvider _hashProvider;
 
         public UserRepositoryTests()
         {
-            _passwordHashProvider = new PasswordHashProvider(Options.Create(new PasswordHashProviderOptions() { Key = _passwordHashKey }));
+            _hashProvider = new PasswordHashProvider(Options.Create(new PasswordHashProviderOptions() { Key = _hashKey }));
         }
 
         private IdentityContext GetIdentityContextMock(Func<IReadOnlyCollection<User>> startData = default)
@@ -53,15 +53,15 @@ namespace ToDo.Microservices.Identity.Tests.Units
         #region Get
 
         [Fact]
-        public async void UserRepository_GetById_UserExist_ShouldReturnSuccessTrueAndUserInformation()
+        public async void UserRepository_Get_ById_UserExist_ShouldReturnSuccessTrueAndUserDomain()
         {
             //Arrage
 
             User[] users =
             {
-                User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _passwordHashProvider.Hash(password)).Content,
+                User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content,
+                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _hashProvider.Hash(password)).Content,
+                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _hashProvider.Hash(password)).Content,
             };
 
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(() => users),
@@ -82,15 +82,15 @@ namespace ToDo.Microservices.Identity.Tests.Units
         }
 
         [Fact]
-        public async void UserRepository_GetByEmail_UserExist_ShouldReturnSuccessTrueAndUserInformation()
+        public async void UserRepository_Get_ByEmail_UserExist_ShouldReturnSuccessTrueAndUserDomain()
         {
             //Arrage
 
             User[] users =
             {
-                User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _passwordHashProvider.Hash(password)).Content,
+                User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content,
+                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _hashProvider.Hash(password)).Content,
+                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _hashProvider.Hash(password)).Content,
             };
 
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(() => users),
@@ -111,22 +111,21 @@ namespace ToDo.Microservices.Identity.Tests.Units
         }
 
         [Fact]
-        public async void UserRepository_GetById_UserNotExist_ShouldReturnSuccessFalse()
+        public async void UserRepository_Get_ById_UserNotExist_ShouldReturnSuccessFalse()
         {
             //Arrage
 
             User[] users =
             {
-                User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _passwordHashProvider.Hash(password)).Content,
+                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _hashProvider.Hash(password)).Content,
+                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _hashProvider.Hash(password)).Content,
             };
 
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(),
                                                                 GetUnavailableUserPublisherMock());
 
 
-            User user = users.First();
+            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content;
 
             //Act
 
@@ -139,22 +138,21 @@ namespace ToDo.Microservices.Identity.Tests.Units
         }
 
         [Fact]
-        public async void UserRepository_GetByEmail_UserNotExist_ShouldReturnSuccessFalse()
+        public async void UserRepository_Get_ByEmail_UserNotExist_ShouldReturnSuccessFalse()
         {
             //Arrage
 
             User[] users =
             {
-                User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _passwordHashProvider.Hash(password)).Content,
+                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _hashProvider.Hash(password)).Content,
+                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _hashProvider.Hash(password)).Content,
             };
 
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(),
                                                                 GetUnavailableUserPublisherMock());
 
 
-            User user = users.First();
+            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content;
 
             //Act
 
@@ -177,14 +175,14 @@ namespace ToDo.Microservices.Identity.Tests.Units
 
             User[] users =
             {
-                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _passwordHashProvider.Hash(password)).Content,
+                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _hashProvider.Hash(password)).Content,
+                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _hashProvider.Hash(password)).Content,
             };
 
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(() => users),
                                                                 GetAvailableUserPublisherMock());
 
-            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content;
+            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content;
 
             //Act
 
@@ -202,7 +200,7 @@ namespace ToDo.Microservices.Identity.Tests.Units
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(),
                                                                 GetAvailableUserPublisherMock());
 
-            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content;
+            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content;
 
             //Act
 
@@ -219,14 +217,14 @@ namespace ToDo.Microservices.Identity.Tests.Units
 
             User[] users =
             {
-                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _passwordHashProvider.Hash(password)).Content,
-                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _passwordHashProvider.Hash(password)).Content,
+                User.NewUser("john@test.ru", "4ji1!Da£)!+s@73b8i\\8ht", (password) => _hashProvider.Hash(password)).Content,
+                User.NewSuper("super@test.ru", ",DqQ=X8bSu1'Be7uUA£U0!", (password) => _hashProvider.Hash(password)).Content,
             };
 
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(() => users),
                                                                 GetUnavailableUserPublisherMock());
 
-            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content;
+            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content;
 
             //Act
 
@@ -244,7 +242,7 @@ namespace ToDo.Microservices.Identity.Tests.Units
             IUserRepository userRepository = new UserRepository(GetIdentityContextMock(),
                                                                 GetUnavailableUserPublisherMock());
 
-            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _passwordHashProvider.Hash(password)).Content;
+            User user = User.NewUser("user@test.ru", "jN5Ei0V6£[5&T+E9y65.R", (password) => _hashProvider.Hash(password)).Content;
 
             //Act
 

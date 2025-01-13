@@ -4,6 +4,9 @@
     {
         public string Key { get; set; } = string.Empty;
 
-        public int Lifetime { get; set; } = 12;
+        /// <summary>
+        /// Lifetime in milliseconds.
+        /// </summary>
+        public int Lifetime { get; set; } = 43200000;
     }
 }

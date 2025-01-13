@@ -59,12 +59,9 @@ namespace ToDo.Microservices.Identity.Infrastructure.Repositories
 
                         return Result.Successful();
                     }
-                    else
-                    {
-                        await transaction.RollbackAsync();
 
-                        return Result.Failure();
-                    }
+                    await transaction.RollbackAsync();
+                    return Result.Failure(error => error.InternalServer($"The user {user.Email} was not created."));
                 }
                 catch
                 {

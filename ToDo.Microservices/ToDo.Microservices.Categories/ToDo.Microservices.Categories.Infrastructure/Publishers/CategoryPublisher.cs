@@ -24,7 +24,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Publishers
             }
             catch (Exception exception)
             {
-                return Result.Failure(error => error.InternalServer(exception.StackTrace));
+                return Result.Failure(error => error.InternalServer("The category publisher is unavailable."));
             }
         }
     }

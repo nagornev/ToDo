@@ -29,7 +29,7 @@ namespace ToDo.Microservices.Identity.Infrastructure.Providers
 
             JwtSecurityToken token = new JwtSecurityToken(claims: claims,
                                                           signingCredentials: credentials,
-                                                          expires: DateTime.UtcNow.AddHours(_options.Lifetime));
+                                                          expires: DateTime.UtcNow.AddMilliseconds(_options.Lifetime));
 
             string value = new JwtSecurityTokenHandler().WriteToken(token);
 

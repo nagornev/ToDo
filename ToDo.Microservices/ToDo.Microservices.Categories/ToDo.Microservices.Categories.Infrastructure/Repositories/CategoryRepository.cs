@@ -81,7 +81,7 @@ namespace ToDo.Microservices.Categories.Infrastructure.Repositories
                     }
 
                     await transaction.RollbackAsync();
-                    return Result.Failure(error => error.NullOrEmpty($"The category {categoryId} was not deleted."));
+                    return Result.Failure(error => error.InternalServer($"The category {categoryId} was not deleted."));
                 }
                 catch
                 {
