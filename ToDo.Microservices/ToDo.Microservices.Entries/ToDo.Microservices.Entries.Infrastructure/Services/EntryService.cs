@@ -84,7 +84,7 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
                                           entryResult.Content.Text,
                                           entryResult.Content.Deadline,
                                           completed) :
-                         entryResult;
+                        entryResult;
 
         }
 

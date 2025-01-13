@@ -893,5 +893,151 @@ namespace ToDo.Microservices.Entries.Tests.Units
         }
 
         #endregion
+
+        #region Complete
+
+        [Fact]
+        public async void EntryService_Complete_UserExitAndEntryCollectionIsNotEmptyAndCategoryServiceIsAvailableAndEntryIsExist_ShouldReturnSuccessTrue()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid()).Content;
+
+            Entry[] entries =
+            {
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+            };
+
+            IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
+                                                                                            {
+                                                                                                { user, entries }
+                                                                                            }));
+
+            ICategoryService categoryService = GetAvailableCategoryServiceMock();
+
+            IEntryСomposer entryComposer = new EntryComposer();
+
+            IEntryService entryService = new EntryService(entryRepository, categoryService, entryComposer);
+
+            Entry entry = entries.First();
+
+            //Act
+
+            Result completeResult = await entryService.Complete(user.Id, entry.Id, true);
+
+            //Assert
+            Assert.True(completeResult.Success);
+        }
+
+        [Fact]
+        public async void EntryService_Complete_UserExitAndEntryCollectionIsNotEmptyAndCategoryServiceIsUnavailableAndEntryIsExist_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid()).Content;
+
+            Entry[] entries =
+            {
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+            };
+
+            IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
+                                                                                            {
+                                                                                                { user, entries }
+                                                                                            }));
+
+            ICategoryService categoryService = GetUnavailableCategoryServiceMock();
+
+            IEntryСomposer entryComposer = new EntryComposer();
+
+            IEntryService entryService = new EntryService(entryRepository, categoryService, entryComposer);
+
+            Entry entry = entries.First();
+
+            //Act
+
+            Result completeResult = await entryService.Complete(user.Id, entry.Id, true);
+
+            //Assert
+            Assert.False(completeResult.Success);
+        }
+
+        [Fact]
+        public async void EntryService_Complete_UserExitAndEntryCollectionIsNotEmptyAndCategoryServiceIsAvailableAndEntryIsNotExist_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid()).Content;
+
+            Entry[] entries =
+            {
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+            };
+
+            IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
+                                                                                            {
+                                                                                                { user, entries }
+                                                                                            }));
+
+            ICategoryService categoryService = GetAvailableCategoryServiceMock();
+
+            IEntryСomposer entryComposer = new EntryComposer();
+
+            IEntryService entryService = new EntryService(entryRepository, categoryService, entryComposer);
+
+            Entry entry = Entry.New(Guid.NewGuid(), user.Id.ToString(), default).Content;
+
+            //Act
+
+            Result completeResult = await entryService.Complete(user.Id, entry.Id, true);
+
+            //Assert
+            Assert.False(completeResult.Success);
+        }
+
+        [Fact]
+        public async void EntryService_Complete_UserNotExitAndEntryCollectionIsNotEmptyAndCategoryServiceIsAvailableAndEntryIsExist_ShouldReturnSuccessFalse()
+        {
+            //Arrage
+
+            User user = User.Constructor(Guid.NewGuid()).Content;
+
+            Entry[] entries =
+            {
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+                Entry.New(user.Id, user.Id.ToString(), default).Content,
+            };
+
+            IEntryRepository entryRepository = new EntryRepository(GetEntryContextMock(() => new Dictionary<User, IEnumerable<Entry>>()
+                                                                                            {
+                                                                                                { user, entries }
+                                                                                            }));
+
+            ICategoryService categoryService = GetAvailableCategoryServiceMock();
+
+            IEntryСomposer entryComposer = new EntryComposer();
+
+            IEntryService entryService = new EntryService(entryRepository, categoryService, entryComposer);
+
+            Guid userId = Guid.NewGuid();
+
+            Entry entry = entries.First();
+
+            //Act
+
+            Result completeResult = await entryService.Complete(userId, entry.Id, true);
+
+            //Assert
+            Assert.False(completeResult.Success);
+        }
+
+        #endregion
     }
 }
