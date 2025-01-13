@@ -10,6 +10,7 @@ namespace ToDo.Microservices.Entries.API.Extensions.Startup
             services.AddScoped<IValidator<EntriesContractCreate>, EntriesContractCreateValidator>();
             services.AddScoped<IValidator<EntriesContractUpdate>, EntriesContractUpdateValidator>();
             services.AddScoped<IValidator<EntriesContractDelete>, EntriesContractDeleteValidator>();
+            services.AddScoped<IValidator<EntriesContractComplete>, EntriesContractCompleteValidator>();
         }
     }
 }

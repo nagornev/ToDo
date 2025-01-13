@@ -97,5 +97,23 @@ namespace ToDo.Microservices.Entries.API.Controllers
                     Results.Ok(deleteResult) :
                     Results.BadRequest(deleteResult);
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        [Identity(IdentityPermissions.User)]
+        public async Task<IResult> Complete([FromServices] IValidator<EntriesContractComplete> validator,
+                                            [FromBody] EntriesContractComplete contract)
+        {
+            if (!validator.Validate(contract, out Result validationResult))
+                return Results.BadRequest(validationResult);
+
+            Result completeResult = await _entryService.Complete(User.GetId(),
+                                                                 contract.EntryId,
+                                                                 contract.Completed);
+
+            return completeResult.Success ?
+                    Results.Ok(completeResult) :
+                    Results.BadRequest(completeResult);
+        }
     }
 }

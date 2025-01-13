@@ -73,6 +73,21 @@ namespace ToDo.Microservices.Entries.Infrastructure.Services
                         Result.Failure(categoryResult.Error ?? entryResult.Error);
         }
 
+        public async Task<Result> Complete(Guid userId, Guid entryId, bool completed)
+        {
+            Result<EntryCompose> entryResult = await GetEntry(userId, entryId);
+
+            return entryResult.Success ?
+                        await UpdateEntry(userId,
+                                          entryResult.Content.Id,
+                                          entryResult.Content.Category.Id,
+                                          entryResult.Content.Text,
+                                          entryResult.Content.Deadline,
+                                          completed) :
+                         entryResult;
+
+        }
+
         public async Task<Result> DeleteEntry(Guid userId, Guid entryId)
         {
             return await _entryRepository.Delete(userId, entryId);

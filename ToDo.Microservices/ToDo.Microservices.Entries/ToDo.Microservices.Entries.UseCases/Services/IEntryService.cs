@@ -18,6 +18,8 @@ namespace ToDo.Microservices.Entries.UseCases.Services
 
         Task<Result> DeleteEntry(Guid userId, Guid entryId);
 
+        Task<Result> Complete(Guid userId, Guid entryId, bool completed);
+
         Task<Result> DeleteEntriesByCategory(Guid userId, Guid categoryId);
     }
 }
